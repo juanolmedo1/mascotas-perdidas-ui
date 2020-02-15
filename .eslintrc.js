@@ -1,5 +1,6 @@
 module.exports = {
-  root: true,
-  extends: ['prettier','@react-native-community'],
-  plugins: ['prettier']
+  extends: ['@react-native-community'],
+  rules: {
+    "comma-dangle": ["error", "never"]
+  }
 };
