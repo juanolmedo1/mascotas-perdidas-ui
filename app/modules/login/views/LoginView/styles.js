@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
 
 export default StyleSheet.create({
@@ -6,6 +6,6 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: variables.colors.backgroundWhite,
-  },
+    backgroundColor: variables.colors.backgroundWhite
+  }
 });

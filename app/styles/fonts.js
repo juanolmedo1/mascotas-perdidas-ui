@@ -1,13 +1,13 @@
 const weights = {
   regular: {
-    fontFamily: 'ProximaNova-Regular',
+    fontFamily: 'ProximaNova-Regular'
   },
   semibold: {
-    fontFamily: 'ProximaNova-SemiBold',
+    fontFamily: 'ProximaNova-SemiBold'
   },
   bold: {
-    fontFamily: 'ProximaNova-Bold',
-  },
+    fontFamily: 'ProximaNova-Bold'
+  }
 };
 
 const sizes = {
@@ -17,10 +17,10 @@ const sizes = {
   M: 18,
   L: 20,
   XL: 36,
-  XXL: 50,
+  XXL: 50
 };
 
 export default {
   weights,
-  sizes,
+  sizes
 };
