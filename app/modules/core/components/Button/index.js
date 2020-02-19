@@ -16,7 +16,7 @@ const Button = ({
   const arrowColor = styles[`${type}Arrow`].color;
 
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress}>
+    <TouchableOpacity style={buttonStyle} onPress={onPress} activeOpacity={0.7}>
       {leftArrow && (
         <Icon
           name="ios-arrow-back"

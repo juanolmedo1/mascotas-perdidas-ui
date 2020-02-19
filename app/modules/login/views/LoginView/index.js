@@ -1,50 +1,69 @@
-import { Button } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import React, { PureComponent } from 'react';
+import { TouchableOpacity, TextInput, View, Text } from 'react-native';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchLogin } from '@login/store/actions';
 import styles from '@login/views/LoginView/styles';
+import Button from '@core/components/Button';
+import variables from '@styles/variables';
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
-export class LoginView extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: null,
-      password: null
-    };
-  }
+const LoginView = ({ navigation, fetchLoginFunc }) => {
+  const [username, onChangeUsername] = useState();
+  const [password, onChangePassword] = useState();
 
-  handleUsernameInput = text => {
-    this.setState({
-      username: text
-    });
+  const handleLogin = () => {
+    fetchLoginFunc({ username, password });
   };
 
-  handlePasswordInput = text => {
-    this.setState({
-      password: text
-    });
-  };
-
-  handleLogin = () => {
-    const { fetchLoginFunc } = this.props;
-    fetchLoginFunc(this.state);
-  };
-
-  render() {
-    const { navigation } = this.props;
-    return (
-      <SafeAreaView style={styles.container}>
-        <Button title="Login" onPress={this.handleLogin} />
-        <Button
-          title="Navigate to Home"
-          onPress={() => navigation.navigate('Home')}
+  return (
+    <LinearGradient colors={['#C77C23', '#955508']} style={styles.container}>
+      <View style={styles.logoContainer}>
+        <IconMaterial
+          style={styles.leftPaw}
+          name="pets"
+          size={80}
+          color={variables.colors.backgroundWhite}
         />
-      </SafeAreaView>
-    );
-  }
-}
+        <IconMaterial
+          style={styles.rightPaw}
+          name="pets"
+          size={80}
+          color={variables.colors.backgroundWhite}
+        />
+      </View>
+      <View style={styles.inputsContainer}>
+        <TextInput
+          style={styles.input}
+          value={username}
+          placeholder={'Usuario'}
+          placeholderTextColor={variables.colors.textWhite}
+          onChangeText={text => onChangeUsername(text)}
+        />
+        <TextInput
+          style={styles.input}
+          value={password}
+          placeholder={'Contraseña'}
+          placeholderTextColor={variables.colors.textWhite}
+          secureTextEntry={true}
+          onChangeText={text => onChangePassword(text)}
+        />
+      </View>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.loginButton}>
+          <Button text="Ingresar" type="secondary" onPress={handleLogin} />
+        </View>
+        <TouchableOpacity style={styles.registerButton}>
+          <Text style={styles.registerText}>Registrarse</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={styles.forgotPasswordButton}>
+        <Text style={styles.forgotPasswordText}>¿Olvidó su contraseña?</Text>
+      </TouchableOpacity>
+    </LinearGradient>
+  );
+};
 
 LoginView.propTypes = {
   fetchLoginFunc: PropTypes.func.isRequired,

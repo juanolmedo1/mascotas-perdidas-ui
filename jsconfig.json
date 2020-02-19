@@ -9,7 +9,11 @@
       "@styles/*": ["app/styles/*"],
       "@core/*": ["app/modules/core/*"],
       "@home/*": ["app/modules/home/*"],
-      "@login/*": ["app/modules/login/*"]
+      "@login/*": ["app/modules/login/*"],
+      "@profile/*": ["app/modules/profile/*"],
+      "@upload/*": ["app/modules/upload/*"],
+      "@likes/*": ["app/modules/likes/*"],
+      "@notifications/*": ["app/modules/notifications/*"]
     }
   },
   "exclude": ["node_modules", "android", "ios"]

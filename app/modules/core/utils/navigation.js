@@ -1,17 +1,11 @@
-import {NavigationActions} from 'react-navigation';
+import * as React from 'react';
 
-class Navigation {
-  addListener(event, callback) {
-    this.ref.addListener(event, callback);
-  }
+export const navigationRef = React.createRef();
 
-  setTopLevelNavigator(ref) {
-    this.ref = ref;
-  }
-
-  navigate(routeName, params) {
-    this.ref.dispatch(NavigationActions.navigate({routeName, params}));
-  }
+function navigate(routeName, params) {
+  navigationRef.current.navigate(routeName, params);
 }
 
-export default new Navigation();
+export default {
+  navigate
+};

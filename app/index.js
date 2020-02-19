@@ -1,21 +1,21 @@
-import {Provider} from 'react-redux';
-// import navigation from '@core/utils/navigation';
+import { Provider } from 'react-redux';
 import React from 'react';
 import reducer from '@store/reducer';
 import sagas from '@store/sagas';
 import configureStore from '@core/store';
-import Navigator from './Navigator';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import LoginNavigator from '@login/LoginNavigator';
+import { navigationRef } from '@core/utils/navigation';
 
 const store = configureStore({
   reducer,
-  sagas,
+  sagas
 });
 
 const App = () => (
   <Provider store={store}>
-    <NavigationContainer>
-      <Navigator />
+    <NavigationContainer ref={navigationRef}>
+      <LoginNavigator />
     </NavigationContainer>
   </Provider>
 );
