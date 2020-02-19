@@ -4,7 +4,7 @@ import fonts from '@app/styles/fonts';
 
 const baseButton = {
   minHeight: 40,
-  width: 200,
+  width: 260,
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
@@ -23,13 +23,10 @@ export default StyleSheet.create({
   },
   secondary: {
     ...baseButton,
-    backgroundColor: variables.colors.backgroundWhite,
-    borderColor: variables.colors.borderOrange,
-    borderWidth: 1
+    backgroundColor: variables.colors.backgroundWhite
   },
   tertiary: {
-    ...baseButton,
-    backgroundColor: variables.colors.backgroundWhite
+    ...baseButton
   },
   primaryText: {
     ...baseText,

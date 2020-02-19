@@ -13,8 +13,12 @@ module.exports = {
           '@home': './app/modules/home',
           '@core': './app/modules/core',
           '@login': './app/modules/login',
-        },
-      },
-    ],
-  ],
+          '@profile': './app/modules/profile',
+          '@upload': './app/modules/upload',
+          '@likes': './app/modules/likes',
+          '@notifications': './app/modules/notifications'
+        }
+      }
+    ]
+  ]
 };

@@ -1,5 +1,5 @@
-import {fetchLoginSaga} from '@app/modules/login/store/sagas';
+import { fetchLoginSaga } from '@app/modules/login/store/sagas';
 
 export default {
-  fetchLoginSaga,
+  fetchLoginSaga
 };
