@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./app/*"],
       "@assets/*": ["app/assets/*"],
       "@locales/*": ["app/locales/*"],
       "@store/*": ["app/store/*"],
@@ -13,7 +12,8 @@
       "@profile/*": ["app/modules/profile/*"],
       "@upload/*": ["app/modules/upload/*"],
       "@likes/*": ["app/modules/likes/*"],
-      "@notifications/*": ["app/modules/notifications/*"]
+      "@notifications/*": ["app/modules/notifications/*"],
+      "@app/*": ["./app/*"]
     }
   },
   "exclude": ["node_modules", "android", "ios"]

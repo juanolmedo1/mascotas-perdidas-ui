@@ -17,7 +17,7 @@ export function* fetchLogin(action) {
   try {
     yield call(login, payload);
     yield put(fetchLoginSuccess(mockedResponse));
-    NavigationService.navigate('MainNavigator');
+    NavigationService.navigate('BottomNavigator');
   } catch (error) {
     yield put(fetchLoginFailure(error));
   }

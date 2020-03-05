@@ -3,10 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '@core/components/PublicationCard/styles';
 import PublicationIcon from '@core/components/PublicationIcon';
+import NavigationService from '@core/utils/navigation';
 
 const PublicationCard = ({ id, image, type, date }) => {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => NavigationService.navigate('Publicación', { id })}
+      activeOpacity={0.8}
+    >
       <Image
         style={styles.image}
         source={{
@@ -23,7 +28,7 @@ const PublicationCard = ({ id, image, type, date }) => {
 
 PublicationCard.propTypes = {
   id: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['lost', 'found', 'adoption']).isRequired,
+  type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION']).isRequired,
   date: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired
 };

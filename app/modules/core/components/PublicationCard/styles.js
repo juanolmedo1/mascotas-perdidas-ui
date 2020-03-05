@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import fonts from '@app/styles/fonts';
+import variables from '@app/styles/variables';
 
 export default StyleSheet.create({
   container: {
@@ -7,7 +8,8 @@ export default StyleSheet.create({
     width: 150,
     borderRadius: 8,
     flexDirection: 'column',
-    elevation: 2
+    elevation: 2,
+    margin: variables.spacings.M
   },
   image: {
     width: '100%',

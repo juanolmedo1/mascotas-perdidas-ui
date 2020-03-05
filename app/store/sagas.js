@@ -1,5 +1,13 @@
-import { fetchLoginSaga } from '@app/modules/login/store/sagas';
+import { fetchLoginSaga } from '@login/store/sagas';
+import { fetchPublicationsSaga } from '@home/store/sagas';
+import {
+  fetchLocationsSaga,
+  fetchProvincesSaga
+} from '@core/store/ubication/sagas';
 
 export default {
-  fetchLoginSaga
+  fetchLoginSaga,
+  fetchPublicationsSaga,
+  fetchProvincesSaga,
+  fetchLocationsSaga
 };

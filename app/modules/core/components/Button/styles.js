@@ -26,7 +26,9 @@ export default StyleSheet.create({
     backgroundColor: variables.colors.backgroundWhite
   },
   tertiary: {
-    ...baseButton
+    ...baseButton,
+    borderColor: variables.colors.borderOrange,
+    borderWidth: 1
   },
   primaryText: {
     ...baseText,

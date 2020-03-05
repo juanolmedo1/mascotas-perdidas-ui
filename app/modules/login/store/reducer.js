@@ -1,30 +1,31 @@
-import {types} from '@login/store/actions';
+import { types } from '@login/store/actions';
 
 const initialState = {
   requestInProgress: false,
   requestFailed: false,
-  profileInfo: null,
+  profileInfo: null
 };
 
-export default function(state = initialState, {type, payload}) {
+export default function(state = initialState, { type, payload }) {
   switch (type) {
     case types.FETCH_LOGIN__REQUEST:
       return {
         ...state,
         requestFailed: false,
-        requestInProgress: true,
+        requestInProgress: true
       };
     case types.FETCH_LOGIN__FAILURE:
       return {
-        ...initialState,
+        ...state,
         requestFailed: true,
+        requestInProgress: false
       };
     case types.FETCH_LOGIN__SUCCESS:
       return {
         ...state,
         requestFailed: false,
         requestInProgress: false,
-        profileInfo: payload,
+        profileInfo: payload
       };
     default:
       return state;

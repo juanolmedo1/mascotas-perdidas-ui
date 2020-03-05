@@ -9,7 +9,7 @@ import variables from '@styles/variables';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
-const LoginView = ({ navigation, fetchLoginFunc }) => {
+const LoginView = ({ fetchLoginFunc }) => {
   const [username, onChangeUsername] = useState();
   const [password, onChangePassword] = useState();
 
@@ -54,7 +54,7 @@ const LoginView = ({ navigation, fetchLoginFunc }) => {
         <View style={styles.loginButton}>
           <Button text="Ingresar" type="secondary" onPress={handleLogin} />
         </View>
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity style={styles.registerButton} onPress={() => {}}>
           <Text style={styles.registerText}>Registrarse</Text>
         </TouchableOpacity>
       </View>

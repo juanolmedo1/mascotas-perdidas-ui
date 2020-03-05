@@ -1,35 +1,35 @@
 import { TouchableOpacity, Text } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '@core/components/PublicationType/styles';
 import variables from '@styles/variables';
 
-const PublicationType = ({ type, active = false, primaryColor }) => {
-  const [selected, setSelected] = useState(active);
+const PublicationType = ({
+  type,
+  active = false,
+  primaryColor,
+  updateSelection
+}) => {
   const publicationTypes = {
-    lost: 'P',
-    found: 'E',
-    adoption: 'A'
-  };
-
-  const toggleSelected = () => {
-    setSelected(!selected);
+    LOST: 'P',
+    FOUND: 'E',
+    ADOPTION: 'A'
   };
 
   const publicationTypeText = publicationTypes[type];
 
-  const additionalContainerStyle = selected
+  const additionalContainerStyle = active
     ? { borderColor: primaryColor, backgroundColor: primaryColor }
     : { borderColor: primaryColor };
 
-  const additionalTextStyle = selected
+  const additionalTextStyle = active
     ? { color: variables.colors.textWhite }
     : { color: primaryColor };
 
   return (
     <TouchableOpacity
       style={[styles.container, additionalContainerStyle]}
-      onPress={toggleSelected}
+      onPress={() => updateSelection(type)}
       activeOpacity={0.8}
     >
       <Text style={[styles.text, additionalTextStyle]}>
@@ -41,7 +41,9 @@ const PublicationType = ({ type, active = false, primaryColor }) => {
 
 PublicationType.propTypes = {
   active: PropTypes.bool,
-  type: PropTypes.oneOf(['lost', 'found', 'adoption']).isRequired
+  updateSelection: PropTypes.func.isRequired,
+  primaryColor: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION']).isRequired
 };
 
 export default PublicationType;

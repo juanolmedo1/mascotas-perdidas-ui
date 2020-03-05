@@ -3,8 +3,8 @@ import fonts from '@app/styles/fonts';
 
 export default StyleSheet.create({
   container: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -12,6 +12,6 @@ export default StyleSheet.create({
   },
   text: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.XXL
+    fontSize: fonts.sizes.XL
   }
 });

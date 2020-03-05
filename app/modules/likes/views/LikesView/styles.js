@@ -7,10 +7,5 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: variables.colors.backgroundWhite
-  },
-  block: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-around'
   }
 });

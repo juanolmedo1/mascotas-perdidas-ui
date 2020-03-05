@@ -5,7 +5,6 @@ module.exports = {
       'module-resolver',
       {
         alias: {
-          '@app': './app',
           '@assets': './app/assets',
           '@locales': './app/locales',
           '@store': './app/store',
@@ -16,7 +15,8 @@ module.exports = {
           '@profile': './app/modules/profile',
           '@upload': './app/modules/upload',
           '@likes': './app/modules/likes',
-          '@notifications': './app/modules/notifications'
+          '@notifications': './app/modules/notifications',
+          '@app': './app'
         }
       }
     ]

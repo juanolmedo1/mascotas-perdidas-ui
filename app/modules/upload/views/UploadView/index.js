@@ -1,16 +1,111 @@
-import { Text } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import React, { PureComponent } from 'react';
+import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styles from '@upload/views/UploadView/styles';
+import Button from '@core/components/Button';
+import Dropdown from '@core/components/Dropdown';
+import NavigationService from '@core/utils/navigation';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImagesContainer from '@upload/components/ImagesContainer';
+import { fetchProvinces, fetchLocations } from '@core/store/ubication/actions';
+import LoadingView from '@core/views/LoadingView';
 
-export class UploadView extends PureComponent {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text>Upload View</Text>
-      </SafeAreaView>
-    );
+const UploadView = ({ getProvinces, getLocations, ubication }) => {
+  const openImagePicker = () => {
+    ImagePicker.openPicker({
+      multiple: true,
+      includeBase64: true,
+      mediaType: 'photo'
+    })
+      .then(images => {
+        const MAX_SIZE = 3;
+        const imagesMapped = images.slice(0, MAX_SIZE).map(image => {
+          return { data: image.data, mime: image.mime, path: image.path };
+        });
+        setImages(imagesMapped);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getProvinces();
+  }, [getProvinces]);
+
+  const { provinces, locations } = ubication;
+
+  const [province, setProvince] = useState();
+  const [location, setLocation] = useState();
+  const [images, setImages] = useState();
+
+  const updateProvince = value => {
+    setProvince(value);
+    getLocations(value);
+  };
+
+  const updateLocation = value => {
+    setLocation(value);
+  };
+
+  if (!provinces.length) {
+    return <LoadingView />;
   }
-}
 
-export default UploadView;
+  return (
+    <View style={styles.container}>
+      <ImagesContainer images={images} />
+      <Button
+        text="+ Cargar fotos "
+        onPress={openImagePicker}
+        type="tertiary"
+      />
+      <View>
+        <Dropdown
+          data={provinces}
+          changeValue={updateProvince}
+          selectedValue={province}
+          title="Provincia"
+        />
+        <Dropdown
+          data={locations}
+          changeValue={updateLocation}
+          selectedValue={location}
+          title="Localidad"
+          enabled={!!locations.length}
+        />
+      </View>
+      <Button
+        text="Continuar"
+        onPress={() => NavigationService.navigate('Filters')}
+        type="primary"
+        rightArrow
+      />
+    </View>
+  );
+};
+
+UploadView.propTypes = {
+  getProvinces: PropTypes.func.isRequired,
+  getLocations: PropTypes.func.isRequired,
+  ubication: PropTypes.shape({
+    provincesInProgress: PropTypes.bool,
+    provincesFailed: PropTypes.bool,
+    provinces: PropTypes.array,
+    locationsInProgress: PropTypes.bool,
+    locationsFailed: PropTypes.bool,
+    locations: PropTypes.array
+  }).isRequired
+};
+
+const mapDispatchToProps = {
+  getProvinces: fetchProvinces,
+  getLocations: province => fetchLocations(province)
+};
+
+const mapStateToProps = state => ({
+  ubication: state.ubication
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadView);

@@ -5,15 +5,15 @@ import styles from '@core/components/PublicationIcon/styles';
 
 const PublicationIcon = ({ type }) => {
   const iconsText = {
-    lost: 'P',
-    found: 'E',
-    adoption: 'A'
+    LOST: 'P',
+    FOUND: 'E',
+    ADOPTION: 'A'
   };
 
   const iconsStyle = {
-    lost: styles.lost,
-    found: styles.found,
-    adoption: styles.adoption
+    LOST: styles.lost,
+    FOUND: styles.found,
+    ADOPTION: styles.adoption
   };
 
   const publicationIconText = iconsText[type];
@@ -27,7 +27,7 @@ const PublicationIcon = ({ type }) => {
 };
 
 PublicationIcon.propTypes = {
-  type: PropTypes.oneOf(['lost', 'found', 'adoption']).isRequired
+  type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION']).isRequired
 };
 
 export default PublicationIcon;

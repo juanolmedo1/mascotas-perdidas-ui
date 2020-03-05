@@ -1,24 +1,19 @@
 import { TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import styles from '@core/components/PetGender/styles';
 
-const PetGender = ({ type, active = false }) => {
-  const [selected, setSelected] = useState(active);
-  const petGenderStyle = selected ? styles.selected : styles.notSelected;
-  const iconColor = selected
+const PetGender = ({ type, updateSelection, active = false }) => {
+  const petGenderStyle = active ? styles.selected : styles.notSelected;
+  const iconColor = active
     ? styles.selectedIcon.color
     : styles.notSelectedIcon.color;
   const genderTypes = {
-    male: <IconIon name="ios-male" size={50} color={iconColor} />,
-    female: <IconIon name="ios-female" size={50} color={iconColor} />,
-    undefined: <IconAnt name="question" size={60} color={iconColor} />
-  };
-
-  const toggleSelected = () => {
-    setSelected(!selected);
+    MALE: <IconIon name="ios-male" size={40} color={iconColor} />,
+    FEMALE: <IconIon name="ios-female" size={40} color={iconColor} />,
+    UNDEFINED: <IconAnt name="question" size={50} color={iconColor} />
   };
 
   const petGenderIcon = genderTypes[type];
@@ -26,7 +21,7 @@ const PetGender = ({ type, active = false }) => {
   return (
     <TouchableOpacity
       style={petGenderStyle}
-      onPress={toggleSelected}
+      onPress={() => updateSelection(type)}
       activeOpacity={0.8}
     >
       {petGenderIcon}
@@ -36,7 +31,8 @@ const PetGender = ({ type, active = false }) => {
 
 PetGender.propTypes = {
   active: PropTypes.bool,
-  type: PropTypes.oneOf(['male', 'female', 'undefined']).isRequired
+  updateSelection: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(['MALE', 'FEMALE', 'UNDEFINED']).isRequired
 };
 
 export default PetGender;

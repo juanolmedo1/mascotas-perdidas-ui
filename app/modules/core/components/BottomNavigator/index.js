@@ -1,17 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import HomeView from '@home/views/HomeView';
 import ProfileView from '@profile/views/ProfileView';
 import variables from '@styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
-import UploadView from '@upload/views/UploadView';
 import LikesView from '@likes/views/LikesView';
 import NotificationsView from '@notifications/views/NotificationsView';
+import HomeNavigator from '@home/HomeNavigator';
+import UploadNavigator from '@upload/UploadNavigator';
 
 const Tab = createBottomTabNavigator();
 
-const Footer = () => {
+const BottomNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -27,7 +27,7 @@ const Footer = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeView}
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <IconAnt
@@ -61,7 +61,7 @@ const Footer = () => {
       />
       <Tab.Screen
         name="Upload"
-        component={UploadView}
+        component={UploadNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <IconAnt
@@ -114,4 +114,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default BottomNavigator;

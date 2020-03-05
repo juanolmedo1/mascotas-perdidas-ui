@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
 
 const baseIcon = {
-  height: 80,
-  width: 80,
-  borderRadius: 40,
+  height: 70,
+  width: 70,
+  borderRadius: 35,
   justifyContent: 'center',
   alignItems: 'center',
   borderWidth: 2
