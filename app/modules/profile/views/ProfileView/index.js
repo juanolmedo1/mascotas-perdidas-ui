@@ -1,16 +1,33 @@
-import { Text } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import React, { PureComponent } from 'react';
+import { View } from 'react-native';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styles from '@profile/views/ProfileView/styles';
+import ProfileHeader from '@profile/components/ProfileHeader';
+import ProfilePublications from '@profile/components/ProfilePublications';
 
-export class ProfileView extends PureComponent {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text>Profile View</Text>
-      </SafeAreaView>
-    );
-  }
-}
+const ProfileView = ({ session }) => {
+  const { profileInfo } = session;
+  return (
+    <View style={styles.container}>
+      <ProfileHeader profile={profileInfo} />
+      <ProfilePublications publications={profileInfo.publications} />
+    </View>
+  );
+};
 
-export default ProfileView;
+ProfileView.propTypes = {
+  session: PropTypes.shape({
+    requestInProgress: PropTypes.bool,
+    requestFailed: PropTypes.bool,
+    profileInfo: PropTypes.object
+  }).isRequired
+};
+
+const mapDispatchToProps = {};
+
+const mapStateToProps = state => ({
+  session: state.session
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);

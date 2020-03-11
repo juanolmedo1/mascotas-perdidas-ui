@@ -6,11 +6,13 @@ import styles from '@home/views/HomeView/styles';
 import { fetchPublications } from '@home/store/actions';
 import PublicationCard from '@core/components/PublicationCard';
 import LoadingView from '@core/views/LoadingView';
+import { fetchLogin } from '@login/store/actions';
 
-const HomeView = ({ publications, getPublications }) => {
+const HomeView = ({ publications, getPublications, fetchLoginFunc }) => {
   useEffect(() => {
     getPublications();
-  }, [getPublications]);
+    fetchLoginFunc('asd');
+  }, [fetchLoginFunc, getPublications]);
 
   const { requestFailed, requestInProgress, data } = publications;
 
@@ -47,7 +49,8 @@ HomeView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  getPublications: fetchPublications
+  getPublications: fetchPublications,
+  fetchLoginFunc: fetchLogin
 };
 
 const mapStateToProps = state => ({

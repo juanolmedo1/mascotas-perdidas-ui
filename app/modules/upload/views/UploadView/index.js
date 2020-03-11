@@ -11,7 +11,7 @@ import ImagesContainer from '@upload/components/ImagesContainer';
 import { fetchProvinces, fetchLocations } from '@core/store/ubication/actions';
 import LoadingView from '@core/views/LoadingView';
 
-const UploadView = ({ getProvinces, getLocations, ubication }) => {
+const UploadView = ({ getProvinces, getLocations, ubications, session }) => {
   const openImagePicker = () => {
     ImagePicker.openPicker({
       multiple: true,
@@ -30,14 +30,17 @@ const UploadView = ({ getProvinces, getLocations, ubication }) => {
       });
   };
 
+  const {
+    profileInfo: { ubication }
+  } = session;
+
   useEffect(() => {
     getProvinces();
-  }, [getProvinces]);
+    getLocations(ubication.province.id);
+  }, [getLocations, getProvinces, ubication.province.id]);
 
-  const { provinces, locations } = ubication;
-
-  const [province, setProvince] = useState();
-  const [location, setLocation] = useState();
+  const [province, setProvince] = useState(ubication.province.id);
+  const [location, setLocation] = useState(ubication.location.id);
   const [images, setImages] = useState();
 
   const updateProvince = value => {
@@ -49,7 +52,9 @@ const UploadView = ({ getProvinces, getLocations, ubication }) => {
     setLocation(value);
   };
 
-  if (!provinces.length) {
+  const { provinces, locations } = ubications;
+
+  if (!provinces.length || !locations.length) {
     return <LoadingView />;
   }
 
@@ -73,7 +78,6 @@ const UploadView = ({ getProvinces, getLocations, ubication }) => {
           changeValue={updateLocation}
           selectedValue={location}
           title="Localidad"
-          enabled={!!locations.length}
         />
       </View>
       <Button
@@ -89,7 +93,7 @@ const UploadView = ({ getProvinces, getLocations, ubication }) => {
 UploadView.propTypes = {
   getProvinces: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
-  ubication: PropTypes.shape({
+  ubications: PropTypes.shape({
     provincesInProgress: PropTypes.bool,
     provincesFailed: PropTypes.bool,
     provinces: PropTypes.array,
@@ -101,11 +105,12 @@ UploadView.propTypes = {
 
 const mapDispatchToProps = {
   getProvinces: fetchProvinces,
-  getLocations: province => fetchLocations(province)
+  getLocations: fetchLocations
 };
 
 const mapStateToProps = state => ({
-  ubication: state.ubication
+  ubications: state.ubications,
+  session: state.session
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UploadView);
