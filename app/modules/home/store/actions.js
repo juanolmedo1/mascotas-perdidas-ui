@@ -4,8 +4,7 @@ export const types = {
   FETCH_PUBLICATIONS__SUCCESS: 'FETCH_PUBLICATIONS__SUCCESS'
 };
 
-export const fetchPublications = filters => ({
-  payload: filters,
+export const fetchPublications = () => ({
   type: types.FETCH_PUBLICATIONS__REQUEST
 });
 

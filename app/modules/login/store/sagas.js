@@ -16,11 +16,11 @@ const mockedResponse = {
   ubication: {
     province: {
       id: '14',
-      name: 'Córdoba'
+      name: 'Buenos Aires'
     },
     location: {
       id: '14140010000',
-      name: 'ALICIA'
+      name: 'Bahia Blanca'
     }
   },
   email: 'juuan.olmedo@hotmail.com',
@@ -52,7 +52,7 @@ export function* fetchLogin(action) {
   try {
     yield call(login, payload);
     yield put(fetchLoginSuccess(mockedResponse));
-    // NavigationService.navigate('BottomNavigator');
+    NavigationService.navigate('BottomNavigator');
   } catch (error) {
     yield put(fetchLoginFailure(error));
   }
