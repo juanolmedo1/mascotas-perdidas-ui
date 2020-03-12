@@ -1,20 +1,21 @@
 import GraphQLClient from '@core/utils/GraphQLClient';
 
-const GET_PUBLICATIONS_QUERY = `{
-  getPublications {
+const GET_PUBLICATIONS_QUERY = `query getPublications($province: String!, $location: String!) {
+  getPublications(options: { province: $province, location: $location}) {
     id
     type
-    pet
+    pet {
+      photos {
+        id
+        data
+      }
+    }
     createdAt
-    photos {
-      id 
-      data
-    } 
   }
 }`;
 
 const getPublications = async payload => {
-  const response = await GraphQLClient.request(GET_PUBLICATIONS_QUERY);
+  const response = await GraphQLClient.request(GET_PUBLICATIONS_QUERY, payload);
   return response.getPublications;
 };
 

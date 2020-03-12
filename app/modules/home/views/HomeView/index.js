@@ -11,7 +11,6 @@ import { fetchLogin } from '@login/store/actions';
 const HomeView = ({ publications, getPublications, fetchLoginFunc }) => {
   useEffect(() => {
     getPublications();
-    fetchLoginFunc('asd');
   }, [fetchLoginFunc, getPublications]);
 
   const { requestFailed, requestInProgress, data } = publications;

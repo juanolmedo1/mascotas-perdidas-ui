@@ -3,15 +3,20 @@ import {
   fetchPublicationsSuccess,
   fetchPublicationsFailure
 } from '@home/store/actions';
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import PublicationsService from '@home/services/PublicationsService';
+import { getProfile } from '@login/store/selectors';
 
-export function* fetchPublications(action) {
-  const { payload } = action;
+export function* fetchPublications() {
   try {
+    const profile = yield select(getProfile);
+    const ubication = {
+      province: profile.ubication.province.name,
+      location: profile.ubication.location.name
+    };
     const publications = yield call(
       PublicationsService.getPublications,
-      payload
+      ubication
     );
     yield put(fetchPublicationsSuccess(publications));
   } catch (error) {
