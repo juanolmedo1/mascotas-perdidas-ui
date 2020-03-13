@@ -5,18 +5,19 @@ module.exports = {
       'module-resolver',
       {
         alias: {
+          '@app': './app',
           '@assets': './app/assets',
+          '@core': './app/modules/core',
+          '@entities': './app/entities',
+          '@home': './app/modules/home',
+          '@likes': './app/modules/likes',
           '@locales': './app/locales',
+          '@login': './app/modules/login',
+          '@notifications': './app/modules/notifications',
+          '@profile': './app/modules/profile',
           '@store': './app/store',
           '@styles': './app/styles',
-          '@home': './app/modules/home',
-          '@core': './app/modules/core',
-          '@login': './app/modules/login',
-          '@profile': './app/modules/profile',
-          '@upload': './app/modules/upload',
-          '@likes': './app/modules/likes',
-          '@notifications': './app/modules/notifications',
-          '@app': './app'
+          '@upload': './app/modules/upload'
         }
       }
     ]
