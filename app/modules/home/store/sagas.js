@@ -11,8 +11,8 @@ export function* fetchPublications() {
   try {
     const profile = yield select(getProfile);
     const ubication = {
-      province: profile.ubication.province.name,
-      location: profile.ubication.location.name
+      province: profile.ubication.province.id,
+      location: profile.ubication.location.id
     };
     const publications = yield call(
       PublicationsService.getPublications,

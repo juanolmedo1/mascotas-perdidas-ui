@@ -4,7 +4,7 @@ const initialState = {
   requestInProgress: false,
   requestFailed: false,
   profileInfo: {
-    id: '12345',
+    id: '820103b6-7a39-4fc4-baec-bfe545dc9ae2',
     firstName: 'Juan',
     lastName: 'Olmedo',
     username: 'juan.olmedo',

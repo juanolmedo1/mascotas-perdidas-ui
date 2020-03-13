@@ -1,46 +1,49 @@
 import { View, Text } from 'react-native';
-import React, { useState } from 'react';
-import styles from '@upload/components/SingleSelectPublication/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { LABELS } from '@upload/components/SingleSelectGender/constants';
 import PetGender from '@core/components/PetGender';
+import PET_ENTITY from '@entities/Pet';
+import styles from '@upload/components/SingleSelectGender/styles';
 
-const SingleSelectPublication = () => {
-  const [petGender, setPetGender] = useState();
-
-  const updateSelection = type => {
-    setPetGender(type);
-  };
-
+const SingleSelectGender = ({ petGender, onSelect }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Género</Text>
+      <Text style={styles.title}>{LABELS.title}</Text>
       <View style={styles.iconsContainer}>
         <View style={styles.block}>
           <PetGender
-            type="MALE"
-            updateSelection={updateSelection}
-            active={petGender === 'MALE'}
+            type={PET_ENTITY.genders.male}
+            updateSelection={onSelect}
+            active={petGender === PET_ENTITY.genders.male}
           />
-          <Text style={styles.subtitle}>Macho</Text>
+          <Text style={styles.subtitle}>{LABELS.genders.male}</Text>
         </View>
         <View style={styles.block}>
           <PetGender
-            type="FEMALE"
-            updateSelection={updateSelection}
-            active={petGender === 'FEMALE'}
+            type={PET_ENTITY.genders.female}
+            updateSelection={onSelect}
+            active={petGender === PET_ENTITY.genders.female}
           />
-          <Text style={styles.subtitle}>Hembra</Text>
+          <Text style={styles.subtitle}>{LABELS.genders.female}</Text>
         </View>
         <View style={styles.block}>
           <PetGender
-            type="UNDEFINED"
-            updateSelection={updateSelection}
-            active={petGender === 'UNDEFINED'}
+            type={PET_ENTITY.genders.undefined}
+            updateSelection={onSelect}
+            active={petGender === PET_ENTITY.genders.undefined}
           />
-          <Text style={styles.subtitle}>Sin Identificar</Text>
+          <Text style={styles.subtitle}>{LABELS.genders.undefined}</Text>
         </View>
       </View>
     </View>
   );
 };
 
-export default SingleSelectPublication;
+SingleSelectGender.propTypes = {
+  petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]).isRequired,
+  onSelect: PropTypes.func.isRequired
+};
+
+export default SingleSelectGender;

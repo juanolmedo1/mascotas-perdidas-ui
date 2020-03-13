@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import session from '@login/store/reducer';
+import newPublication from '@upload/store/reducer';
 import publications from '@home/store/reducer';
+import session from '@login/store/reducer';
 import ubications from '@core/store/ubication/reducer';
 
 export default combineReducers({
-  session,
+  newPublication,
   publications,
+  session,
   ubications
 });
