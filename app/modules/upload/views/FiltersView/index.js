@@ -1,31 +1,102 @@
-import { View, ScrollView, Text } from 'react-native';
-import React, { useState } from 'react';
-import styles from '@upload/views/FiltersView/styles';
+import { connect } from 'react-redux';
+import { Text, ScrollView, View } from 'react-native';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+
+import * as newPublicationActions from '@upload/store/actions';
+import { LABELS } from '@upload/views/FiltersView/constants';
 import Button from '@core/components/Button';
+import LoadingView from '@core/views/LoadingView';
+import SingleSelectGender from '@upload/components/SingleSelectGender';
 import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
-import SingleSelectGender from '@upload/components/SingleSelectGender';
+import styles from '@upload/views/FiltersView/styles';
 
-const FiltersView = () => {
+const FiltersView = ({
+  createPublication,
+  newPublication,
+  setPetGender,
+  setPetType,
+  setPublicationType
+}) => {
+  const {
+    requestFailed,
+    requestInProgress,
+    similarPublications,
+    ...newPublicationRest
+  } = newPublication;
+  useEffect(() => {
+    console.log('SIMILAR PUBLICATIONS', similarPublications);
+  }, [similarPublications]);
+
+  if (requestInProgress) {
+    return <LoadingView />;
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.block}>
-        <Text style={styles.title}>Seleccione según corresponda:</Text>
+        <Text style={styles.title}>{LABELS.title}</Text>
       </View>
       <View style={styles.block}>
-        <SingleSelectPet />
+        <SingleSelectPet
+          petType={newPublication.petType}
+          onSelect={setPetType}
+        />
       </View>
       <View style={styles.block}>
-        <SingleSelectPublication />
+        <SingleSelectPublication
+          publicationType={newPublication.publicationType}
+          onSelect={setPublicationType}
+        />
       </View>
       <View style={styles.block}>
-        <SingleSelectGender />
+        <SingleSelectGender
+          petGender={newPublication.petGender}
+          onSelect={setPetGender}
+        />
       </View>
       <View style={styles.buttonContainer}>
-        <Button text="Publicar" onPress={() => {}} type="primary" />
+        <Button
+          text={LABELS.buttons.publish}
+          onPress={() => createPublication(newPublicationRest)}
+          type="primary"
+        />
       </View>
     </ScrollView>
   );
 };
 
-export default FiltersView;
+FiltersView.propTypes = {
+  createPublication: PropTypes.func.isRequired,
+  setPetGender: PropTypes.func.isRequired,
+  setPetType: PropTypes.func.isRequired,
+  setPublicationType: PropTypes.func.isRequired,
+  newPublication: PropTypes.shape({
+    locationId: PropTypes.string,
+    petGender: PropTypes.string,
+    petType: PropTypes.string,
+    photosArray: PropTypes.arrayOf(PropTypes.string),
+    provinceId: PropTypes.string,
+    publicationType: PropTypes.string,
+    userId: PropTypes.string,
+    requestFailed: PropTypes.bool,
+    requestInProgress: PropTypes.bool,
+    similarPublications: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired
+};
+
+const mapDispatchToProps = {
+  createPublication: newPublication =>
+    newPublicationActions.createPublicationRequest(newPublication),
+  setPetGender: petGender => newPublicationActions.setPetGender(petGender),
+  setPetType: petType => newPublicationActions.setPetType(petType),
+  setPublicationType: publicationType =>
+    newPublicationActions.setPublicationType(publicationType)
+};
+
+const mapStateToProps = state => ({
+  newPublication: state.newPublication
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FiltersView);
