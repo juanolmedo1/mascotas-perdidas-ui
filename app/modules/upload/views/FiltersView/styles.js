@@ -16,6 +16,12 @@ export default StyleSheet.create({
   block: {
     marginVertical: variables.spacings.XS
   },
+  rewardContainer: {
+    marginTop: variables.spacings.M,
+    marginHorizontal: variables.spacings.L,
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  },
   buttonContainer: {
     flex: 1,
     marginBottom: variables.spacings.S,

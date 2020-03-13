@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Text, ScrollView, View } from 'react-native';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as newPublicationActions from '@upload/store/actions';
 import { LABELS } from '@upload/views/FiltersView/constants';
@@ -10,6 +10,11 @@ import LoadingView from '@core/views/LoadingView';
 import SingleSelectGender from '@upload/components/SingleSelectGender';
 import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
+import SingleSelectSize from '@upload/components/SingleSelectSize';
+import Reward from '@core/components/Reward';
+import AdditionalInformation from '@upload/components/AdditionalInformation';
+import PhoneNumber from '@upload/components/PhoneNumber';
+import HasCollar from '@upload/components/HasCollar';
 import styles from '@upload/views/FiltersView/styles';
 
 const FiltersView = ({
@@ -28,6 +33,8 @@ const FiltersView = ({
   useEffect(() => {
     console.log('SIMILAR PUBLICATIONS', similarPublications);
   }, [similarPublications]);
+  const [reward, setReward] = useState(false);
+  const [collar, setCollar] = useState(false);
 
   if (requestInProgress) {
     return <LoadingView />;
@@ -55,6 +62,21 @@ const FiltersView = ({
           petGender={newPublication.petGender}
           onSelect={setPetGender}
         />
+      </View>
+      <View style={styles.block}>
+        <SingleSelectSize />
+      </View>
+      <View style={styles.block}>
+        <View style={styles.rewardContainer}>
+          <Reward updateSelection={setReward} active={reward} />
+          <HasCollar updateSelection={setCollar} active={collar} />
+        </View>
+      </View>
+      <View style={styles.block}>
+        <PhoneNumber />
+      </View>
+      <View style={styles.block}>
+        <AdditionalInformation />
       </View>
       <View style={styles.buttonContainer}>
         <Button
