@@ -4,12 +4,16 @@ import styles from '@upload/components/SingleSelectSize/styles';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import variables from '@styles/variables';
 
-const SingleSelectSize = () => {
+const SingleSelectSize = ({ show = true }) => {
   const [petSize, setPetSize] = useState();
 
   const updateSelection = size => {
     setPetSize(size);
   };
+
+  if (!show) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>

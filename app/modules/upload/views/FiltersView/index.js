@@ -2,11 +2,9 @@ import { connect } from 'react-redux';
 import { Text, ScrollView, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
 import * as newPublicationActions from '@upload/store/actions';
 import { LABELS } from '@upload/views/FiltersView/constants';
 import Button from '@core/components/Button';
-import LoadingView from '@core/views/LoadingView';
 import SingleSelectGender from '@upload/components/SingleSelectGender';
 import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
@@ -16,6 +14,9 @@ import AdditionalInformation from '@upload/components/AdditionalInformation';
 import PhoneNumber from '@upload/components/PhoneNumber';
 import HasCollar from '@upload/components/HasCollar';
 import styles from '@upload/views/FiltersView/styles';
+import ColorsSelection from '@upload/components/ColorsSelection';
+import PET_ENTITY from '@entities/Pet';
+import PUBLICATION_ENTITY from '@entities/Publication';
 
 const FiltersView = ({
   createPublication,
@@ -35,10 +36,6 @@ const FiltersView = ({
   }, [similarPublications]);
   const [reward, setReward] = useState(false);
   const [collar, setCollar] = useState(false);
-
-  if (requestInProgress) {
-    return <LoadingView />;
-  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -64,11 +61,22 @@ const FiltersView = ({
         />
       </View>
       <View style={styles.block}>
-        <SingleSelectSize />
+        <SingleSelectSize
+          show={newPublication.petType === PET_ENTITY.types.dog}
+        />
+      </View>
+      <View style={styles.block}>
+        <ColorsSelection />
       </View>
       <View style={styles.block}>
         <View style={styles.rewardContainer}>
-          <Reward updateSelection={setReward} active={reward} />
+          <Reward
+            updateSelection={setReward}
+            active={reward}
+            show={
+              newPublication.publicationType === PUBLICATION_ENTITY.types.lost
+            }
+          />
           <HasCollar updateSelection={setCollar} active={collar} />
         </View>
       </View>
@@ -82,6 +90,7 @@ const FiltersView = ({
         <Button
           text={LABELS.buttons.publish}
           onPress={() => createPublication(newPublicationRest)}
+          loading={requestInProgress}
           type="primary"
         />
       </View>

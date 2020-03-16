@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import styles from '@core/components/Reward/styles';
 import variables from '@styles/variables';
 
-const Reward = ({ active = false, updateSelection }) => {
+const Reward = ({ active = false, updateSelection, show = true }) => {
+  if (!show) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Recompensa</Text>

@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,15 +8,22 @@ const Button = ({
   text,
   type,
   onPress,
+  loading = false,
   leftArrow = false,
   rightArrow = false
 }) => {
   const buttonStyle = styles[type];
   const textStyle = styles[`${type}Text`];
   const arrowColor = styles[`${type}Arrow`].color;
+  const loadingColor = styles[`${type}Loading`].color;
 
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={buttonStyle}
+      onPress={onPress}
+      activeOpacity={0.8}
+      disabled={loading}
+    >
       {leftArrow && (
         <Icon
           name="ios-arrow-back"
@@ -25,7 +32,11 @@ const Button = ({
           color={arrowColor}
         />
       )}
-      <Text style={textStyle}>{text}</Text>
+      {loading ? (
+        <ActivityIndicator size="small" color={loadingColor} />
+      ) : (
+        <Text style={textStyle}>{text}</Text>
+      )}
       {rightArrow && (
         <Icon
           name="ios-arrow-forward"
@@ -41,6 +52,7 @@ const Button = ({
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   type: PropTypes.oneOf(['primary', 'secondary', 'tertiary']).isRequired,
   leftArrow: PropTypes.bool,
   rightArrow: PropTypes.bool
