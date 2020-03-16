@@ -3,12 +3,17 @@ import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 
 const initialState = {
+  additionalInformation: '',
   locationId: null,
+  petCollar: false,
   petGender: PET_ENTITY.genders.male,
   petType: PET_ENTITY.types.dog,
+  petSize: PET_ENTITY.sizes.medium,
   photosArray: ['foto1'],
+  phoneNumber: null,
   provinceId: null,
   publicationType: PUBLICATION_ENTITY.types.lost,
+  publicationReward: false,
   userId: null,
   requestFailed: false,
   requestInProgress: false,
@@ -36,10 +41,20 @@ export default function(state = initialState, { type, payload }) {
         requestInProgress: false,
         similarPublications: payload.similarPublications
       };
+    case actionTypes.SET_ADDITIONAL_INFORMATION:
+      return {
+        ...state,
+        additionalInformation: payload.additionalInformation
+      };
     case actionTypes.SET_LOCATION_ID:
       return {
         ...state,
         locationId: payload.locationId
+      };
+    case actionTypes.SET_PET_COLLAR:
+      return {
+        ...state,
+        petCollar: payload.hasCollar
       };
     case actionTypes.SET_PET_GENDER:
       return {
@@ -51,15 +66,30 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         petType: payload.petType
       };
+    case actionTypes.SET_PET_SIZE:
+      return {
+        ...state,
+        petSize: payload.petSize
+      };
     case actionTypes.SET_PHOTOS_ARRAY:
       return {
         ...state,
         photosArray: payload.photosArray
       };
+    case actionTypes.SET_PHONE_NUMBER:
+      return {
+        ...state,
+        phoneNumber: payload.phoneNumber
+      };
     case actionTypes.SET_PROVINCE_ID:
       return {
         ...state,
         provinceId: payload.provinceId
+      };
+    case actionTypes.SET_PUBLICATION_REWARD:
+      return {
+        ...state,
+        publicationReward: payload.hasReward
       };
     case actionTypes.SET_PUBLICATION_TYPE:
       return {
