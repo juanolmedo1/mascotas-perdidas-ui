@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 
 import * as newPublicationActions from '@upload/store/actions';
 import * as ubicationActions from '@core/store/ubication/actions';
+import { LABELS } from '@upload/views/UploadView/constants';
 import Button from '@core/components/Button';
 import Dropdown from '@core/components/Dropdown';
 import ImagesContainer from '@upload/components/ImagesContainer';
@@ -19,6 +20,7 @@ const UploadView = ({
   newPublication,
   ubications,
   session,
+  setPhoneNumber,
   setPublicationLocationId,
   setPublicationProvinceId,
   setPublicationPhotosArray,
@@ -42,21 +44,28 @@ const UploadView = ({
       });
   };
 
-  const { id: userId, ubication: userUbication } = session.profileInfo;
+  const {
+    id: userId,
+    ubication: userUbication,
+    phoneNumber: userPhoneNumber
+  } = session.profileInfo;
 
   useEffect(() => {
     getProvinces();
     getLocations(userUbication.province.id);
+    setPhoneNumber(userPhoneNumber);
     setPublicationProvinceId(userUbication.province.id);
     setPublicationLocationId(userUbication.location.id);
     setUserId(userId);
   }, [
     getLocations,
     getProvinces,
+    setPhoneNumber,
     setPublicationLocationId,
     setPublicationProvinceId,
     setUserId,
     userId,
+    userPhoneNumber,
     userUbication.location.id,
     userUbication.province.id
   ]);
@@ -85,7 +94,7 @@ const UploadView = ({
     <View style={styles.container}>
       <ImagesContainer images={newPublication.photosArray} />
       <Button
-        text="+ Cargar fotos "
+        text={LABELS.buttons.addPhotos}
         onPress={openImagePicker}
         type="tertiary"
       />
@@ -94,17 +103,17 @@ const UploadView = ({
           data={provinces}
           changeValue={updateProvince}
           selectedValue={newPublication.provinceId}
-          title="Provincia"
+          title={LABELS.dropdowns.province}
         />
         <Dropdown
           data={locations}
           changeValue={updateLocation}
           selectedValue={newPublication.locationId}
-          title="Localidad"
+          title={LABELS.dropdowns.location}
         />
       </View>
       <Button
-        text="Continuar"
+        text={LABELS.buttons.goToFilters}
         onPress={navigateToFilters}
         type="primary"
         rightArrow
@@ -121,9 +130,11 @@ UploadView.propTypes = {
   setPublicationPhotosArray: PropTypes.func.isRequired,
   setUserId: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
+    additionalInformation: PropTypes.string,
     locationId: PropTypes.string,
     petGender: PropTypes.string,
     petType: PropTypes.string,
+    phoneNumber: PropTypes.string,
     photosArray: PropTypes.arrayOf(PropTypes.string),
     provinceId: PropTypes.string,
     publicationType: PropTypes.string,
@@ -145,6 +156,8 @@ UploadView.propTypes = {
 const mapDispatchToProps = {
   getLocations: ubicationActions.fetchLocations,
   getProvinces: ubicationActions.fetchProvinces,
+  setPhoneNumber: phoneNumber =>
+    newPublicationActions.setPhoneNumber(phoneNumber),
   setPublicationLocationId: locationId =>
     newPublicationActions.setLocationId(locationId),
   setPublicationPhotosArray: photosArray =>

@@ -1,20 +1,26 @@
 import { View, Text, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { LABELS } from '@upload/components/PhoneNumber/constants';
 import styles from '@upload/components/PhoneNumber/styles';
 
-const PhoneNumber = () => {
-  const [phone, updatePhone] = useState('');
-
+const PhoneNumber = ({ phoneNumber, onChange }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Teléfono</Text>
+      <Text style={styles.title}>{LABELS.title}</Text>
       <TextInput
         style={styles.textInput}
-        onChangeText={updatePhone}
-        value={phone}
+        onChangeText={onChange}
+        value={phoneNumber}
       />
     </View>
   );
+};
+
+PhoneNumber.propTypes = {
+  phoneNumber: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default PhoneNumber;
