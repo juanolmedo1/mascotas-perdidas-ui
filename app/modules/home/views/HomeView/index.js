@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { FlatList, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-
-import { fetchLogin } from '@login/store/actions';
 import { fetchPublications } from '@home/store/actions';
 import LoadingView from '@core/views/LoadingView';
 import PublicationCard from '@core/components/PublicationCard';

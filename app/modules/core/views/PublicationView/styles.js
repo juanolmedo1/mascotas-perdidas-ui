@@ -1,14 +1,21 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import variables from '@styles/variables';
+
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: variables.colors.backgroundWhite
   },
   image: {
-    width: '100%',
-    height: 300,
-    marginVertical: variables.spacings.S
+    width,
+    height: '100%'
+  },
+  carousel: {
+    height: 300
+  },
+  informationContainer: {
+    flex: 1,
+    backgroundColor: 'red'
   }
 });

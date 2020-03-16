@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { FlatList, Image, Text, View } from 'react-native';
+import { Image, Text, View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
@@ -31,21 +31,19 @@ const PublicationView = ({ route, publications }) => {
         profileImage="asd"
         username="username"
       />
-      <FlatList
-        keyExtractor={item => item.data}
-        data={publication.pet.photos}
-        numColumns={1}
-        renderItem={({ item }) => (
+      <ScrollView horizontal={true} contentContainerStyle={styles.carousel}>
+        {publication.pet.photos.map(photo => (
           <Image
-            key={item.data}
+            key={photo.data}
             style={styles.image}
-            source={{ uri: `data:${item.type};base64,${item.data}` }}
-            resizeMode="contain"
+            source={{ uri: `data:${photo.type};base64,${photo.data}` }}
           />
-        )}
-      />
-      <Text>Información</Text>
-      <Text>ID = {id}</Text>
+        ))}
+      </ScrollView>
+      <View style={styles.informationContainer}>
+        <Text>Información</Text>
+        <Text>ID = {id}</Text>
+      </View>
     </View>
   );
 };
