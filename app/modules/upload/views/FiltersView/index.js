@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import * as newPublicationActions from '@upload/store/actions';
 import { LABELS } from '@upload/views/FiltersView/constants';
+import AdditionalInformation from '@upload/components/AdditionalInformation';
 import Button from '@core/components/Button';
+import HasCollar from '@upload/components/HasCollar';
+import PhoneNumber from '@upload/components/PhoneNumber';
+import Reward from '@core/components/Reward';
 import SingleSelectGender from '@upload/components/SingleSelectGender';
 import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
 import SingleSelectSize from '@upload/components/SingleSelectSize';
-import Reward from '@core/components/Reward';
-import AdditionalInformation from '@upload/components/AdditionalInformation';
-import PhoneNumber from '@upload/components/PhoneNumber';
-import HasCollar from '@upload/components/HasCollar';
 import styles from '@upload/views/FiltersView/styles';
 import ColorsSelection from '@upload/components/ColorsSelection';
 import PET_ENTITY from '@entities/Pet';
@@ -21,8 +21,13 @@ import PUBLICATION_ENTITY from '@entities/Publication';
 const FiltersView = ({
   createPublication,
   newPublication,
+  //setAdditionalInformation,
+  setPetCollar,
   setPetGender,
   setPetType,
+  setPetSize,
+  //setPhoneNumber,
+  setPublicationReward,
   setPublicationType
 }) => {
   const {
@@ -31,11 +36,31 @@ const FiltersView = ({
     similarPublications,
     ...newPublicationRest
   } = newPublication;
+
   useEffect(() => {
     console.log('SIMILAR PUBLICATIONS', similarPublications);
-  }, [similarPublications]);
-  const [reward, setReward] = useState(false);
-  const [collar, setCollar] = useState(false);
+  }, [newPublication, similarPublications]);
+
+  const [phoneNumberText, setPhoneNumberText] = useState(
+    newPublication.phoneNumber
+  );
+
+  const [additionalInformationText, setAdditionalInformationText] = useState(
+    newPublication.additionalInformation
+  );
+
+  const createNewPublication = () => {
+    /*Por ahora lo mandamos con el create publication sin hacer dispatch de ninguna acción
+    setPhoneNumber(phoneNumberText);
+    setAdditionalInformation(additionalInformationText);
+    */
+    const newPublicationValues = {
+      ...newPublicationRest,
+      phoneNumber: phoneNumberText,
+      additionalInformation: additionalInformationText
+    };
+    createPublication(newPublicationValues);
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -62,6 +87,8 @@ const FiltersView = ({
       </View>
       <View style={styles.block}>
         <SingleSelectSize
+          petSize={newPublication.petSize}
+          onSelect={setPetSize}
           show={newPublication.petType === PET_ENTITY.types.dog}
         />
       </View>
@@ -71,27 +98,36 @@ const FiltersView = ({
       <View style={styles.block}>
         <View style={styles.rewardContainer}>
           <Reward
-            updateSelection={setReward}
-            active={reward}
+            hasReward={newPublication.publicationReward}
+            onChange={setPublicationReward}
             show={
               newPublication.publicationType === PUBLICATION_ENTITY.types.lost
             }
           />
-          <HasCollar updateSelection={setCollar} active={collar} />
+          <HasCollar
+            hasCollar={newPublication.petCollar}
+            onChange={setPetCollar}
+          />
         </View>
       </View>
       <View style={styles.block}>
-        <PhoneNumber />
+        <PhoneNumber
+          phoneNumber={phoneNumberText}
+          onChange={setPhoneNumberText}
+        />
       </View>
       <View style={styles.block}>
-        <AdditionalInformation />
+        <AdditionalInformation
+          information={additionalInformationText}
+          onChange={setAdditionalInformationText}
+        />
       </View>
       <View style={styles.buttonContainer}>
         <Button
           text={LABELS.buttons.publish}
-          onPress={() => createPublication(newPublicationRest)}
-          loading={requestInProgress}
+          onPress={createNewPublication}
           type="primary"
+          loading={requestInProgress}
         />
       </View>
     </ScrollView>
@@ -100,13 +136,20 @@ const FiltersView = ({
 
 FiltersView.propTypes = {
   createPublication: PropTypes.func.isRequired,
+  //setAdditionalInformation: PropTypes.func.isRequired,
+  setPetCollar: PropTypes.func.isRequired,
   setPetGender: PropTypes.func.isRequired,
   setPetType: PropTypes.func.isRequired,
+  setPetSize: PropTypes.func.isRequired,
+  //setPhoneNumber: PropTypes.func.isRequired,
+  setPublicationReward: PropTypes.func.isRequired,
   setPublicationType: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
+    additionalInformation: PropTypes.string,
     locationId: PropTypes.string,
     petGender: PropTypes.string,
     petType: PropTypes.string,
+    phoneNumber: PropTypes.string,
     photosArray: PropTypes.arrayOf(PropTypes.string),
     provinceId: PropTypes.string,
     publicationType: PropTypes.string,
@@ -120,8 +163,14 @@ FiltersView.propTypes = {
 const mapDispatchToProps = {
   createPublication: newPublication =>
     newPublicationActions.createPublicationRequest(newPublication),
+  // setAdditionalInformation: additionalInformation => newPublicationActions.setAdditionalInformation(additionalInformation),
+  setPetCollar: hasCollar => newPublicationActions.setPetCollar(hasCollar),
   setPetGender: petGender => newPublicationActions.setPetGender(petGender),
   setPetType: petType => newPublicationActions.setPetType(petType),
+  setPetSize: petSize => newPublicationActions.setPetSize(petSize),
+  // setPhoneNumber: phoneNumber => newPublicationActions.setPhoneNumber(phoneNumber),
+  setPublicationReward: hasReward =>
+    newPublicationActions.setPublicationReward(hasReward),
   setPublicationType: publicationType =>
     newPublicationActions.setPublicationType(publicationType)
 };

@@ -1,22 +1,35 @@
 import GraphQLClient from '@core/utils/GraphQLClient';
 
-const NEW_PUBLICATION_MUTATION = `mutation createPublication($locationId: String!, $petGender: String!, $petType: String!, $photosArray: [String!]!, $provinceId: String!, $publicationType: String!, $userId: String! ){
+const NEW_PUBLICATION_MUTATION = `mutation createPublication(
+    $additionalInformation: String!,
+    $locationId: String!,
+    $petCollar: Boolean!,
+    $petGender: String!,
+    $petType: String!,
+    $petSize: String!,
+    $photosArray: [String!]!,
+    $phoneNumber: String!,
+    $provinceId: String!,
+    $publicationReward: Boolean!,
+    $publicationType: String!,
+    $userId: String!
+  ){
     createPublication(options: {
         creatorId: $userId,
         type: $publicationType,
         petData: {
             type: $petType,
             gender: $petGender,
-            size: "MEDIUM",
+            size: $petSize,
             color: ["#ffffff"],
-            collar: false,
+            collar: $petCollar,
             photosData: $photosArray
         },
         province: $provinceId,
         location: $locationId,
-        phoneNumber: "+542915079528",
-        reward: false,
-        additionalInfo: ""
+        phoneNumber: $phoneNumber,
+        reward: $publicationReward,
+        additionalInfo: $additionalInformation
     }) {
         id
     }
