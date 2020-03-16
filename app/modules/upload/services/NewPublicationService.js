@@ -1,7 +1,7 @@
 import GraphQLClient from '@core/utils/GraphQLClient';
 
 const NEW_PUBLICATION_MUTATION = `mutation createPublication(
-    $additionalInformation: String!,
+    $additionalInformation: String,
     $locationId: String!,
     $petCollar: Boolean!,
     $petGender: String!,

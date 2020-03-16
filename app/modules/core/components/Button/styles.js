@@ -30,6 +30,10 @@ export default StyleSheet.create({
     borderColor: variables.colors.borderOrange,
     borderWidth: 1
   },
+  disabled: {
+    ...baseButton,
+    backgroundColor: variables.colors.backgroundLightGrey
+  },
   primaryText: {
     ...baseText,
     color: variables.colors.textWhite

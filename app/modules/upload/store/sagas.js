@@ -9,10 +9,17 @@ import NewPublicationService from '@upload/services/NewPublicationService';
 
 export function* onPublicationCreated(action) {
   const { newPublication } = action.payload;
+  const photosArrayWithOnlyBase64 = newPublication.photosArray.map(
+    photoObject => photoObject.data
+  );
+  const newPublicationValues = {
+    ...newPublication,
+    photosArray: photosArrayWithOnlyBase64
+  };
   try {
     const similarPublications = yield call(
       NewPublicationService.createPublication,
-      newPublication
+      newPublicationValues
     );
     yield put(createPublicationSuccess(similarPublications));
   } catch (error) {
