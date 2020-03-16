@@ -150,7 +150,13 @@ FiltersView.propTypes = {
     petGender: PropTypes.string,
     petType: PropTypes.string,
     phoneNumber: PropTypes.string,
-    photosArray: PropTypes.arrayOf(PropTypes.string),
+    photosArray: PropTypes.arrayOf(
+      PropTypes.shape({
+        data: PropTypes.string,
+        mime: PropTypes.string,
+        path: PropTypes.string
+      })
+    ),
     provinceId: PropTypes.string,
     publicationType: PropTypes.string,
     userId: PropTypes.string,

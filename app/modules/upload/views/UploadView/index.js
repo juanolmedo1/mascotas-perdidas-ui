@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
@@ -86,6 +86,8 @@ const UploadView = ({
 
   const { provinces, locations } = ubications;
 
+  const userHasSelectedAtLeastOnePhoto = newPublication.photosArray.length > 0;
+
   if (!provinces.length || !locations.length) {
     return <LoadingView />;
   }
@@ -93,6 +95,7 @@ const UploadView = ({
   return (
     <View style={styles.container}>
       <ImagesContainer images={newPublication.photosArray} />
+      <Text style={styles.text}> {LABELS.photosInstructions} </Text>
       <Button
         text={LABELS.buttons.addPhotos}
         onPress={openImagePicker}
@@ -113,6 +116,7 @@ const UploadView = ({
         />
       </View>
       <Button
+        enabled={userHasSelectedAtLeastOnePhoto}
         text={LABELS.buttons.goToFilters}
         onPress={navigateToFilters}
         type="primary"
@@ -135,7 +139,13 @@ UploadView.propTypes = {
     petGender: PropTypes.string,
     petType: PropTypes.string,
     phoneNumber: PropTypes.string,
-    photosArray: PropTypes.arrayOf(PropTypes.string),
+    photosArray: PropTypes.arrayOf(
+      PropTypes.shape({
+        data: PropTypes.string,
+        mime: PropTypes.string,
+        path: PropTypes.string
+      })
+    ),
     provinceId: PropTypes.string,
     publicationType: PropTypes.string,
     userId: PropTypes.string,

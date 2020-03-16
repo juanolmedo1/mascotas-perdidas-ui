@@ -14,5 +14,12 @@ export default StyleSheet.create({
     fontSize: fonts.sizes.L,
     letterSpacing: 1,
     color: variables.colors.textBlack
+  },
+  text: {
+    ...fonts.weights.regular,
+    marginBottom: variables.spacings.XXS,
+    fontSize: fonts.sizes.M,
+    marginHorizontal: variables.spacings.L,
+    textAlign: 'center'
   }
 });

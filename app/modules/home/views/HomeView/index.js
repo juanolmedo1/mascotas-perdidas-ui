@@ -1,11 +1,13 @@
-import { FlatList, View } from 'react-native';
-import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { FlatList, View } from 'react-native';
 import PropTypes from 'prop-types';
-import styles from '@home/views/HomeView/styles';
+import React, { useEffect } from 'react';
+
+import { fetchLogin } from '@login/store/actions';
 import { fetchPublications } from '@home/store/actions';
-import PublicationCard from '@core/components/PublicationCard';
 import LoadingView from '@core/views/LoadingView';
+import PublicationCard from '@core/components/PublicationCard';
+import styles from '@home/views/HomeView/styles';
 
 const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
@@ -31,7 +33,7 @@ const HomeView = ({ publications, getPublications }) => {
             id={item.id}
             date="Hace 2 días"
             type={item.type}
-            image="test"
+            imageShownBase64={item.pet.photos[0].data}
           />
         )}
       />

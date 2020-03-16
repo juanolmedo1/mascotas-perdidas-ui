@@ -1,14 +1,16 @@
-import { Text, Image, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styles from '@core/views/PublicationView/styles';
-import PublicationHeader from '@core/components/PublicationHeader';
+import { FlatList, Image, Text, View } from 'react-native';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+
 import LoadingView from '@core/views/LoadingView';
+import PublicationHeader from '@core/components/PublicationHeader';
+import styles from '@core/views/PublicationView/styles';
 
 const PublicationView = ({ route, publications }) => {
   const { id } = route.params;
   const [publication, setPublication] = useState();
+
   useEffect(() => {
     const publicationArray = publications.data.filter(item => item.id === id);
     if (publicationArray.length) {
@@ -29,11 +31,18 @@ const PublicationView = ({ route, publications }) => {
         profileImage="asd"
         username="username"
       />
-      <Image
-        style={styles.image}
-        source={{
-          uri: 'https://scx2.b-cdn.net/gfx/news/hires/2018/2-dog.jpg'
-        }}
+      <FlatList
+        keyExtractor={item => item.data}
+        data={publication.pet.photos}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <Image
+            key={item.data}
+            style={styles.image}
+            source={{ uri: `data:${item.type};base64,${item.data}` }}
+            resizeMode="contain"
+          />
+        )}
       />
       <Text>Información</Text>
       <Text>ID = {id}</Text>
