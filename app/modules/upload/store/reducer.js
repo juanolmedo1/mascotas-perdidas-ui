@@ -9,7 +9,7 @@ const initialState = {
   petGender: PET_ENTITY.genders.male,
   petType: PET_ENTITY.types.dog,
   petSize: PET_ENTITY.sizes.medium,
-  photosArray: ['foto1'],
+  photosArray: [],
   phoneNumber: null,
   provinceId: null,
   publicationType: PUBLICATION_ENTITY.types.lost,

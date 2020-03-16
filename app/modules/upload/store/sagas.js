@@ -6,6 +6,7 @@ import {
   createPublicationSuccess
 } from '@upload/store/actions';
 import NewPublicationService from '@upload/services/NewPublicationService';
+import NavigationService from '@core/utils/navigation';
 
 export function* onPublicationCreated(action) {
   const { newPublication } = action.payload;
@@ -17,6 +18,8 @@ export function* onPublicationCreated(action) {
     yield put(createPublicationSuccess(similarPublications));
   } catch (error) {
     yield put(createPublicationFail(error));
+  } finally {
+    yield NavigationService.navigate('Response');
   }
 }
 

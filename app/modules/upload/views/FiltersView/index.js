@@ -2,13 +2,11 @@ import { connect } from 'react-redux';
 import { Text, ScrollView, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
 import * as newPublicationActions from '@upload/store/actions';
 import { LABELS } from '@upload/views/FiltersView/constants';
 import AdditionalInformation from '@upload/components/AdditionalInformation';
 import Button from '@core/components/Button';
 import HasCollar from '@upload/components/HasCollar';
-import LoadingView from '@core/views/LoadingView';
 import PhoneNumber from '@upload/components/PhoneNumber';
 import Reward from '@core/components/Reward';
 import SingleSelectGender from '@upload/components/SingleSelectGender';
@@ -16,6 +14,9 @@ import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
 import SingleSelectSize from '@upload/components/SingleSelectSize';
 import styles from '@upload/views/FiltersView/styles';
+import ColorsSelection from '@upload/components/ColorsSelection';
+import PET_ENTITY from '@entities/Pet';
+import PUBLICATION_ENTITY from '@entities/Publication';
 
 const FiltersView = ({
   createPublication,
@@ -61,10 +62,6 @@ const FiltersView = ({
     createPublication(newPublicationValues);
   };
 
-  if (requestInProgress) {
-    return <LoadingView />;
-  }
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.block}>
@@ -92,13 +89,20 @@ const FiltersView = ({
         <SingleSelectSize
           petSize={newPublication.petSize}
           onSelect={setPetSize}
+          show={newPublication.petType === PET_ENTITY.types.dog}
         />
+      </View>
+      <View style={styles.block}>
+        <ColorsSelection />
       </View>
       <View style={styles.block}>
         <View style={styles.rewardContainer}>
           <Reward
             hasReward={newPublication.publicationReward}
             onChange={setPublicationReward}
+            show={
+              newPublication.publicationType === PUBLICATION_ENTITY.types.lost
+            }
           />
           <HasCollar
             hasCollar={newPublication.petCollar}
@@ -123,6 +127,7 @@ const FiltersView = ({
           text={LABELS.buttons.publish}
           onPress={createNewPublication}
           type="primary"
+          loading={requestInProgress}
         />
       </View>
     </ScrollView>
