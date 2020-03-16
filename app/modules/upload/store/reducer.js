@@ -9,7 +9,7 @@ const initialState = {
   petGender: PET_ENTITY.genders.male,
   petType: PET_ENTITY.types.dog,
   petSize: PET_ENTITY.sizes.medium,
-  photosArray: ['foto1'],
+  photosArray: [],
   phoneNumber: null,
   provinceId: null,
   publicationType: PUBLICATION_ENTITY.types.lost,
@@ -17,16 +17,7 @@ const initialState = {
   userId: null,
   requestFailed: false,
   requestInProgress: false,
-  similarPublications: [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-    { id: '4' },
-    { id: '5' },
-    { id: '6' },
-    { id: '7' },
-    { id: '8' }
-  ]
+  similarPublications: []
 };
 
 export default function(state = initialState, { type, payload }) {

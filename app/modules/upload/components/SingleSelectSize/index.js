@@ -2,7 +2,6 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {
   LABELS,
   UI_CONSTANTS

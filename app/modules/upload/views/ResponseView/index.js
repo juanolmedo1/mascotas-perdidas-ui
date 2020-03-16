@@ -8,6 +8,7 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import variables from '@app/styles/variables';
 import SimilarPublications from '@upload/components/SimilarPublications';
+import NavigationService from '@core/utils/navigation';
 
 const ResponseView = ({ newPublication }) => {
   const {
@@ -37,7 +38,10 @@ const ResponseView = ({ newPublication }) => {
     <View style={styles.container}>
       <View style={styles.responseContainer}>
         <View style={styles.close}>
-          <TouchableOpacity style={styles.icon}>
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => NavigationService.navigate('Upload')}
+          >
             <IconAnt
               name="close"
               size={30}
@@ -51,7 +55,7 @@ const ResponseView = ({ newPublication }) => {
         </View>
       </View>
       {!requestFailed &&
-        similarPublications &&
+        Boolean(similarPublications.length) &&
         publicationType !== PUBLICATION_ENTITY.types.adoption && (
           <SimilarPublications
             publicationType={publicationType}

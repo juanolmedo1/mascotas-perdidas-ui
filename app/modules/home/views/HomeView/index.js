@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,12 +6,11 @@ import styles from '@home/views/HomeView/styles';
 import { fetchPublications } from '@home/store/actions';
 import PublicationCard from '@core/components/PublicationCard';
 import LoadingView from '@core/views/LoadingView';
-import { fetchLogin } from '@login/store/actions';
 
-const HomeView = ({ publications, getPublications, fetchLoginFunc }) => {
+const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
     getPublications();
-  }, [fetchLoginFunc, getPublications]);
+  }, [getPublications]);
 
   const { requestFailed, requestInProgress, data } = publications;
 
@@ -20,21 +19,23 @@ const HomeView = ({ publications, getPublications, fetchLoginFunc }) => {
   }
 
   return (
-    <FlatList
-      keyExtractor={item => item.id}
-      data={data}
-      numColumns={2}
-      contentContainerStyle={styles.list}
-      renderItem={({ item }) => (
-        <PublicationCard
-          key={item.id}
-          id={item.id}
-          date="Hace 2 días"
-          type={item.type}
-          image="test"
-        />
-      )}
-    />
+    <View style={styles.container}>
+      <FlatList
+        keyExtractor={item => item.id}
+        data={data}
+        numColumns={2}
+        contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <PublicationCard
+            key={item.id}
+            id={item.id}
+            date="Hace 2 días"
+            type={item.type}
+            image="test"
+          />
+        )}
+      />
+    </View>
   );
 };
 
@@ -48,8 +49,7 @@ HomeView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  getPublications: fetchPublications,
-  fetchLoginFunc: fetchLogin
+  getPublications: fetchPublications
 };
 
 const mapStateToProps = state => ({

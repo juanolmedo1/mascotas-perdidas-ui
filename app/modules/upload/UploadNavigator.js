@@ -47,7 +47,6 @@ const UploadNavigator = () => {
         component={ResponseView}
         options={{
           headerShown: false,
-          title: 'Publicación',
           headerStyle: {
             elevation: 0
           },

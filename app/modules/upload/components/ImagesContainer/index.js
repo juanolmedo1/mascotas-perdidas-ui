@@ -5,7 +5,7 @@ import styles from '@upload/components/ImagesContainer/styles';
 const ImagesContainer = ({ images }) => {
   return (
     <View style={styles.container}>
-      {images &&
+      {Boolean(images.length) &&
         images.map(image => (
           <Image
             key={image.path}

@@ -11,12 +11,13 @@ const HomeNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
-        name="Inicio"
+        name="Home"
         component={HomeView}
         options={{
           headerStyle: {
             elevation: 0
           },
+          title: 'Inicio',
           headerTintColor: variables.colors.textBlack,
           headerTitleStyle: {
             fontSize: fonts.sizes.XL,
