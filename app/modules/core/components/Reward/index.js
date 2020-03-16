@@ -1,12 +1,14 @@
 import { View, Text, Switch } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import { LABELS } from '@core/components/Reward/constants';
 import styles from '@core/components/Reward/styles';
 import variables from '@styles/variables';
 
-const Reward = ({ hasReward, onChange }) => {
+const Reward = ({ show, hasReward, onChange }) => {
+  if (!show) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{LABELS.title}</Text>
@@ -33,7 +35,8 @@ const Reward = ({ hasReward, onChange }) => {
 
 Reward.propTypes = {
   hasReward: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired
 };
 
 export default Reward;

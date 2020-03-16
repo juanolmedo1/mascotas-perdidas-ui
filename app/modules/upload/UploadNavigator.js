@@ -4,6 +4,8 @@ import variables from '@styles/variables';
 import fonts from '@styles/fonts';
 import UploadView from '@upload/views/UploadView';
 import FiltersView from '@upload/views/FiltersView';
+import ResponseView from '@upload/views/ResponseView';
+import PublicationView from '@core/views/PublicationView';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +35,30 @@ const UploadNavigator = () => {
         component={FiltersView}
         options={{
           title: '',
+          headerStyle: {
+            elevation: 0
+          },
+          headerTintColor: variables.colors.textOrange,
+          headerTitleAlign: 'center'
+        }}
+      />
+      <Stack.Screen
+        name="Response"
+        component={ResponseView}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            elevation: 0
+          },
+          headerTintColor: variables.colors.textOrange,
+          headerTitleAlign: 'center'
+        }}
+      />
+      <Stack.Screen
+        name="Publication"
+        component={PublicationView}
+        options={{
+          title: 'Publicación',
           headerStyle: {
             elevation: 0
           },

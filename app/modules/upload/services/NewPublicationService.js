@@ -7,7 +7,7 @@ const NEW_PUBLICATION_MUTATION = `mutation createPublication(
     $petGender: String!,
     $petType: String!,
     $petSize: String!,
-    $photosArray: [String!]!,
+    $photosArray: [CreatePhotoInput!]!,
     $phoneNumber: String!,
     $provinceId: String!,
     $publicationReward: Boolean!,

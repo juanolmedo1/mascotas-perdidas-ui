@@ -2,7 +2,6 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {
   LABELS,
   UI_CONSTANTS
@@ -11,7 +10,10 @@ import PET_ENTITY from '@entities/Pet';
 import styles from '@upload/components/SingleSelectSize/styles';
 import variables from '@styles/variables';
 
-const SingleSelectSize = ({ petSize, onSelect }) => {
+const SingleSelectSize = ({ show, petSize, onSelect }) => {
+  if (!show) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{LABELS.title}</Text>
@@ -87,7 +89,8 @@ const SingleSelectSize = ({ petSize, onSelect }) => {
 
 SingleSelectSize.propTypes = {
   petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]).isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired
 };
 
 export default SingleSelectSize;

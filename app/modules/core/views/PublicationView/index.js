@@ -39,7 +39,7 @@ const PublicationView = ({ route, publications }) => {
           <Image
             key={item.data}
             style={styles.image}
-            source={{ uri: `data:image/gif;base64,${item.data}` }}
+            source={{ uri: `data:${item.type};base64,${item.data}` }}
             resizeMode="contain"
           />
         )}

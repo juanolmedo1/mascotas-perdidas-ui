@@ -62,5 +62,14 @@ export default StyleSheet.create({
   rightArrow: {
     position: 'absolute',
     right: variables.spacings.M
+  },
+  primaryLoading: {
+    color: variables.colors.backgroundWhite
+  },
+  secondaryLoading: {
+    color: variables.colors.backgroundOrange
+  },
+  tertiaryLoading: {
+    color: variables.colors.backgroundOrange
   }
 });
