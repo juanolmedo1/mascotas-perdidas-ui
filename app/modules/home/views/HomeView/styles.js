@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
+import fonts from '@styles/fonts';
 
 export default StyleSheet.create({
   container: {
@@ -23,5 +24,21 @@ export default StyleSheet.create({
     width: '100%',
     height: 200,
     marginBottom: 10
+  },
+  header: {
+    paddingHorizontal: variables.spacings.L,
+    paddingTop: variables.spacings.M,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  iconsContainer: {
+    width: 70,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  title: {
+    fontSize: fonts.sizes.XL,
+    ...fonts.weights.regular
   }
 });
