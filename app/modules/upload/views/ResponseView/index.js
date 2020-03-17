@@ -71,7 +71,7 @@ ResponseView.propTypes = {
     locationId: PropTypes.string,
     petGender: PropTypes.string,
     petType: PropTypes.string,
-    photosArray: PropTypes.arrayOf(PropTypes.string),
+    photosArray: PropTypes.arrayOf(PropTypes.object),
     provinceId: PropTypes.string,
     publicationType: PropTypes.string,
     userId: PropTypes.string,

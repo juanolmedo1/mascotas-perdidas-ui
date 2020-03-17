@@ -4,7 +4,7 @@ import {
   fetchPublicationsFailure
 } from '@home/store/actions';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import PublicationsService from '@home/services/PublicationsService';
+import PublicationService from '@core/services/PublicationService';
 import { getProfile } from '@login/store/selectors';
 
 export function* fetchPublications() {
@@ -15,7 +15,7 @@ export function* fetchPublications() {
       location: profile.ubication.location.id
     };
     const publications = yield call(
-      PublicationsService.getPublications,
+      PublicationService.getPublications,
       ubication
     );
     yield put(fetchPublicationsSuccess(publications));

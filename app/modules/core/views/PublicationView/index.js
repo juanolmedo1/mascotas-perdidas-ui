@@ -1,67 +1,92 @@
 import { connect } from 'react-redux';
 import { Image, Text, View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect } from 'react';
+import {
+  fetchPublication,
+  clearCurrentPublication
+} from '@core/store/currentPublication/actions';
 import LoadingView from '@core/views/LoadingView';
 import PublicationHeader from '@core/components/PublicationHeader';
 import styles from '@core/views/PublicationView/styles';
+import PetGenderIcon from '../../components/PetGenderIcon';
+import PetSizeIcon from '../../components/PetSizeIcon';
 
-const PublicationView = ({ route, publications }) => {
+const PublicationView = ({
+  route,
+  getPublication,
+  currentPublication,
+  clearPublication
+}) => {
   const { id } = route.params;
-  const [publication, setPublication] = useState();
 
   useEffect(() => {
-    const publicationArray = publications.data.filter(item => item.id === id);
-    if (publicationArray.length) {
-      setPublication(publicationArray[0]);
-    } else {
-      // Pedir publicación a la API
-    }
-  }, [id, publications.data]);
+    getPublication(id);
+    return () => {
+      clearPublication();
+    };
+  }, [clearPublication, getPublication, id]);
 
-  if (!publication) {
+  const { data } = currentPublication;
+
+  if (!data) {
     return <LoadingView />;
   }
 
+  const { reward, type, additionalInfo, createdAt, phoneNumber } = data;
+  const { collar, photos, size, gender } = data.pet;
+  const { username, profilePicture } = data.creator;
+  console.log(data);
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <PublicationHeader
-        type={publication.type}
-        profileImage="asd"
-        username="username"
+        type={type}
+        profileImage={profilePicture}
+        username={username}
       />
       <ScrollView horizontal={true} contentContainerStyle={styles.carousel}>
-        {publication.pet.photos.map(photo => (
+        {photos.map(photo => (
           <Image
             key={photo.data}
             style={styles.image}
             source={{ uri: `data:${photo.type};base64,${photo.data}` }}
+            resizeMode="contain"
           />
         ))}
       </ScrollView>
       <View style={styles.informationContainer}>
-        <Text>Información</Text>
-        <Text>ID = {id}</Text>
+        <PetSizeIcon size={size} />
+        <PetGenderIcon type={gender} />
       </View>
-    </View>
+      <View style={styles.phoneNumberContainer}>
+        <Text style={styles.phoneTitle}>Teléfono</Text>
+        <Text style={styles.phone}>{phoneNumber}</Text>
+      </View>
+      <View style={styles.additionalInfoContainer}>
+        <Text style={styles.infoTitle}>Información Adicional</Text>
+        <Text style={styles.text}>{additionalInfo}</Text>
+      </View>
+      <View />
+    </ScrollView>
   );
 };
 
 PublicationView.propTypes = {
-  publications: PropTypes.shape({
+  currentPublication: PropTypes.shape({
     requestInProgress: PropTypes.bool,
     requestFailed: PropTypes.bool,
-    data: PropTypes.array
+    data: PropTypes.object
   }).isRequired
 };
 
 const mapDispatchToProps = {
-  // getPublication: fetchPublication
+  getPublication: fetchPublication,
+  clearPublication: clearCurrentPublication
 };
 
 const mapStateToProps = state => ({
-  publications: state.publications
+  currentPublication: state.currentPublication
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublicationView);

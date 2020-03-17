@@ -162,7 +162,7 @@ FiltersView.propTypes = {
     userId: PropTypes.string,
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.string)
+    similarPublications: PropTypes.arrayOf(PropTypes.object)
   }).isRequired
 };
 
