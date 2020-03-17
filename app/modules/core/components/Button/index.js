@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '@core/components/Button/styles';
 
 const Button = ({
-  enabled = true,
+  disabled = false,
   text,
   type,
   onPress,
@@ -20,12 +20,12 @@ const Button = ({
 
   return (
     <TouchableOpacity
-      style={enabled ? buttonStyle : styles.disabled}
-      onPress={enabled ? onPress : null}
+      style={disabled ? styles.disabled : buttonStyle}
+      onPress={disabled ? null : onPress}
       activeOpacity={0.8}
       disabled={loading}
     >
-      {leftArrow && enabled && (
+      {leftArrow && (
         <Icon
           name="ios-arrow-back"
           style={styles.leftArrow}
@@ -38,7 +38,7 @@ const Button = ({
       ) : (
         <Text style={textStyle}>{text}</Text>
       )}
-      {rightArrow && enabled && (
+      {rightArrow && (
         <Icon
           name="ios-arrow-forward"
           style={styles.rightArrow}
@@ -51,7 +51,7 @@ const Button = ({
 };
 
 Button.propTypes = {
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   loading: PropTypes.bool,
