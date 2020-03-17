@@ -73,7 +73,8 @@ const BottomNavigator = () => {
                   : variables.colors.textDarkGrey
               }
             />
-          )
+          ),
+          tabBarVisible: false
         }}
       />
       <Tab.Screen

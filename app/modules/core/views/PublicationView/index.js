@@ -37,6 +37,7 @@ const PublicationView = ({ route, publications }) => {
             key={photo.data}
             style={styles.image}
             source={{ uri: `data:${photo.type};base64,${photo.data}` }}
+            resizeMode="contain"
           />
         ))}
       </ScrollView>

@@ -34,12 +34,18 @@ const UploadNavigator = () => {
         name="Filters"
         component={FiltersView}
         options={{
-          title: '',
+          title: 'Características',
           headerStyle: {
             elevation: 0
           },
-          headerTintColor: variables.colors.textOrange,
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
+          headerTintColor: variables.colors.textBlack,
+          headerTitleStyle: {
+            fontSize: fonts.sizes.L,
+            ...fonts.weights.semibold,
+            letterSpacing: 1,
+            color: variables.colors.textBlack
+          }
         }}
       />
       <Stack.Screen
