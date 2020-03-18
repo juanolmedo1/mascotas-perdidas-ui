@@ -7,6 +7,8 @@ function createAction(type, payload) {
   };
 }
 
+export const clearStore = () => createAction(actionTypes.CLEAR_STORE);
+
 export const createPublicationRequest = newPublication =>
   createAction(actionTypes.CREATE_PUBLICATION_REQUEST, { newPublication });
 
@@ -20,6 +22,8 @@ export const setAdditionalInformation = additionalInformation =>
   createAction(actionTypes.SET_ADDITIONAL_INFORMATION, {
     additionalInformation
   });
+
+export const setHasChanges = () => createAction(actionTypes.SET_HAS_CHANGES);
 
 export const setLocationId = locationId =>
   createAction(actionTypes.SET_LOCATION_ID, { locationId });

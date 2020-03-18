@@ -1,14 +1,16 @@
-import { Text, Image, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styles from '@core/views/PublicationView/styles';
-import PublicationHeader from '@core/components/PublicationHeader';
+import { Image, Text, View, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+
 import LoadingView from '@core/views/LoadingView';
+import PublicationHeader from '@core/components/PublicationHeader';
+import styles from '@core/views/PublicationView/styles';
 
 const PublicationView = ({ route, publications }) => {
   const { id } = route.params;
   const [publication, setPublication] = useState();
+
   useEffect(() => {
     const publicationArray = publications.data.filter(item => item.id === id);
     if (publicationArray.length) {
@@ -29,14 +31,20 @@ const PublicationView = ({ route, publications }) => {
         profileImage="asd"
         username="username"
       />
-      <Image
-        style={styles.image}
-        source={{
-          uri: 'https://scx2.b-cdn.net/gfx/news/hires/2018/2-dog.jpg'
-        }}
-      />
-      <Text>Información</Text>
-      <Text>ID = {id}</Text>
+      <ScrollView horizontal={true} contentContainerStyle={styles.carousel}>
+        {publication.pet.photos.map(photo => (
+          <Image
+            key={photo.data}
+            style={styles.image}
+            source={{ uri: `data:${photo.type};base64,${photo.data}` }}
+            resizeMode="contain"
+          />
+        ))}
+      </ScrollView>
+      <View style={styles.informationContainer}>
+        <Text>Información</Text>
+        <Text>ID = {id}</Text>
+      </View>
     </View>
   );
 };

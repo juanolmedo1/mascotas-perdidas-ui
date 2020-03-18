@@ -1,21 +1,48 @@
 import { connect } from 'react-redux';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { BackHandler, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import React from 'react';
-import styles from '@upload/views/ResponseView/styles';
-import PUBLICATION_ENTITY from '@entities/Publication';
-import IconAnt from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import variables from '@app/styles/variables';
-import SimilarPublications from '@upload/components/SimilarPublications';
-import NavigationService from '@core/utils/navigation';
+import React, { useEffect } from 'react';
 
-const ResponseView = ({ newPublication }) => {
+import * as newPublicationActions from '@upload/store/actions';
+import Feather from 'react-native-vector-icons/Feather';
+import IconAnt from 'react-native-vector-icons/AntDesign';
+import NavigationService from '@core/utils/navigation';
+import PET_ENTITY from '@entities/Pet';
+import PUBLICATION_ENTITY from '@entities/Publication';
+import SimilarPublications from '@upload/components/SimilarPublications';
+import styles from '@upload/views/ResponseView/styles';
+import variables from '@app/styles/variables';
+
+const ResponseView = ({ clearPublicationValues, newPublication }) => {
   const {
     requestFailed,
     similarPublications,
     publicationType
   } = newPublication;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const closeWithSuccess = () => {
+    clearPublicationValues();
+    NavigationService.reset(0, 'Upload');
+    NavigationService.navigate('Home');
+  };
+
+  const closeWithFailures = () => {
+    NavigationService.goBack();
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      const functionToExecuteOnBack = requestFailed
+        ? closeWithFailures
+        : closeWithSuccess;
+      functionToExecuteOnBack();
+      return true;
+    };
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, [closeWithSuccess, requestFailed]);
 
   const iconContainerStyle = requestFailed
     ? styles.errorContainer
@@ -40,7 +67,7 @@ const ResponseView = ({ newPublication }) => {
         <View style={styles.close}>
           <TouchableOpacity
             style={styles.icon}
-            onPress={() => NavigationService.navigate('Upload')}
+            onPress={requestFailed ? closeWithFailures : closeWithSuccess}
           >
             <IconAnt
               name="close"
@@ -67,21 +94,38 @@ const ResponseView = ({ newPublication }) => {
 };
 
 ResponseView.propTypes = {
+  clearPublicationValues: PropTypes.func,
   newPublication: PropTypes.shape({
+    additionalInformation: PropTypes.string,
+    hasChanges: PropTypes.bool,
     locationId: PropTypes.string,
-    petGender: PropTypes.string,
-    petType: PropTypes.string,
-    photosArray: PropTypes.arrayOf(PropTypes.string),
+    petCollar: PropTypes.bool,
+    petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
+    petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]),
+    petType: PropTypes.oneOf([...Object.values(PET_ENTITY.types)]),
+    phoneNumber: PropTypes.string,
+    photosArray: PropTypes.arrayOf(
+      PropTypes.shape({
+        data: PropTypes.string,
+        mime: PropTypes.string,
+        path: PropTypes.string
+      })
+    ),
     provinceId: PropTypes.string,
-    publicationType: PropTypes.string,
-    userId: PropTypes.string,
+    publicationReward: PropTypes.bool,
+    publicationType: PropTypes.oneOf([
+      ...Object.values(PUBLICATION_ENTITY.types)
+    ]),
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.object)
+    similarPublications: PropTypes.arrayOf(PropTypes.string),
+    userId: PropTypes.string
   }).isRequired
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  clearPublicationValues: () => newPublicationActions.clearStore()
+};
 
 const mapStateToProps = state => ({
   newPublication: state.newPublication

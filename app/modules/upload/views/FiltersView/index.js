@@ -1,12 +1,17 @@
 import { connect } from 'react-redux';
-import { Text, ScrollView, View } from 'react-native';
+import { BackHandler, Text, ScrollView, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+
 import * as newPublicationActions from '@upload/store/actions';
 import { LABELS } from '@upload/views/FiltersView/constants';
 import AdditionalInformation from '@upload/components/AdditionalInformation';
 import Button from '@core/components/Button';
+import ColorsSelection from '@upload/components/ColorsSelection';
 import HasCollar from '@upload/components/HasCollar';
+import NavigationService from '@core/utils/navigation';
+import PET_ENTITY from '@entities/Pet';
+import PUBLICATION_ENTITY from '@entities/Publication';
 import PhoneNumber from '@upload/components/PhoneNumber';
 import Reward from '@core/components/Reward';
 import SingleSelectGender from '@upload/components/SingleSelectGender';
@@ -14,12 +19,10 @@ import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
 import SingleSelectSize from '@upload/components/SingleSelectSize';
 import styles from '@upload/views/FiltersView/styles';
-import ColorsSelection from '@upload/components/ColorsSelection';
-import PET_ENTITY from '@entities/Pet';
-import PUBLICATION_ENTITY from '@entities/Publication';
 
 const FiltersView = ({
   createPublication,
+  navigation,
   newPublication,
   //setAdditionalInformation,
   setPetCollar,
@@ -36,6 +39,16 @@ const FiltersView = ({
     similarPublications,
     ...newPublicationRest
   } = newPublication;
+
+  useEffect(() => {
+    const backAction = () => {
+      NavigationService.goBack();
+      return true;
+    };
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, [navigation]);
 
   useEffect(() => {
     console.log('SIMILAR PUBLICATIONS', similarPublications);
@@ -135,6 +148,7 @@ const FiltersView = ({
 };
 
 FiltersView.propTypes = {
+  clearPublicationValues: PropTypes.func,
   createPublication: PropTypes.func.isRequired,
   //setAdditionalInformation: PropTypes.func.isRequired,
   setPetCollar: PropTypes.func.isRequired,
@@ -146,17 +160,29 @@ FiltersView.propTypes = {
   setPublicationType: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
     additionalInformation: PropTypes.string,
+    hasChanges: PropTypes.bool,
     locationId: PropTypes.string,
-    petGender: PropTypes.string,
-    petType: PropTypes.string,
+    petCollar: PropTypes.bool,
+    petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
+    petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]),
+    petType: PropTypes.oneOf([...Object.values(PET_ENTITY.types)]),
     phoneNumber: PropTypes.string,
-    photosArray: PropTypes.arrayOf(PropTypes.string),
+    photosArray: PropTypes.arrayOf(
+      PropTypes.shape({
+        data: PropTypes.string,
+        mime: PropTypes.string,
+        path: PropTypes.string
+      })
+    ),
     provinceId: PropTypes.string,
-    publicationType: PropTypes.string,
-    userId: PropTypes.string,
+    publicationReward: PropTypes.bool,
+    publicationType: PropTypes.oneOf([
+      ...Object.values(PUBLICATION_ENTITY.types)
+    ]),
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.string)
+    similarPublications: PropTypes.arrayOf(PropTypes.string),
+    userId: PropTypes.string
   }).isRequired
 };
 

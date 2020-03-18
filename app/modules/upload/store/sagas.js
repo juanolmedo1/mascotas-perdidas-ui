@@ -10,10 +10,17 @@ import NavigationService from '@core/utils/navigation';
 
 export function* onPublicationCreated(action) {
   const { newPublication } = action.payload;
+  const photosArrayWithOnlyBase64 = newPublication.photosArray.map(
+    photoObject => ({ data: photoObject.data, type: photoObject.mime })
+  );
+  const newPublicationValues = {
+    ...newPublication,
+    photosArray: photosArrayWithOnlyBase64
+  };
   try {
     const similarPublications = yield call(
       NewPublicationService.createPublication,
-      newPublication
+      newPublicationValues
     );
     yield put(createPublicationSuccess(similarPublications));
   } catch (error) {

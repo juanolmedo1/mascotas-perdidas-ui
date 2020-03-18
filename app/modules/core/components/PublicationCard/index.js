@@ -1,11 +1,12 @@
-import { TouchableOpacity, View, Image, Text } from 'react-native';
-import React from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import styles from '@core/components/PublicationCard/styles';
-import PublicationIcon from '@core/components/PublicationIcon';
-import NavigationService from '@core/utils/navigation';
+import React from 'react';
 
-const PublicationCard = ({ id, image, type, date }) => {
+import NavigationService from '@core/utils/navigation';
+import PublicationIcon from '@core/components/PublicationIcon';
+import styles from '@core/components/PublicationCard/styles';
+
+const PublicationCard = ({ id, imageShownBase64, type, date }) => {
   return (
     <TouchableOpacity
       style={styles.container}
@@ -14,9 +15,7 @@ const PublicationCard = ({ id, image, type, date }) => {
     >
       <Image
         style={styles.image}
-        source={{
-          uri: 'https://scx2.b-cdn.net/gfx/news/hires/2018/2-dog.jpg'
-        }}
+        source={{ uri: `data:image/gif;base64,${imageShownBase64}` }}
       />
       <View style={styles.info}>
         <PublicationIcon type={type} />
@@ -30,7 +29,7 @@ PublicationCard.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION']).isRequired,
   date: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired
+  imageShownBase64: PropTypes.string.isRequired
 };
 
 export default PublicationCard;

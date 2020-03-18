@@ -4,24 +4,30 @@ import PUBLICATION_ENTITY from '@entities/Publication';
 
 const initialState = {
   additionalInformation: '',
+  hasChanges: false,
   locationId: null,
   petCollar: false,
   petGender: PET_ENTITY.genders.male,
-  petType: PET_ENTITY.types.dog,
   petSize: PET_ENTITY.sizes.medium,
-  photosArray: [],
+  petType: PET_ENTITY.types.dog,
   phoneNumber: null,
+  photosArray: [],
   provinceId: null,
-  publicationType: PUBLICATION_ENTITY.types.lost,
   publicationReward: false,
-  userId: null,
+  publicationType: PUBLICATION_ENTITY.types.lost,
   requestFailed: false,
   requestInProgress: false,
-  similarPublications: []
+  similarPublications: [],
+  userId: null
 };
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
+    case actionTypes.CLEAR_STORE:
+      return {
+        ...state,
+        ...initialState
+      };
     case actionTypes.CREATE_PUBLICATION_REQUEST:
       return {
         ...state,
@@ -45,6 +51,11 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         additionalInformation: payload.additionalInformation
+      };
+    case actionTypes.SET_HAS_CHANGES:
+      return {
+        ...state,
+        hasChanges: true
       };
     case actionTypes.SET_LOCATION_ID:
       return {

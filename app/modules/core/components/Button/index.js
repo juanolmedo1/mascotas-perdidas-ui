@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '@core/components/Button/styles';
 
 const Button = ({
+  disabled = false,
   text,
   type,
   onPress,
@@ -19,8 +20,8 @@ const Button = ({
 
   return (
     <TouchableOpacity
-      style={buttonStyle}
-      onPress={onPress}
+      style={disabled ? styles.disabled : buttonStyle}
+      onPress={disabled ? null : onPress}
       activeOpacity={0.8}
       disabled={loading}
     >
@@ -50,6 +51,7 @@ const Button = ({
 };
 
 Button.propTypes = {
+  disabled: PropTypes.bool,
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   loading: PropTypes.bool,
