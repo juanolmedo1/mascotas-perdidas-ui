@@ -1,9 +1,12 @@
-import { connect } from 'react-redux';
-import { FlatList, View } from 'react-native';
-import PropTypes from 'prop-types';
+import { FlatList, View, Text, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchPublications } from '@home/store/actions';
 import LoadingView from '@core/views/LoadingView';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import variables from '@app/styles/variables';
 import PublicationCard from '@core/components/PublicationCard';
 import styles from '@home/views/HomeView/styles';
 
@@ -11,6 +14,10 @@ const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
     getPublications();
   }, [getPublications]);
+
+  const refresh = () => {
+    getPublications();
+  };
 
   const { requestFailed, requestInProgress, data } = publications;
 
@@ -20,6 +27,25 @@ const HomeView = ({ publications, getPublications }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Inicio</Text>
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity onPress={refresh}>
+            <Ionicons
+              name="md-refresh"
+              size={28}
+              color={variables.colors.backgroundBlack}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('filters-view')}>
+            <Octicons
+              name="settings"
+              size={28}
+              color={variables.colors.backgroundBlack}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
       <FlatList
         keyExtractor={item => item.id}
         data={data}

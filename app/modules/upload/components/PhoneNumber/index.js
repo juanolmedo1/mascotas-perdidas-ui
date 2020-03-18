@@ -13,6 +13,7 @@ const PhoneNumber = ({ phoneNumber, onChange }) => {
         style={styles.textInput}
         onChangeText={onChange}
         value={phoneNumber}
+        keyboardType="phone-pad"
       />
     </View>
   );
