@@ -1,4 +1,4 @@
-import {isArray} from 'lodash';
+import { isArray } from 'lodash';
 
 export default function(styles, additionalStyles) {
   let applicableStyles = isArray(styles) ? styles : [styles];

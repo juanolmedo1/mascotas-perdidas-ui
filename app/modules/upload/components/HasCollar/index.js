@@ -6,7 +6,11 @@ import { LABELS } from '@upload/components/HasCollar/constants';
 import styles from '@upload/components/HasCollar/styles';
 import variables from '@styles/variables';
 
-const HasCollar = ({ hasCollar, onChange }) => {
+const HasCollar = ({ show, hasCollar, onChange }) => {
+  if (!show) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{LABELS.title}</Text>
@@ -32,6 +36,7 @@ const HasCollar = ({ hasCollar, onChange }) => {
 };
 
 HasCollar.propTypes = {
+  show: PropTypes.bool.isRequired,
   hasCollar: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired
 };

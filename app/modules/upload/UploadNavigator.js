@@ -68,7 +68,7 @@ const UploadNavigator = () => {
           headerStyle: {
             elevation: 0
           },
-          headerTintColor: variables.colors.textOrange,
+          headerTintColor: variables.colors.textBlack,
           headerTitleAlign: 'center'
         }}
       />

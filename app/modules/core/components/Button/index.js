@@ -20,10 +20,10 @@ const Button = ({
 
   return (
     <TouchableOpacity
-      style={disabled ? styles.disabled : buttonStyle}
-      onPress={disabled ? null : onPress}
+      style={disabled || loading ? styles.disabled : buttonStyle}
+      onPress={onPress}
       activeOpacity={0.8}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {leftArrow && (
         <Icon

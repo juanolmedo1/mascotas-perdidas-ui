@@ -17,13 +17,14 @@ const HomeNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="Publicación"
+        name="Publication"
         component={PublicationView}
         options={{
+          title: 'Publicación',
           headerStyle: {
             elevation: 0
           },
-          headerTintColor: variables.colors.textOrange,
+          headerTintColor: variables.colors.textBlack,
           headerTitleAlign: 'center'
         }}
       />

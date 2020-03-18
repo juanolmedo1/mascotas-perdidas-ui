@@ -9,6 +9,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import PublicationCard from '@core/components/PublicationCard';
 import styles from '@home/views/HomeView/styles';
+import EmptyList from '@core/views/EmptyList';
 
 const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
@@ -21,8 +22,33 @@ const HomeView = ({ publications, getPublications }) => {
 
   const { requestFailed, requestInProgress, data } = publications;
 
+  let content = null;
+
   if (requestInProgress) {
-    return <LoadingView />;
+    content = <LoadingView />;
+  } else {
+    if (!data.length) {
+      content = <EmptyList />;
+    } else {
+      content = (
+        <FlatList
+          keyExtractor={item => item.id}
+          data={data}
+          numColumns={2}
+          contentContainerStyle={styles.list}
+          renderItem={({ item }) => (
+            <PublicationCard
+              key={item.id}
+              id={item.id}
+              date={item.createdAt}
+              type={item.type}
+              imageType={item.pet.photos[0].type}
+              imageShownBase64={item.pet.photos[0].data}
+            />
+          )}
+        />
+      );
+    }
   }
 
   return (
@@ -46,21 +72,7 @@ const HomeView = ({ publications, getPublications }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <FlatList
-        keyExtractor={item => item.id}
-        data={data}
-        numColumns={2}
-        contentContainerStyle={styles.list}
-        renderItem={({ item }) => (
-          <PublicationCard
-            key={item.id}
-            id={item.id}
-            date="Hace 2 días"
-            type={item.type}
-            imageShownBase64={item.pet.photos[0].data}
-          />
-        )}
-      />
+      {content}
     </View>
   );
 };

@@ -26,7 +26,7 @@ const PublicationHeader = ({ username, profileImage, type }) => {
 
 PublicationHeader.propTypes = {
   username: PropTypes.string.isRequired,
-  profileImage: PropTypes.string.isRequired,
+  profileImage: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION']).isRequired
 };
 
