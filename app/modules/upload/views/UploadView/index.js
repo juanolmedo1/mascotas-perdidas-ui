@@ -16,7 +16,6 @@ import NavigationService from '@core/utils/navigation';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@upload/views/UploadView/styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const UploadView = ({
   clearPublicationValues,
@@ -203,7 +202,7 @@ UploadView.propTypes = {
     ]),
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.string),
+    similarPublications: PropTypes.arrayOf(PropTypes.object),
     userId: PropTypes.string
   }).isRequired,
   ubications: PropTypes.shape({

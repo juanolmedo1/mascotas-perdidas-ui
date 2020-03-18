@@ -8,6 +8,7 @@ const GET_PUBLICATIONS_QUERY = `query getPublications($province: String!, $locat
       photos {
         id
         data
+        type
       }
     }
     createdAt
