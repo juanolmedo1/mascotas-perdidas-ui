@@ -15,33 +15,53 @@ export default StyleSheet.create({
   carousel: {
     height: 300
   },
-  informationContainer: {
-    marginTop: variables.spacings.S,
+  iconsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    marginHorizontal: variables.spacings.M
   },
   additionalInfoContainer: {
-    padding: variables.spacings.M
+    marginHorizontal: variables.spacings.M,
+    marginBottom: variables.spacings.M
   },
   infoTitle: {
     ...fonts.weights.semibold,
     fontSize: fonts.sizes.L,
-    marginBottom: variables.spacings.S
+    marginBottom: variables.spacings.XS
   },
   text: {
     ...fonts.weights.regular,
     fontSize: fonts.sizes.S
   },
-  phoneNumberContainer: {
-    padding: variables.spacings.M
+  block: {
+    flexDirection: 'row',
+    marginHorizontal: variables.spacings.M
   },
-  phoneTitle: {
-    ...fonts.weights.semibold,
-    fontSize: fonts.sizes.L,
-    marginBottom: variables.spacings.S
+  phoneNumberContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   phone: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.S
+    fontSize: fonts.sizes.S,
+    marginLeft: variables.spacings.S
+  },
+  dateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end'
+  },
+  date: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S,
+    color: variables.colors.textDarkGrey
+  },
+  divider: {
+    height: 0.5,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: variables.colors.backgroundDarkGrey,
+    marginVertical: variables.spacings.S
   }
 });

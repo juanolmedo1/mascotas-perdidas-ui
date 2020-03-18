@@ -4,7 +4,7 @@ import fonts from '@styles/fonts';
 
 export default StyleSheet.create({
   container: {
-    width: 240,
+    width: 260,
     justifyContent: 'center'
   },
   title: {
@@ -13,14 +13,21 @@ export default StyleSheet.create({
     fontSize: fonts.sizes.M,
     marginLeft: variables.spacings.L
   },
-  textInput: {
-    height: 45,
+  textInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderRadius: 4,
-    paddingLeft: variables.spacings.M,
-    marginLeft: variables.spacings.L,
+    borderColor: variables.colors.borderDarkGrey,
+    marginLeft: variables.spacings.L
+  },
+  icon: {
+    marginHorizontal: variables.spacings.S
+  },
+  textInput: {
+    flex: 1,
+    height: 45,
     fontSize: fonts.sizes.M,
-    ...fonts.weights.regular,
-    borderColor: variables.colors.borderDarkGrey
+    ...fonts.weights.regular
   }
 });

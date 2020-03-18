@@ -118,6 +118,10 @@ const FiltersView = ({
             }
           />
           <HasCollar
+            show={
+              newPublication.publicationType !==
+              PUBLICATION_ENTITY.types.adoption
+            }
             hasCollar={newPublication.petCollar}
             onChange={setPetCollar}
           />

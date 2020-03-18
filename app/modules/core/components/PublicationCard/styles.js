@@ -7,12 +7,12 @@ export default StyleSheet.create({
     height: 200,
     width: 150,
     borderRadius: 8,
-    flexDirection: 'column',
-    elevation: 1,
+    alignItems: 'center',
+    elevation: 2,
     margin: variables.spacings.M
   },
   image: {
-    width: 149,
+    width: 148,
     height: 160,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8
@@ -21,11 +21,12 @@ export default StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: variables.spacings.S
   },
   date: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.S
+    fontSize: fonts.sizes.XS
   }
 });

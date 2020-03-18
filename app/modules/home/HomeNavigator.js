@@ -17,9 +17,10 @@ const HomeNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="Publicación"
+        name="Publication"
         component={PublicationView}
         options={{
+          title: 'Publicación',
           headerStyle: {
             elevation: 0
           },
