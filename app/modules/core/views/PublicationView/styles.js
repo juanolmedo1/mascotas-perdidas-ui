@@ -56,12 +56,5 @@ export default StyleSheet.create({
     ...fonts.weights.regular,
     fontSize: fonts.sizes.S,
     color: variables.colors.textDarkGrey
-  },
-  divider: {
-    height: 0.5,
-    width: '90%',
-    alignSelf: 'center',
-    backgroundColor: variables.colors.backgroundDarkGrey,
-    marginVertical: variables.spacings.S
   }
 });

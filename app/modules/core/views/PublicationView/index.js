@@ -17,6 +17,7 @@ import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import variables from '@app/styles/variables';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import DateUtils from '@core/utils/date';
+import Divider from '@core/components/Divider';
 
 const PublicationView = ({
   route,
@@ -60,7 +61,7 @@ const PublicationView = ({
           />
         ))}
       </ScrollView>
-      <View style={styles.divider} />
+      <Divider />
       <View style={styles.block}>
         <View style={styles.phoneNumberContainer}>
           <IconSimple
@@ -74,7 +75,7 @@ const PublicationView = ({
           <Text style={styles.date}>{DateUtils.formatDate(createdAt)}</Text>
         </View>
       </View>
-      <View style={styles.divider} />
+      <Divider />
       <View style={styles.iconsContainer}>
         <PetSizeIcon size={size} />
         <PetGenderIcon type={gender} />
@@ -88,7 +89,7 @@ const PublicationView = ({
 
       {Boolean(additionalInfo) && (
         <View>
-          <View style={styles.divider} />
+          <Divider />
           <View style={styles.additionalInfoContainer}>
             <Text style={styles.infoTitle}>Información Adicional</Text>
             <Text style={styles.text}>{additionalInfo}</Text>

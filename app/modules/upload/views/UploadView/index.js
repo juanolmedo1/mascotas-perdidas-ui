@@ -3,7 +3,6 @@ import { BackHandler, Button as ButtonRN, Text, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
 import * as newPublicationActions from '@upload/store/actions';
 import * as ubicationActions from '@core/store/ubication/actions';
 import { LABELS } from '@upload/views/UploadView/constants';
@@ -11,7 +10,7 @@ import Button from '@core/components/Button';
 import Dropdown from '@core/components/Dropdown';
 import ImagesContainer from '@upload/components/ImagesContainer';
 import LoadingView from '@core/views/LoadingView';
-import Modal from '@core/components/Modal';
+import DialogConfirmBox from '@core/components/DialogConfirmBox';
 import NavigationService from '@core/utils/navigation';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
@@ -158,7 +157,7 @@ const UploadView = ({
         type="primary"
         rightArrow
       />
-      <Modal
+      <DialogConfirmBox
         open={showConfirmBackModal}
         onCancel={cancelBack}
         onConfirm={confirmBack}

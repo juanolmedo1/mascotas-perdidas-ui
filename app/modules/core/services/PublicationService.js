@@ -1,19 +1,35 @@
 import GraphQLClient from '@core/utils/GraphQLClient';
 
-const GET_PUBLICATIONS_QUERY = `query getPublications($province: String!, $location: String!) {
-  getPublications(options: { province: $province, location: $location}) {
-    id
-    type
-    pet {
-      photos {
-        id
-        data
-        type
+const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
+    $province: String!, 
+    $location: String!, 
+    $publicationType: [String!]!, 
+    $petType: [String!]!, 
+    $petGender: [String!]!, 
+    $petSize: [String!]!
+  ){
+    getFilteredPublications(options: { 
+      province: $province
+      location: $location
+      type: $publicationType
+      petFilters: {
+        type: $petType,
+        gender: $petGender,
+        size: $petSize
+      }
+    }){
+      id
+      type
+      createdAt
+      pet {
+        photos {
+          id
+          data
+          type
+        }
       }
     }
-    createdAt
-  }
-}`;
+  }`;
 
 const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
   getPublication(id: $id) {
@@ -56,7 +72,7 @@ const getPublication = async payload => {
 
 const getPublications = async payload => {
   const response = await GraphQLClient.request(GET_PUBLICATIONS_QUERY, payload);
-  return response.getPublications;
+  return response.getFilteredPublications;
 };
 
 export default {

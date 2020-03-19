@@ -10,6 +10,7 @@ import variables from '@app/styles/variables';
 import PublicationCard from '@core/components/PublicationCard';
 import styles from '@home/views/HomeView/styles';
 import EmptyList from '@core/views/EmptyList';
+import NavigationService from '@core/utils/navigation';
 
 const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
@@ -63,7 +64,9 @@ const HomeView = ({ publications, getPublications }) => {
               color={variables.colors.backgroundBlack}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('filters-view')}>
+          <TouchableOpacity
+            onPress={() => NavigationService.navigate('Filters')}
+          >
             <Octicons
               name="settings"
               size={28}
