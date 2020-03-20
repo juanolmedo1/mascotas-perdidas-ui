@@ -4,8 +4,6 @@ const initialState = {
   requestInProgress: false,
   requestFailed: false,
   filters: {
-    province: null,
-    location: null,
     count: 0,
     publicationType: [],
     petType: [],
@@ -45,24 +43,6 @@ export default function(state = initialState, { type, payload }) {
         requestFailed: false,
         requestInProgress: false,
         data: payload
-      };
-
-    case types.SET_PROVINCE_FILTER:
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          province: payload
-        }
-      };
-
-    case types.SET_LOCATION_FILTER:
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          location: payload
-        }
       };
 
     case types.ADD_PUBLICATION_TYPE:

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import * as actionTypes from '@upload/store/actionTypes';
 import {
@@ -7,15 +7,19 @@ import {
 } from '@upload/store/actions';
 import NewPublicationService from '@upload/services/NewPublicationService';
 import NavigationService from '@core/utils/navigation';
+import { getCurrentUbication } from '@login/store/selectors';
 
 export function* onPublicationCreated(action) {
   const { newPublication } = action.payload;
   const photosArrayWithOnlyBase64 = newPublication.photosArray.map(
     photoObject => ({ data: photoObject.data, type: photoObject.mime })
   );
+  const { province, location } = yield select(getCurrentUbication);
   const newPublicationValues = {
     ...newPublication,
-    photosArray: photosArrayWithOnlyBase64
+    photosArray: photosArrayWithOnlyBase64,
+    locationId: province,
+    provinceId: location
   };
   try {
     const similarPublications = yield call(

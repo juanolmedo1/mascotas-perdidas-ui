@@ -10,9 +10,7 @@ export const types = {
   REMOVE_GENDER_TYPE: 'REMOVE_GENDER_TYPE',
   ADD_SIZE_TYPE: 'ADD_SIZE_TYPE',
   REMOVE_SIZE_TYPE: 'REMOVE_SIZE_TYPE',
-  CLEAR_FILTERS: 'CLEAR_FILTERS',
-  SET_LOCATION_FILTER: 'SET_LOCATION_FILTER',
-  SET_PROVINCE_FILTER: 'SET_PROVINCE_FILTER'
+  CLEAR_FILTERS: 'CLEAR_FILTERS'
 };
 
 export const fetchPublications = () => ({
@@ -31,16 +29,6 @@ export const fetchPublicationsSuccess = publications => ({
 
 export const clearFilters = () => ({
   type: types.CLEAR_FILTERS
-});
-
-export const setLocationFilter = payload => ({
-  payload,
-  type: types.SET_LOCATION_FILTER
-});
-
-export const setProvinceFilter = payload => ({
-  payload,
-  type: types.SET_PROVINCE_FILTER
 });
 
 export const addPublicationType = payload => ({

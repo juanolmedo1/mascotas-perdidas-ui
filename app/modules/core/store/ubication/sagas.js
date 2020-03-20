@@ -23,7 +23,6 @@ export function* fetchLocations(action) {
     const response = yield call(UbicationService.getLocations, payload);
     yield put(fetchLocationsSuccess(response));
   } catch (error) {
-    console.log(error);
     yield put(fetchLocationsFailure(error));
   }
 }

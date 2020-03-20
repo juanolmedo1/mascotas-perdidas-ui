@@ -5,14 +5,12 @@ import PUBLICATION_ENTITY from '@entities/Publication';
 const initialState = {
   additionalInformation: '',
   hasChanges: false,
-  locationId: null,
   petCollar: false,
   petGender: PET_ENTITY.genders.male,
   petSize: PET_ENTITY.sizes.medium,
   petType: PET_ENTITY.types.dog,
   phoneNumber: null,
   photosArray: [],
-  provinceId: null,
   publicationReward: false,
   publicationType: PUBLICATION_ENTITY.types.lost,
   requestFailed: false,
@@ -57,11 +55,6 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         hasChanges: true
       };
-    case actionTypes.SET_LOCATION_ID:
-      return {
-        ...state,
-        locationId: payload.locationId
-      };
     case actionTypes.SET_PET_COLLAR:
       return {
         ...state,
@@ -91,11 +84,6 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         phoneNumber: payload.phoneNumber
-      };
-    case actionTypes.SET_PROVINCE_ID:
-      return {
-        ...state,
-        provinceId: payload.provinceId
       };
     case actionTypes.SET_PUBLICATION_REWARD:
       return {

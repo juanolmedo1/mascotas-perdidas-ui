@@ -3,6 +3,10 @@ import { types } from '@login/store/actions';
 const initialState = {
   requestInProgress: false,
   requestFailed: false,
+  currentUbication: {
+    province: '06',
+    location: '06056010001'
+  },
   profileInfo: {
     id: 'abc0a8f5-e329-4d78-9100-1f40725bd6f4',
     firstName: 'Juan',
@@ -64,6 +68,22 @@ export default function(state = initialState, { type, payload }) {
         requestFailed: false,
         requestInProgress: false,
         profileInfo: payload
+      };
+    case types.SET_CURRENT_PROVINCE:
+      return {
+        ...state,
+        currentUbication: {
+          ...state.currentUbication,
+          province: payload
+        }
+      };
+    case types.SET_CURRENT_LOCATION:
+      return {
+        ...state,
+        currentUbication: {
+          ...state.currentUbication,
+          location: payload
+        }
       };
     default:
       return state;
