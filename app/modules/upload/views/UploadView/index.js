@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import * as newPublicationActions from '@upload/store/actions';
 import * as ubicationActions from '@core/store/ubication/actions';
+import { setCurrentLocation, setCurrentProvince } from '@login/store/actions';
 import { LABELS } from '@upload/views/UploadView/constants';
 import Button from '@core/components/Button';
 import Dropdown from '@core/components/Dropdown';
@@ -77,30 +78,22 @@ const UploadView = ({
       BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, [navigation, newPublication.hasChanges]);
 
-  const {
-    id: userId,
-    ubication: userUbication,
-    phoneNumber: userPhoneNumber
-  } = session.profileInfo;
+  const { id: userId, phoneNumber: userPhoneNumber } = session.profileInfo;
+  const { province, location } = session.currentUbication;
 
   useEffect(() => {
     getProvinces();
-    getLocations(userUbication.province.id);
+    getLocations(province);
     setPhoneNumber(userPhoneNumber);
-    setPublicationProvinceId(userUbication.province.id);
-    setPublicationLocationId(userUbication.location.id);
     setUserId(userId);
   }, [
     getLocations,
     getProvinces,
+    province,
     setPhoneNumber,
-    setPublicationLocationId,
-    setPublicationProvinceId,
     setUserId,
     userId,
-    userPhoneNumber,
-    userUbication.location.id,
-    userUbication.province.id
+    userPhoneNumber
   ]);
 
   const updateProvince = value => {
@@ -140,13 +133,13 @@ const UploadView = ({
         <Dropdown
           data={provinces}
           changeValue={updateProvince}
-          selectedValue={newPublication.provinceId}
+          selectedValue={province}
           title={LABELS.dropdowns.province}
         />
         <Dropdown
           data={locations}
           changeValue={updateLocation}
-          selectedValue={newPublication.locationId}
+          selectedValue={location}
           title={LABELS.dropdowns.location}
         />
       </View>
@@ -181,7 +174,6 @@ UploadView.propTypes = {
   newPublication: PropTypes.shape({
     additionalInformation: PropTypes.string,
     hasChanges: PropTypes.bool,
-    locationId: PropTypes.string,
     petCollar: PropTypes.bool,
     petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
     petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]),
@@ -194,7 +186,6 @@ UploadView.propTypes = {
         path: PropTypes.string
       })
     ),
-    provinceId: PropTypes.string,
     publicationReward: PropTypes.bool,
     publicationType: PropTypes.oneOf([
       ...Object.values(PUBLICATION_ENTITY.types)
@@ -221,12 +212,10 @@ const mapDispatchToProps = {
   setHasChanges: () => newPublicationActions.setHasChanges(),
   setPhoneNumber: phoneNumber =>
     newPublicationActions.setPhoneNumber(phoneNumber),
-  setPublicationLocationId: locationId =>
-    newPublicationActions.setLocationId(locationId),
   setPublicationPhotosArray: photosArray =>
     newPublicationActions.setPhotosArray(photosArray),
-  setPublicationProvinceId: provinceId =>
-    newPublicationActions.setProvinceId(provinceId),
+  setPublicationProvinceId: provinceId => setCurrentProvince(provinceId),
+  setPublicationLocationId: locationId => setCurrentLocation(locationId),
   setUserId: userId => newPublicationActions.setUserId(userId)
 };
 

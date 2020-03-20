@@ -6,24 +6,20 @@ import {
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import PublicationService from '@core/services/PublicationService';
 import { getFilters } from '@home/store/selectors';
-import { getProfile } from '@login/store/selectors';
+import { getCurrentUbication } from '@login/store/selectors';
 import NavigationService from '@core/utils/navigation';
 
 export function* fetchPublications() {
   try {
-    let filters = yield select(getFilters);
-    const { province, location } = filters;
-    if (!province || !location) {
-      const profile = yield select(getProfile);
-      filters = {
-        ...filters,
-        province: profile.ubication.province.id,
-        location: profile.ubication.location.id
-      };
-    }
+    const filters = yield select(getFilters);
+    const currentUbication = yield select(getCurrentUbication);
+    const filtersWithUbication = {
+      ...filters,
+      ...currentUbication
+    };
     const publications = yield call(
       PublicationService.getPublications,
-      filters
+      filtersWithUbication
     );
     yield put(fetchPublicationsSuccess(publications));
     yield NavigationService.navigate('Home');

@@ -26,20 +26,6 @@ const ProfileHeader = ({ profile }) => {
             color={variables.colors.backgroundBlue}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.likesIcon}>
-          <IconAnt
-            name="hearto"
-            size={28}
-            color={variables.colors.backgroundRed}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.notificationsIcon}>
-          <IconFeather
-            name="bell"
-            size={30}
-            color={variables.colors.backgroundGreen}
-          />
-        </TouchableOpacity>
         <TouchableOpacity style={styles.settingIcon}>
           <IconAnt
             name="setting"

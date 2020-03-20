@@ -20,10 +20,9 @@ import {
   addGenderType,
   removeGenderType,
   addSizeType,
-  removeSizeType,
-  setProvinceFilter,
-  setLocationFilter
+  removeSizeType
 } from '@home/store/actions';
+import { setCurrentLocation, setCurrentProvince } from '@login/store/actions';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import variables from '@app/styles/variables';
 import { LABELS } from '@home/views/FiltersView/constants';
@@ -40,7 +39,6 @@ const FiltersView = ({
   getProvinces,
   getLocations,
   ubications,
-  profile,
   clear,
   addPublication,
   removePublication,
@@ -49,27 +47,16 @@ const FiltersView = ({
   addGender,
   removeGender,
   addSize,
-  removeSize
+  removeSize,
+  currentUbication
 }) => {
   const { publicationType, petType, petGender, petSize, count } = filters;
-  const { ubication } = profile;
+  const { province, location } = currentUbication;
+
   useEffect(() => {
     getProvinces();
-    getLocations(ubication.province.id);
-    if (!filters.province || !filters.location) {
-      setProvince(ubication.province.id);
-      setLocation(ubication.location.id);
-    }
-  }, [
-    filters.location,
-    filters.province,
-    getLocations,
-    getProvinces,
-    setLocation,
-    setProvince,
-    ubication.location.id,
-    ubication.province.id
-  ]);
+    getLocations(province);
+  }, [getProvinces, getLocations, province]);
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -173,13 +160,13 @@ const FiltersView = ({
           <Dropdown
             data={provinces}
             changeValue={updateProvince}
-            selectedValue={filters.province}
+            selectedValue={province}
             title={LABELS.dropdowns.province}
           />
           <Dropdown
             data={locations}
             changeValue={updateLocation}
-            selectedValue={filters.location}
+            selectedValue={location}
             title={LABELS.dropdowns.location}
           />
         </View>
@@ -206,8 +193,8 @@ const mapDispatchToProps = {
   getFilteredPublications: fetchPublications,
   getLocations: fetchLocations,
   getProvinces: fetchProvinces,
-  setProvince: setProvinceFilter,
-  setLocation: setLocationFilter,
+  setProvince: setCurrentProvince,
+  setLocation: setCurrentLocation,
   clear: clearFilters,
   addPublication: addPublicationType,
   removePublication: removePublicationType,
@@ -222,7 +209,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   filters: state.publications.filters,
   ubications: state.ubications,
-  profile: state.session.profileInfo
+  currentUbication: state.session.currentUbication
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiltersView);
