@@ -3,6 +3,7 @@ import GraphQLClient from '@core/utils/GraphQLClient';
 const NEW_PUBLICATION_MUTATION = `mutation createPublication(
     $additionalInformation: String,
     $locationId: String!,
+    $petColors: [String!]!,
     $petCollar: Boolean!,
     $petGender: String!,
     $petType: String!,
@@ -21,7 +22,7 @@ const NEW_PUBLICATION_MUTATION = `mutation createPublication(
             type: $petType,
             gender: $petGender,
             size: $petSize,
-            color: ["#ffffff"],
+            color: $petColors,
             collar: $petCollar,
             photosData: $photosArray
         },

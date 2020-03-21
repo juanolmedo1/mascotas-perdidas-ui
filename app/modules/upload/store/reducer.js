@@ -4,7 +4,10 @@ import PUBLICATION_ENTITY from '@entities/Publication';
 
 const initialState = {
   additionalInformation: '',
+  extractedColors: [],
+  extractingColors: false,
   hasChanges: false,
+  petColors: [],
   petCollar: false,
   petGender: PET_ENTITY.genders.male,
   petSize: PET_ENTITY.sizes.medium,
@@ -17,6 +20,33 @@ const initialState = {
   requestInProgress: false,
   similarPublications: [],
   userId: null
+};
+
+const MAX_SELECTED_COLORS = 3;
+const handleSelectedColors = (state, { petColor }) => {
+  if (!petColor) {
+    return {
+      ...state,
+      petColors: []
+    };
+  }
+  let newSelectedColors = [...state.petColors];
+  const isSelected = newSelectedColors.includes(petColor);
+  if (isSelected) {
+    newSelectedColors = newSelectedColors.filter(
+      selectedColor => selectedColor !== petColor
+    );
+  } else {
+    const canSelectNewColor = newSelectedColors.length < MAX_SELECTED_COLORS;
+    if (!canSelectNewColor) {
+      newSelectedColors.splice(0, 1);
+    }
+    newSelectedColors.push(petColor);
+  }
+  return {
+    ...state,
+    petColors: newSelectedColors
+  };
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -50,6 +80,16 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         additionalInformation: payload.additionalInformation
       };
+    case actionTypes.SET_EXTRACTED_COLORS:
+      return {
+        ...state,
+        extractedColors: payload.newExtractedColors
+      };
+    case actionTypes.SET_EXTRACTING_COLORS:
+      return {
+        ...state,
+        extractingColors: payload.extractingColors
+      };
     case actionTypes.SET_HAS_CHANGES:
       return {
         ...state,
@@ -60,6 +100,8 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         petCollar: payload.hasCollar
       };
+    case actionTypes.SET_PET_COLOR:
+      return handleSelectedColors(state, payload);
     case actionTypes.SET_PET_GENDER:
       return {
         ...state,
