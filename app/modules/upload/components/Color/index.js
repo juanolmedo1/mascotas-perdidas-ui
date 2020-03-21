@@ -7,11 +7,15 @@ import styles from '@upload/components/Color/styles';
 const Color = ({ color, isSelected, onSelect }) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.5}
+      activeOpacity={0.8}
       onPress={() => onSelect(color)}
-      style={isSelected ? styles.colorContainerSelected : styles.colorContainer}
+      style={styles.colorContainer}
     >
-      <View style={{ ...styles.color, backgroundColor: color }} />
+      <View
+        style={isSelected ? styles.colorWrapperSelected : styles.colorWrapper}
+      >
+        <View style={{ ...styles.color, backgroundColor: color }} />
+      </View>
     </TouchableOpacity>
   );
 };

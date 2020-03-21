@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
 
-const colorContainerStyles = {
-  width: '15%',
+const wrapper = {
+  width: 36,
+  height: 36,
+  borderRadius: 18,
+  borderWidth: 4,
   justifyContent: 'center',
-  alignItems: 'center',
-  padding: variables.spacings.XXS,
-  margin: variables.spacings.XXS
+  alignItems: 'center'
 };
 
 export default StyleSheet.create({
@@ -18,11 +19,18 @@ export default StyleSheet.create({
     borderColor: variables.colors.borderBlack
   },
   colorContainer: {
-    ...colorContainerStyles
+    width: '15%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: variables.spacings.XXS,
+    margin: variables.spacings.XXS
   },
-  colorContainerSelected: {
-    ...colorContainerStyles,
-    borderBottomWidth: 2,
+  colorWrapper: {
+    ...wrapper,
+    borderColor: 'transparent'
+  },
+  colorWrapperSelected: {
+    ...wrapper,
     borderColor: variables.colors.borderGreen
   }
 });
