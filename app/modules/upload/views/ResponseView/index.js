@@ -97,9 +97,12 @@ ResponseView.propTypes = {
   clearPublicationValues: PropTypes.func,
   newPublication: PropTypes.shape({
     additionalInformation: PropTypes.string,
+    extractedColors: PropTypes.array,
+    extractingColors: PropTypes.bool,
     hasChanges: PropTypes.bool,
     locationId: PropTypes.string,
     petCollar: PropTypes.bool,
+    petColors: PropTypes.arrayOf(PropTypes.string),
     petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
     petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]),
     petType: PropTypes.oneOf([...Object.values(PET_ENTITY.types)]),

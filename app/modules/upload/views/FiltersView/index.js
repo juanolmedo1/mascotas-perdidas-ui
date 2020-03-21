@@ -7,8 +7,9 @@ import * as newPublicationActions from '@upload/store/actions';
 import { LABELS } from '@upload/views/FiltersView/constants';
 import AdditionalInformation from '@upload/components/AdditionalInformation';
 import Button from '@core/components/Button';
-import ColorsSelection from '@upload/components/ColorsSelection';
+import ColorSelector from '@app/modules/upload/components/ColorSelector';
 import HasCollar from '@upload/components/HasCollar';
+import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
@@ -25,6 +26,7 @@ const FiltersView = ({
   navigation,
   newPublication,
   //setAdditionalInformation,
+  setPetColor,
   setPetCollar,
   setPetGender,
   setPetType,
@@ -50,10 +52,6 @@ const FiltersView = ({
       BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, [navigation]);
 
-  useEffect(() => {
-    console.log('SIMILAR PUBLICATIONS', similarPublications);
-  }, [newPublication, similarPublications]);
-
   const [phoneNumberText, setPhoneNumberText] = useState(
     newPublication.phoneNumber
   );
@@ -74,6 +72,12 @@ const FiltersView = ({
     };
     createPublication(newPublicationValues);
   };
+
+  const hasSelectedColor = newPublication.petColors.length > 0;
+
+  if (newPublication.extractingColors) {
+    return <LoadingView />;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -106,7 +110,11 @@ const FiltersView = ({
         />
       </View>
       <View style={styles.block}>
-        <ColorsSelection />
+        <ColorSelector
+          extractedColors={newPublication.extractedColors}
+          selectedColors={newPublication.petColors}
+          onSelect={setPetColor}
+        />
       </View>
       <View style={styles.block}>
         <View style={styles.rewardContainer}>
@@ -141,6 +149,7 @@ const FiltersView = ({
           onPress={createNewPublication}
           type="primary"
           loading={requestInProgress}
+          disabled={!hasSelectedColor}
         />
       </View>
     </ScrollView>
@@ -160,9 +169,12 @@ FiltersView.propTypes = {
   setPublicationType: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
     additionalInformation: PropTypes.string,
+    extractedColors: PropTypes.array,
+    extractingColors: PropTypes.bool,
     hasChanges: PropTypes.bool,
     locationId: PropTypes.string,
     petCollar: PropTypes.bool,
+    petColors: PropTypes.arrayOf(PropTypes.string),
     petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
     petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]),
     petType: PropTypes.oneOf([...Object.values(PET_ENTITY.types)]),
@@ -190,6 +202,7 @@ const mapDispatchToProps = {
   createPublication: newPublication =>
     newPublicationActions.createPublicationRequest(newPublication),
   // setAdditionalInformation: additionalInformation => newPublicationActions.setAdditionalInformation(additionalInformation),
+  setPetColor: petColor => newPublicationActions.setPetColor(petColor),
   setPetCollar: hasCollar => newPublicationActions.setPetCollar(hasCollar),
   setPetGender: petGender => newPublicationActions.setPetGender(petGender),
   setPetType: petType => newPublicationActions.setPetType(petType),

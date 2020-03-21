@@ -4,12 +4,16 @@ import {
 } from '@core/store/ubication/sagas';
 import { fetchLoginSaga } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
-import { onPublicationCreatedSaga } from '@upload/store/sagas';
+import {
+  onPublicationCreatedSaga,
+  onSelectedImagesSaga
+} from '@upload/store/sagas';
 
 export default {
   fetchLocationsSaga,
   fetchLoginSaga,
   fetchProvincesSaga,
   fetchPublicationsSaga,
-  onPublicationCreatedSaga
+  onPublicationCreatedSaga,
+  onSelectedImagesSaga
 };

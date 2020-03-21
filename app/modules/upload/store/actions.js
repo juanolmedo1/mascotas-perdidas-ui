@@ -18,10 +18,21 @@ export const createPublicationFail = error =>
 export const createPublicationSuccess = similarPublications =>
   createAction(actionTypes.CREATE_PUBLICATION_SUCCESS, { similarPublications });
 
+export const getExtractedColors = selectedImages =>
+  createAction(actionTypes.GET_EXTRACTED_COLORS, { selectedImages });
+
 export const setAdditionalInformation = additionalInformation =>
   createAction(actionTypes.SET_ADDITIONAL_INFORMATION, {
     additionalInformation
   });
+
+export const setExtractedColors = newExtractedColors =>
+  createAction(actionTypes.SET_EXTRACTED_COLORS, {
+    newExtractedColors
+  });
+
+export const setExtractingColors = extractingColors =>
+  createAction(actionTypes.SET_EXTRACTING_COLORS, { extractingColors });
 
 export const setHasChanges = () => createAction(actionTypes.SET_HAS_CHANGES);
 
@@ -30,6 +41,9 @@ export const setLocationId = locationId =>
 
 export const setPetCollar = hasCollar =>
   createAction(actionTypes.SET_PET_COLLAR, { hasCollar });
+
+export const setPetColor = petColor =>
+  createAction(actionTypes.SET_PET_COLOR, { petColor });
 
 export const setPetGender = petGender =>
   createAction(actionTypes.SET_PET_GENDER, { petGender });
@@ -43,9 +57,8 @@ export const setPetSize = petSize =>
 export const setPhotosArray = photosArray =>
   createAction(actionTypes.SET_PHOTOS_ARRAY, { photosArray });
 
-export const setPhoneNumber = phoneNumber => {
-  return createAction(actionTypes.SET_PHONE_NUMBER, { phoneNumber });
-};
+export const setPhoneNumber = phoneNumber =>
+  createAction(actionTypes.SET_PHONE_NUMBER, { phoneNumber });
 
 export const setProvinceId = provinceId =>
   createAction(actionTypes.SET_PROVINCE_ID, { provinceId });

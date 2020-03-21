@@ -1,5 +1,5 @@
+import { BackHandler, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { BackHandler, Button as ButtonRN, Text, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -16,17 +16,19 @@ import NavigationService from '@core/utils/navigation';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@upload/views/UploadView/styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const UploadView = ({
   clearPublicationValues,
+  getExtractedColors,
   getProvinces,
   getLocations,
   newPublication,
   navigation,
   ubications,
   session,
+  setExtractedColors,
   setHasChanges,
+  setPetColor,
   setPhoneNumber,
   setPublicationLocationId,
   setPublicationProvinceId,
@@ -46,7 +48,13 @@ const UploadView = ({
     setShowConfirmBackModal(false);
   };
 
+  const clearColorsValues = () => {
+    setExtractedColors([]);
+    setPetColor();
+  };
+
   const openImagePicker = () => {
+    clearColorsValues();
     ImagePicker.openPicker({
       multiple: true,
       includeBase64: true,
@@ -117,6 +125,7 @@ const UploadView = ({
   };
 
   const navigateToFilters = () => {
+    getExtractedColors(newPublication.photosArray);
     const routeNameToNavigate = 'Filters';
     NavigationService.navigate(routeNameToNavigate);
   };
@@ -173,18 +182,25 @@ const UploadView = ({
 
 UploadView.propTypes = {
   clearPublicationValues: PropTypes.func,
+  getExtractedColors: PropTypes.func,
   getProvinces: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
+  setExtractedColors: PropTypes.func.isRequired,
   setHasChanges: PropTypes.func.isRequired,
+  setPetColor: PropTypes.func.isRequired,
+  setPhoneNumber: PropTypes.func.isRequired,
   setPublicationLocationId: PropTypes.func.isRequired,
   setPublicationProvinceId: PropTypes.func.isRequired,
   setPublicationPhotosArray: PropTypes.func.isRequired,
   setUserId: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
     additionalInformation: PropTypes.string,
+    extractedColors: PropTypes.array,
+    extractingColors: PropTypes.bool,
     hasChanges: PropTypes.bool,
     locationId: PropTypes.string,
     petCollar: PropTypes.bool,
+    petColors: PropTypes.arrayOf(PropTypes.string),
     petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
     petSize: PropTypes.oneOf([...Object.values(PET_ENTITY.sizes)]),
     petType: PropTypes.oneOf([...Object.values(PET_ENTITY.types)]),
@@ -218,9 +234,14 @@ UploadView.propTypes = {
 
 const mapDispatchToProps = {
   clearPublicationValues: () => newPublicationActions.clearStore(),
+  getExtractedColors: selectedImages =>
+    newPublicationActions.getExtractedColors(selectedImages),
   getLocations: ubicationActions.fetchLocations,
   getProvinces: ubicationActions.fetchProvinces,
+  setExtractedColors: newExtractedColors =>
+    newPublicationActions.setExtractedColors(newExtractedColors),
   setHasChanges: () => newPublicationActions.setHasChanges(),
+  setPetColor: petColor => newPublicationActions.setPetColor(petColor),
   setPhoneNumber: phoneNumber =>
     newPublicationActions.setPhoneNumber(phoneNumber),
   setPublicationLocationId: locationId =>
