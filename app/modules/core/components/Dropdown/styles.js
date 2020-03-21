@@ -30,7 +30,7 @@ export default StyleSheet.create({
     ...fonts.weights.regular,
     fontSize: fonts.sizes.M,
     marginBottom: variables.spacings.XS,
-    color: variables.colors.textDarkGrey
+    color: variables.colors.textBlack
   },
   activePickerContainer: {
     ...basePickerContainer,

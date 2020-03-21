@@ -6,8 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: variables.colors.backgroundWhite
+    alignItems: 'center'
   },
   title: {
     ...fonts.weights.semibold,

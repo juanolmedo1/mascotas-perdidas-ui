@@ -1,12 +1,20 @@
 import { connect } from 'react-redux';
-import { BackHandler, Text, TouchableOpacity, View } from 'react-native';
+import {
+  BackHandler,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 
 import * as newPublicationActions from '@upload/store/actions';
+import { backgroundStyles, imageStyles } from '@styles/background';
 import Feather from 'react-native-vector-icons/Feather';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import NavigationService from '@core/utils/navigation';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import SimilarPublications from '@upload/components/SimilarPublications';
@@ -63,32 +71,38 @@ const ResponseView = ({ clearPublicationValues, newPublication }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.responseContainer}>
-        <View style={styles.close}>
-          <TouchableOpacity
-            style={styles.icon}
-            onPress={requestFailed ? closeWithFailures : closeWithSuccess}
-          >
-            <IconAnt
-              name="close"
-              size={30}
-              color={variables.colors.backgroundDarkGrey}
+      <ImageBackground
+        imageStyle={imageStyles}
+        source={patternBackground}
+        style={backgroundStyles}
+      >
+        <View style={styles.responseContainer}>
+          <View style={styles.close}>
+            <TouchableOpacity
+              style={styles.icon}
+              onPress={requestFailed ? closeWithFailures : closeWithSuccess}
+            >
+              <IconAnt
+                name="close"
+                size={30}
+                color={variables.colors.backgroundDarkGrey}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.response}>
+            <View style={iconContainerStyle}>{icon}</View>
+            <Text style={styles.title}>{responseText}</Text>
+          </View>
+        </View>
+        {!requestFailed &&
+          Boolean(similarPublications.length) &&
+          publicationType !== PUBLICATION_ENTITY.types.adoption && (
+            <SimilarPublications
+              publicationType={publicationType}
+              publications={similarPublications}
             />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.response}>
-          <View style={iconContainerStyle}>{icon}</View>
-          <Text style={styles.title}>{responseText}</Text>
-        </View>
-      </View>
-      {!requestFailed &&
-        Boolean(similarPublications.length) &&
-        publicationType !== PUBLICATION_ENTITY.types.adoption && (
-          <SimilarPublications
-            publicationType={publicationType}
-            publications={similarPublications}
-          />
-        )}
+          )}
+      </ImageBackground>
     </View>
   );
 };
@@ -100,7 +114,6 @@ ResponseView.propTypes = {
     extractedColors: PropTypes.array,
     extractingColors: PropTypes.bool,
     hasChanges: PropTypes.bool,
-    locationId: PropTypes.string,
     petCollar: PropTypes.bool,
     petColors: PropTypes.arrayOf(PropTypes.string),
     petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
@@ -114,7 +127,6 @@ ResponseView.propTypes = {
         path: PropTypes.string
       })
     ),
-    provinceId: PropTypes.string,
     publicationReward: PropTypes.bool,
     publicationType: PropTypes.oneOf([
       ...Object.values(PUBLICATION_ENTITY.types)

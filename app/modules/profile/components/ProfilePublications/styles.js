@@ -5,8 +5,7 @@ const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: variables.colors.backgroundWhite
+    flex: 1
   },
   scrollContainer: {
     flexDirection: 'row',
