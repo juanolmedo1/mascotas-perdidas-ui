@@ -21,8 +21,8 @@ export function* onPublicationCreated(action) {
   const newPublicationValues = {
     ...newPublication,
     photosArray: photosArrayWithOnlyBase64,
-    locationId: province,
-    provinceId: location
+    locationId: location,
+    provinceId: province
   };
   try {
     const similarPublications = yield call(
