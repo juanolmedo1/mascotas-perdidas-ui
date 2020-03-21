@@ -1,4 +1,10 @@
-import { BackHandler, ImageBackground, Text, View } from 'react-native';
+import {
+  BackHandler,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
@@ -65,15 +71,26 @@ const UploadView = ({
     })
       .then(images => {
         const MAX_SIZE = 3;
-        const imagesMapped = images.slice(0, MAX_SIZE).map(image => {
-          return { data: image.data, mime: image.mime, path: image.path };
-        });
+        const imagesMapped = images
+          .reverse()
+          .slice(0, MAX_SIZE)
+          .map(image => {
+            return { data: image.data, mime: image.mime, path: image.path };
+          });
         setHasChanges();
         setPublicationPhotosArray(imagesMapped);
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const cancelAction = () => {
+    if (newPublication.hasChanges) {
+      setShowConfirmBackModal(true);
+    } else {
+      NavigationService.goBack();
+    }
   };
 
   useEffect(() => {
@@ -140,6 +157,18 @@ const UploadView = ({
       style={backgroundStyles}
     >
       <View style={styles.container}>
+        <View style={styles.customHeader}>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => cancelAction()}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.cancelText}>{LABELS.buttons.cancel}</Text>
+          </TouchableOpacity>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{LABELS.title}</Text>
+          </View>
+        </View>
         <ImagesContainer images={newPublication.photosArray} />
         <Text style={styles.text}> {LABELS.photosInstructions} </Text>
         <Button

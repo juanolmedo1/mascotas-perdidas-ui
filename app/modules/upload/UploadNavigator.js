@@ -16,18 +16,7 @@ const UploadNavigator = () => {
         name="Upload"
         component={UploadView}
         options={{
-          headerStyle: {
-            elevation: 0
-          },
-          title: 'Nueva Publicación',
-          headerTitleAlign: 'center',
-          headerTintColor: variables.colors.textBlack,
-          headerTitleStyle: {
-            fontSize: fonts.sizes.L,
-            ...fonts.weights.semibold,
-            letterSpacing: 1,
-            color: variables.colors.textBlack
-          }
+          headerShown: false
         }}
       />
       <Stack.Screen

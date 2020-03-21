@@ -1,7 +1,9 @@
 export const LABELS = {
+  title: 'Nueva Publicación',
   buttons: {
     addPhotos: '+ Cargar fotos',
-    goToFilters: 'Continuar'
+    goToFilters: 'Continuar',
+    cancel: 'Cancelar'
   },
   dropdowns: {
     location: 'Localidad',
