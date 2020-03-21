@@ -121,7 +121,7 @@ ResponseView.propTypes = {
     ]),
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.string),
+    similarPublications: PropTypes.arrayOf(PropTypes.object),
     userId: PropTypes.string
   }).isRequired
 };

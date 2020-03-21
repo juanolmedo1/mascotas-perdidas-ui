@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-
 import fonts from '@app/styles/fonts';
 import variables from '@styles/variables';
 
@@ -11,22 +10,23 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   mainText: {
-    ...fonts.weights.bold,
+    ...fonts.weights.regular,
     fontSize: fonts.sizes.L,
     textAlign: 'center'
   },
-  mainTextContainer: {
-    flex: 1,
+  content: {
+    flex: 2,
+    width: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: variables.spacings.S
   },
   modalContainer: {
     width: 300,
     height: 200,
     padding: 5,
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: variables.colors.borderOrange,
+    borderRadius: 8,
+    elevation: 10,
     backgroundColor: variables.colors.backgroundWhite
   },
   modalScreen: {
@@ -35,28 +35,40 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: variables.colors.backgroundLightGrey,
-    opacity: 0.8
+    opacity: 0.95
   },
-  option: {
-    flex: 1,
+  confirmOption: {
+    width: 110,
+    height: 30,
     alignItems: 'center',
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: variables.colors.borderOrange,
-    padding: variables.spacings.XXS,
-    marginVertical: variables.spacings.S,
-    marginHorizontal: variables.spacings.S,
-    backgroundColor: variables.colors.backgroundWhite
+    justifyContent: 'center',
+    borderRadius: 4,
+    backgroundColor: variables.colors.backgroundOrange
+  },
+  cancelOption: {
+    width: 110,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: variables.colors.borderBlack
   },
   optionsContainer: {
     flex: 1,
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
-  optionText: {
-    ...fonts.weights.bold,
+  cancelText: {
+    ...fonts.weights.regular,
     fontSize: fonts.sizes.M,
-    color: variables.colors.textOrange
+    color: variables.colors.textBlack
+  },
+  confirmText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.M,
+    color: variables.colors.textWhite
   }
 });

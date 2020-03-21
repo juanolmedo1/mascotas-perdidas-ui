@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
 import * as newPublicationActions from '@upload/store/actions';
 import * as ubicationActions from '@core/store/ubication/actions';
+import { setCurrentLocation, setCurrentProvince } from '@login/store/actions';
 import { LABELS } from '@upload/views/UploadView/constants';
 import Button from '@core/components/Button';
 import Dropdown from '@core/components/Dropdown';
 import ImagesContainer from '@upload/components/ImagesContainer';
 import LoadingView from '@core/views/LoadingView';
-import Modal from '@core/components/Modal';
+import DialogConfirmBox from '@core/components/DialogConfirmBox';
 import NavigationService from '@core/utils/navigation';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
@@ -87,30 +87,22 @@ const UploadView = ({
       BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, [navigation, newPublication.hasChanges]);
 
-  const {
-    id: userId,
-    ubication: userUbication,
-    phoneNumber: userPhoneNumber
-  } = session.profileInfo;
+  const { id: userId, phoneNumber: userPhoneNumber } = session.profileInfo;
+  const { province, location } = session.currentUbication;
 
   useEffect(() => {
     getProvinces();
-    getLocations(userUbication.province.id);
+    getLocations(province);
     setPhoneNumber(userPhoneNumber);
-    setPublicationProvinceId(userUbication.province.id);
-    setPublicationLocationId(userUbication.location.id);
     setUserId(userId);
   }, [
     getLocations,
     getProvinces,
+    province,
     setPhoneNumber,
-    setPublicationLocationId,
-    setPublicationProvinceId,
     setUserId,
     userId,
-    userPhoneNumber,
-    userUbication.location.id,
-    userUbication.province.id
+    userPhoneNumber
   ]);
 
   const updateProvince = value => {
@@ -151,13 +143,13 @@ const UploadView = ({
         <Dropdown
           data={provinces}
           changeValue={updateProvince}
-          selectedValue={newPublication.provinceId}
+          selectedValue={province}
           title={LABELS.dropdowns.province}
         />
         <Dropdown
           data={locations}
           changeValue={updateLocation}
-          selectedValue={newPublication.locationId}
+          selectedValue={location}
           title={LABELS.dropdowns.location}
         />
       </View>
@@ -168,7 +160,7 @@ const UploadView = ({
         type="primary"
         rightArrow
       />
-      <Modal
+      <DialogConfirmBox
         open={showConfirmBackModal}
         onCancel={cancelBack}
         onConfirm={confirmBack}
@@ -198,7 +190,6 @@ UploadView.propTypes = {
     extractedColors: PropTypes.array,
     extractingColors: PropTypes.bool,
     hasChanges: PropTypes.bool,
-    locationId: PropTypes.string,
     petCollar: PropTypes.bool,
     petColors: PropTypes.arrayOf(PropTypes.string),
     petGender: PropTypes.oneOf([...Object.values(PET_ENTITY.genders)]),
@@ -212,14 +203,13 @@ UploadView.propTypes = {
         path: PropTypes.string
       })
     ),
-    provinceId: PropTypes.string,
     publicationReward: PropTypes.bool,
     publicationType: PropTypes.oneOf([
       ...Object.values(PUBLICATION_ENTITY.types)
     ]),
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.string),
+    similarPublications: PropTypes.arrayOf(PropTypes.object),
     userId: PropTypes.string
   }).isRequired,
   ubications: PropTypes.shape({
@@ -244,12 +234,10 @@ const mapDispatchToProps = {
   setPetColor: petColor => newPublicationActions.setPetColor(petColor),
   setPhoneNumber: phoneNumber =>
     newPublicationActions.setPhoneNumber(phoneNumber),
-  setPublicationLocationId: locationId =>
-    newPublicationActions.setLocationId(locationId),
   setPublicationPhotosArray: photosArray =>
     newPublicationActions.setPhotosArray(photosArray),
-  setPublicationProvinceId: provinceId =>
-    newPublicationActions.setProvinceId(provinceId),
+  setPublicationProvinceId: provinceId => setCurrentProvince(provinceId),
+  setPublicationLocationId: locationId => setCurrentLocation(locationId),
   setUserId: userId => newPublicationActions.setUserId(userId)
 };
 

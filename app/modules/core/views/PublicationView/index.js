@@ -1,38 +1,58 @@
 import { connect } from 'react-redux';
 import { Image, Text, View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect } from 'react';
+import {
+  fetchPublication,
+  clearCurrentPublication
+} from '@core/store/currentPublication/actions';
 import LoadingView from '@core/views/LoadingView';
 import PublicationHeader from '@core/components/PublicationHeader';
 import styles from '@core/views/PublicationView/styles';
+import PetGenderIcon from '@core/components/PetGenderIcon';
+import PetSizeIcon from '@core/components/PetSizeIcon';
+import PetHasCollarIcon from '@core/components/PetHasCollarIcon';
+import PetHasRewardIcon from '@core/components/PetHasRewardIcon';
+import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
+import variables from '@app/styles/variables';
+import PUBLICATION_ENTITY from '@entities/Publication';
+import DateUtils from '@core/utils/date';
+import Divider from '@core/components/Divider';
 
-const PublicationView = ({ route, publications }) => {
+const PublicationView = ({
+  route,
+  getPublication,
+  currentPublication,
+  clearPublication
+}) => {
   const { id } = route.params;
-  const [publication, setPublication] = useState();
 
   useEffect(() => {
-    const publicationArray = publications.data.filter(item => item.id === id);
-    if (publicationArray.length) {
-      setPublication(publicationArray[0]);
-    } else {
-      // Pedir publicación a la API
-    }
-  }, [id, publications.data]);
+    getPublication(id);
+    return () => {
+      clearPublication();
+    };
+  }, [clearPublication, getPublication, id]);
 
-  if (!publication) {
+  const { data } = currentPublication;
+
+  if (!data) {
     return <LoadingView />;
   }
 
+  const { reward, type, additionalInfo, createdAt, phoneNumber } = data;
+  const { collar, photos, size, gender } = data.pet;
+  const { username, profilePicture } = data.creator;
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <PublicationHeader
-        type={publication.type}
-        profileImage="asd"
-        username="username"
+        type={type}
+        profileImage={profilePicture}
+        username={username}
       />
       <ScrollView horizontal={true} contentContainerStyle={styles.carousel}>
-        {publication.pet.photos.map(photo => (
+        {photos.map(photo => (
           <Image
             key={photo.data}
             style={styles.image}
@@ -41,28 +61,61 @@ const PublicationView = ({ route, publications }) => {
           />
         ))}
       </ScrollView>
-      <View style={styles.informationContainer}>
-        <Text>Información</Text>
-        <Text>ID = {id}</Text>
+      <Divider />
+      <View style={styles.block}>
+        <View style={styles.phoneNumberContainer}>
+          <IconSimple
+            name="phone"
+            size={20}
+            color={variables.colors.backgroundBlue}
+          />
+          <Text style={styles.phone}>{phoneNumber}</Text>
+        </View>
+        <View style={styles.dateContainer}>
+          <Text style={styles.date}>{DateUtils.formatDate(createdAt)}</Text>
+        </View>
       </View>
-    </View>
+      <Divider />
+      <View style={styles.iconsContainer}>
+        <PetSizeIcon size={size} />
+        <PetGenderIcon type={gender} />
+      </View>
+      <View style={styles.iconsContainer}>
+        {type !== PUBLICATION_ENTITY.types.adoption && (
+          <PetHasCollarIcon hasCollar={collar} />
+        )}
+        {reward && <PetHasRewardIcon />}
+      </View>
+
+      {Boolean(additionalInfo) && (
+        <View>
+          <Divider />
+          <View style={styles.additionalInfoContainer}>
+            <Text style={styles.infoTitle}>Información Adicional</Text>
+            <Text style={styles.text}>{additionalInfo}</Text>
+          </View>
+        </View>
+      )}
+      <View />
+    </ScrollView>
   );
 };
 
 PublicationView.propTypes = {
-  publications: PropTypes.shape({
+  currentPublication: PropTypes.shape({
     requestInProgress: PropTypes.bool,
     requestFailed: PropTypes.bool,
-    data: PropTypes.array
+    data: PropTypes.object
   }).isRequired
 };
 
 const mapDispatchToProps = {
-  // getPublication: fetchPublication
+  getPublication: fetchPublication,
+  clearPublication: clearCurrentPublication
 };
 
 const mapStateToProps = state => ({
-  publications: state.publications
+  currentPublication: state.currentPublication
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublicationView);

@@ -36,9 +36,6 @@ export const setExtractingColors = extractingColors =>
 
 export const setHasChanges = () => createAction(actionTypes.SET_HAS_CHANGES);
 
-export const setLocationId = locationId =>
-  createAction(actionTypes.SET_LOCATION_ID, { locationId });
-
 export const setPetCollar = hasCollar =>
   createAction(actionTypes.SET_PET_COLLAR, { hasCollar });
 
@@ -59,9 +56,6 @@ export const setPhotosArray = photosArray =>
 
 export const setPhoneNumber = phoneNumber =>
   createAction(actionTypes.SET_PHONE_NUMBER, { phoneNumber });
-
-export const setProvinceId = provinceId =>
-  createAction(actionTypes.SET_PROVINCE_ID, { provinceId });
 
 export const setPublicationType = publicationType =>
   createAction(actionTypes.SET_PUBLICATION_TYPE, { publicationType });

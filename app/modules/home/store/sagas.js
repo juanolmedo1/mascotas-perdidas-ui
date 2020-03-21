@@ -4,21 +4,25 @@ import {
   fetchPublicationsFailure
 } from '@home/store/actions';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import PublicationsService from '@home/services/PublicationsService';
-import { getProfile } from '@login/store/selectors';
+import PublicationService from '@core/services/PublicationService';
+import { getFilters } from '@home/store/selectors';
+import { getCurrentUbication } from '@login/store/selectors';
+import NavigationService from '@core/utils/navigation';
 
 export function* fetchPublications() {
   try {
-    const profile = yield select(getProfile);
-    const ubication = {
-      province: profile.ubication.province.id,
-      location: profile.ubication.location.id
+    const filters = yield select(getFilters);
+    const currentUbication = yield select(getCurrentUbication);
+    const filtersWithUbication = {
+      ...filters,
+      ...currentUbication
     };
     const publications = yield call(
-      PublicationsService.getPublications,
-      ubication
+      PublicationService.getPublications,
+      filtersWithUbication
     );
     yield put(fetchPublicationsSuccess(publications));
+    yield NavigationService.navigate('Home');
   } catch (error) {
     yield put(fetchPublicationsFailure(error));
   }

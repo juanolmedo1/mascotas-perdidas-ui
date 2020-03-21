@@ -126,6 +126,10 @@ const FiltersView = ({
             }
           />
           <HasCollar
+            show={
+              newPublication.publicationType !==
+              PUBLICATION_ENTITY.types.adoption
+            }
             hasCollar={newPublication.petCollar}
             onChange={setPetCollar}
           />
@@ -193,7 +197,7 @@ FiltersView.propTypes = {
     ]),
     requestFailed: PropTypes.bool,
     requestInProgress: PropTypes.bool,
-    similarPublications: PropTypes.arrayOf(PropTypes.string),
+    similarPublications: PropTypes.arrayOf(PropTypes.object),
     userId: PropTypes.string
   }).isRequired
 };
