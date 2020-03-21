@@ -4,7 +4,7 @@ import fonts from '@styles/fonts';
 
 export default StyleSheet.create({
   container: {
-    width: '100%',
+    flex: 1,
     marginHorizontal: variables.spacings.L
   },
   title: {
@@ -14,6 +14,7 @@ export default StyleSheet.create({
   },
   subtitle: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.S
+    fontSize: fonts.sizes.S,
+    textAlign: 'center'
   }
 });

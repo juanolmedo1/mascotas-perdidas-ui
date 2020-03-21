@@ -1,10 +1,18 @@
-import { BackHandler, Text, View, TouchableOpacity } from 'react-native';
+import {
+  BackHandler,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+
 import * as newPublicationActions from '@upload/store/actions';
 import * as ubicationActions from '@core/store/ubication/actions';
+import { backgroundStyles, imageStyles } from '@styles/background';
 import { setCurrentLocation, setCurrentProvince } from '@login/store/actions';
 import { LABELS } from '@upload/views/UploadView/constants';
 import Button from '@core/components/Button';
@@ -13,6 +21,7 @@ import ImagesContainer from '@upload/components/ImagesContainer';
 import LoadingView from '@core/views/LoadingView';
 import DialogConfirmBox from '@core/components/DialogConfirmBox';
 import NavigationService from '@core/utils/navigation';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@upload/views/UploadView/styles';
@@ -142,56 +151,62 @@ const UploadView = ({
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.customHeader}>
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={() => cancelAction()}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.cancelText}>{LABELS.buttons.cancel}</Text>
-        </TouchableOpacity>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{LABELS.title}</Text>
+    <ImageBackground
+      imageStyle={imageStyles}
+      source={patternBackground}
+      style={backgroundStyles}
+    >
+      <View style={styles.container}>
+        <View style={styles.customHeader}>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => cancelAction()}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.cancelText}>{LABELS.buttons.cancel}</Text>
+          </TouchableOpacity>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{LABELS.title}</Text>
+          </View>
         </View>
-      </View>
-      <ImagesContainer images={newPublication.photosArray} />
-      <Text style={styles.text}> {LABELS.photosInstructions} </Text>
-      <Button
-        text={LABELS.buttons.addPhotos}
-        onPress={openImagePicker}
-        type="tertiary"
-      />
-      <View>
-        <Dropdown
-          data={provinces}
-          changeValue={updateProvince}
-          selectedValue={province}
-          title={LABELS.dropdowns.province}
+        <ImagesContainer images={newPublication.photosArray} />
+        <Text style={styles.text}> {LABELS.photosInstructions} </Text>
+        <Button
+          text={LABELS.buttons.addPhotos}
+          onPress={openImagePicker}
+          type="tertiary"
         />
-        <Dropdown
-          data={locations}
-          changeValue={updateLocation}
-          selectedValue={location}
-          title={LABELS.dropdowns.location}
+        <View>
+          <Dropdown
+            data={provinces}
+            changeValue={updateProvince}
+            selectedValue={province}
+            title={LABELS.dropdowns.province}
+          />
+          <Dropdown
+            data={locations}
+            changeValue={updateLocation}
+            selectedValue={location}
+            title={LABELS.dropdowns.location}
+          />
+        </View>
+        <Button
+          disabled={!userHasSelectedAtLeastOnePhoto}
+          text={LABELS.buttons.goToFilters}
+          onPress={navigateToFilters}
+          type="primary"
+          rightArrow
+        />
+        <DialogConfirmBox
+          open={showConfirmBackModal}
+          onCancel={cancelBack}
+          onConfirm={confirmBack}
+          modalText={LABELS.modal.modalText}
+          confirmText={LABELS.modal.confirmText}
+          cancelText={LABELS.modal.cancelText}
         />
       </View>
-      <Button
-        disabled={!userHasSelectedAtLeastOnePhoto}
-        text={LABELS.buttons.goToFilters}
-        onPress={navigateToFilters}
-        type="primary"
-        rightArrow
-      />
-      <DialogConfirmBox
-        open={showConfirmBackModal}
-        onCancel={cancelBack}
-        onConfirm={confirmBack}
-        modalText={LABELS.modal.modalText}
-        confirmText={LABELS.modal.confirmText}
-        cancelText={LABELS.modal.cancelText}
-      />
-    </View>
+    </ImageBackground>
   );
 };
 

@@ -1,16 +1,25 @@
-import { FlatList, View, Text, TouchableOpacity } from 'react-native';
-import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import {
+  ImageBackground,
+  FlatList,
+  View,
+  RefreshControl,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+
 import { fetchPublications } from '@home/store/actions';
+import { backgroundStyles, imageStyles } from '@styles/background';
+import EmptyList from '@core/views/EmptyList';
 import LoadingView from '@core/views/LoadingView';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import NavigationService from '@core/utils/navigation';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
+import PublicationCard from '@core/components/PublicationCard';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
-import PublicationCard from '@core/components/PublicationCard';
 import styles from '@home/views/HomeView/styles';
-import EmptyList from '@core/views/EmptyList';
-import NavigationService from '@core/utils/navigation';
 
 const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
@@ -37,6 +46,12 @@ const HomeView = ({ publications, getPublications }) => {
           data={data}
           numColumns={2}
           contentContainerStyle={styles.list}
+          refreshControl={
+            <RefreshControl
+              refreshing={requestInProgress}
+              onRefresh={refresh}
+            />
+          }
           renderItem={({ item }) => (
             <PublicationCard
               key={item.id}
@@ -57,13 +72,6 @@ const HomeView = ({ publications, getPublications }) => {
       <View style={styles.header}>
         <Text style={styles.title}>Inicio</Text>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity onPress={refresh}>
-            <Ionicons
-              name="md-refresh"
-              size={28}
-              color={variables.colors.backgroundBlack}
-            />
-          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => NavigationService.navigate('Filters')}
           >
@@ -75,7 +83,13 @@ const HomeView = ({ publications, getPublications }) => {
           </TouchableOpacity>
         </View>
       </View>
-      {content}
+      <ImageBackground
+        imageStyle={imageStyles}
+        source={patternBackground}
+        style={backgroundStyles}
+      >
+        {content}
+      </ImageBackground>
     </View>
   );
 };

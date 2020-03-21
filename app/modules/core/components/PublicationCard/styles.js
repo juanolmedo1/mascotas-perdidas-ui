@@ -23,7 +23,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: variables.spacings.S
+    paddingHorizontal: variables.spacings.S,
+    backgroundColor: variables.colors.backgroundWhite
   },
   date: {
     ...fonts.weights.regular,

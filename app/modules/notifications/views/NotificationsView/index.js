@@ -1,13 +1,22 @@
-import { View, Text } from 'react-native';
+import { ImageBackground, Text } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import React, { PureComponent } from 'react';
-import styles from '@notifications/views/NotificationsView/styles';
 
+import { backgroundStyles, imageStyles } from '@styles/background';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
+import styles from '@notifications/views/NotificationsView/styles';
 export class NotificationsView extends PureComponent {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Notifications View</Text>
-      </View>
+      <ImageBackground
+        imageStyle={imageStyles}
+        source={patternBackground}
+        style={backgroundStyles}
+      >
+        <SafeAreaView style={styles.container}>
+          <Text>Notifications view</Text>
+        </SafeAreaView>
+      </ImageBackground>
     );
   }
 }

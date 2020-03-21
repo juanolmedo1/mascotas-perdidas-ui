@@ -4,12 +4,14 @@ import fonts from '@styles/fonts';
 
 export default StyleSheet.create({
   container: {
+    alignItems: 'center',
     justifyContent: 'center',
     marginVertical: variables.spacings.XS
   },
   colorsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   title: {
     marginBottom: variables.spacings.XXS,

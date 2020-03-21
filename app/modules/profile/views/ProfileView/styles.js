@@ -4,7 +4,6 @@ import variables from '@styles/variables';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: variables.colors.backgroundWhite
+    alignItems: 'center'
   }
 });

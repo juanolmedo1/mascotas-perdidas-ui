@@ -5,10 +5,10 @@ import fonts from '@styles/fonts';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: variables.colors.backgroundWhite
+    backgroundColor: variables.colors.backgroundWhite,
+    justifyContent: 'center'
   },
   list: {
-    backgroundColor: variables.colors.backgroundWhite,
     alignItems: 'center'
   },
   block: {
@@ -30,12 +30,13 @@ export default StyleSheet.create({
     paddingTop: variables.spacings.M,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: variables.colors.backgroundWhite
   },
   iconsContainer: {
     width: 70,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end'
   },
   title: {
     fontSize: fonts.sizes.XL,
