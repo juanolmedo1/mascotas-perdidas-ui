@@ -4,7 +4,8 @@ import {
   ImageBackground,
   Text,
   ScrollView,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -28,6 +29,8 @@ import SingleSelectPet from '@upload/components/SingleSelectPet';
 import SingleSelectPublication from '@upload/components/SingleSelectPublication';
 import SingleSelectSize from '@upload/components/SingleSelectSize';
 import styles from '@upload/views/FiltersView/styles';
+import IconIon from 'react-native-vector-icons/Ionicons';
+import variables from '@styles/variables';
 
 const FiltersView = ({
   createPublication,
@@ -83,10 +86,6 @@ const FiltersView = ({
 
   const hasSelectedColor = newPublication.petColors.length > 0;
 
-  if (newPublication.extractingColors) {
-    return <LoadingView />;
-  }
-
   return (
     <ImageBackground
       imageStyle={imageStyles}
@@ -94,81 +93,101 @@ const FiltersView = ({
       style={backgroundStyles}
     >
       <ScrollView>
-        <View style={styles.block}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backContainer}
+            onPress={() => NavigationService.goBack()}
+          >
+            <IconIon
+              name="md-arrow-back"
+              size={25}
+              color={variables.colors.backgroundBlack}
+            />
+          </TouchableOpacity>
           <Text style={styles.title}>{LABELS.title}</Text>
         </View>
-        <View style={styles.block}>
-          <SingleSelectPet
-            petType={newPublication.petType}
-            onSelect={setPetType}
-          />
-        </View>
-        <View style={styles.block}>
-          <SingleSelectPublication
-            publicationType={newPublication.publicationType}
-            onSelect={setPublicationType}
-          />
-        </View>
-        <View style={styles.block}>
-          <SingleSelectGender
-            petGender={newPublication.petGender}
-            onSelect={setPetGender}
-          />
-        </View>
-        <View style={styles.block}>
-          <SingleSelectSize
-            petSize={newPublication.petSize}
-            onSelect={setPetSize}
-            show={newPublication.petType === PET_ENTITY.types.dog}
-          />
-        </View>
-        <View style={styles.block}>
-          <ColorSelector
-            extractedColors={newPublication.extractedColors}
-            selectedColors={newPublication.petColors}
-            onSelect={setPetColor}
-          />
-        </View>
-        <View style={styles.block}>
-          <View style={styles.rewardContainer}>
-            <Reward
-              hasReward={newPublication.publicationReward}
-              onChange={setPublicationReward}
-              show={
-                newPublication.publicationType === PUBLICATION_ENTITY.types.lost
-              }
-            />
-            <HasCollar
-              show={
-                newPublication.publicationType !==
-                PUBLICATION_ENTITY.types.adoption
-              }
-              hasCollar={newPublication.petCollar}
-              onChange={setPetCollar}
-            />
+        {newPublication.extractingColors ? (
+          <LoadingView />
+        ) : (
+          <View>
+            <View style={styles.block}>
+              <Text style={styles.subtitle}>{LABELS.subtitle}</Text>
+            </View>
+            <View style={styles.block}>
+              <SingleSelectPet
+                petType={newPublication.petType}
+                onSelect={setPetType}
+              />
+            </View>
+            <View style={styles.block}>
+              <SingleSelectPublication
+                publicationType={newPublication.publicationType}
+                onSelect={setPublicationType}
+              />
+            </View>
+            <View style={styles.block}>
+              <SingleSelectGender
+                petGender={newPublication.petGender}
+                onSelect={setPetGender}
+              />
+            </View>
+            <View style={styles.block}>
+              <SingleSelectSize
+                petSize={newPublication.petSize}
+                onSelect={setPetSize}
+                show={newPublication.petType === PET_ENTITY.types.dog}
+              />
+            </View>
+            <View style={styles.block}>
+              <ColorSelector
+                extractedColors={newPublication.extractedColors}
+                selectedColors={newPublication.petColors}
+                onSelect={setPetColor}
+              />
+            </View>
+            <View style={styles.block}>
+              <View style={styles.rewardContainer}>
+                <Reward
+                  hasReward={newPublication.publicationReward}
+                  onChange={setPublicationReward}
+                  show={
+                    newPublication.publicationType ===
+                    PUBLICATION_ENTITY.types.lost
+                  }
+                />
+                <HasCollar
+                  show={
+                    newPublication.publicationType !==
+                    PUBLICATION_ENTITY.types.adoption
+                  }
+                  hasCollar={newPublication.petCollar}
+                  onChange={setPetCollar}
+                />
+              </View>
+            </View>
+            <View style={styles.block}>
+              <PhoneNumber
+                phoneNumber={phoneNumberText}
+                onChange={setPhoneNumberText}
+              />
+            </View>
+            <View style={styles.block}>
+              <AdditionalInformation
+                information={additionalInformationText}
+                onChange={setAdditionalInformationText}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                text={LABELS.buttons.publish}
+                onPress={createNewPublication}
+                type="primary"
+                loading={requestInProgress}
+                disabled={!hasSelectedColor}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.block}>
-          <PhoneNumber
-            phoneNumber={phoneNumberText}
-            onChange={setPhoneNumberText}
-          />
-        </View>
-        <View style={styles.block}>
-          <AdditionalInformation
-            information={additionalInformationText}
-            onChange={setAdditionalInformationText}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            text={LABELS.buttons.publish}
-            onPress={createNewPublication}
-            type="primary"
-            loading={requestInProgress}
-            disabled={!hasSelectedColor}
-          />
-        </View>
+        )}
       </ScrollView>
     </ImageBackground>
   );

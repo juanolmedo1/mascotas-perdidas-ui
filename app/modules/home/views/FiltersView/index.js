@@ -85,7 +85,7 @@ const FiltersView = ({
   const { provinces, locations } = ubications;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView>
       <ImageBackground
         imageStyle={imageStyles}
         source={patternBackground}

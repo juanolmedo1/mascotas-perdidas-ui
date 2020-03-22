@@ -23,6 +23,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottomEndRadius: 8,
+    borderBottomStartRadius: 8,
     paddingHorizontal: variables.spacings.S,
     backgroundColor: variables.colors.backgroundWhite
   },

@@ -1,5 +1,6 @@
 export const LABELS = {
-  title: 'Seleccione según corresponda:',
+  title: 'Características',
+  subtitle: 'Seleccione según corresponda:',
   buttons: {
     publish: 'Publicar'
   }

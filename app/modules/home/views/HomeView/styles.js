@@ -5,7 +5,6 @@ import fonts from '@styles/fonts';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: variables.colors.backgroundWhite,
     justifyContent: 'center'
   },
   list: {
@@ -30,8 +29,7 @@ export default StyleSheet.create({
     paddingTop: variables.spacings.M,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: variables.colors.backgroundWhite
+    alignItems: 'center'
   },
   iconsContainer: {
     width: 70,

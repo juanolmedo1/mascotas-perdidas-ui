@@ -5,9 +5,6 @@ import fonts from '@styles/fonts';
 const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
-  container: {
-    backgroundColor: variables.colors.backgroundWhite
-  },
   image: {
     width,
     height: '100%'
@@ -56,5 +53,23 @@ export default StyleSheet.create({
     ...fonts.weights.regular,
     fontSize: fonts.sizes.S,
     color: variables.colors.textDarkGrey
+  },
+  header: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  backContainer: {
+    width: 60,
+    height: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    left: 0
+  },
+  title: {
+    fontSize: fonts.sizes.L,
+    ...fonts.weights.regular
   }
 });
