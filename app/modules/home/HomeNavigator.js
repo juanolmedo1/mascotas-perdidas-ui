@@ -1,7 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import HomeView from '@home/views/HomeView';
-import variables from '@styles/variables';
 import PublicationView from '@core/views/PublicationView';
 import FiltersView from '@home/views/FiltersView';
 
@@ -21,12 +20,7 @@ const HomeNavigator = () => {
         name="Publication"
         component={PublicationView}
         options={{
-          title: 'Publicación',
-          headerStyle: {
-            elevation: 0
-          },
-          headerTintColor: variables.colors.textBlack,
-          headerTitleAlign: 'center'
+          headerShown: false
         }}
       />
       <Stack.Screen

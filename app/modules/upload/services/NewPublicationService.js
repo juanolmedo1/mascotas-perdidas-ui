@@ -33,6 +33,13 @@ const NEW_PUBLICATION_MUTATION = `mutation createPublication(
         additionalInfo: $additionalInformation
     }) {
         id
+        pet {
+          photos {
+            id
+            data
+            type
+          }
+        }
     }
 }`;
 

@@ -3,9 +3,6 @@ import variables from '@styles/variables';
 import fonts from '@styles/fonts';
 
 export default StyleSheet.create({
-  container: {
-    backgroundColor: variables.colors.backgroundWhite
-  },
   header: {
     height: 50,
     flexDirection: 'row',

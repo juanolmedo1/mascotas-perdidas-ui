@@ -8,8 +8,7 @@ export default StyleSheet.create({
     height: 60,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: variables.colors.backgroundWhite
+    justifyContent: 'space-between'
   },
   profileContainer: {
     flex: 1,

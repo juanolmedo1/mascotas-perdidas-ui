@@ -30,7 +30,7 @@ const SimilarPublications = ({ publications, publicationType }) => {
             <Image
               style={styles.image}
               source={{
-                uri: 'https://scx2.b-cdn.net/gfx/news/hires/2018/2-dog.jpg'
+                uri: `data:${publication.pet.photos[0].type};base64,${publication.pet.photos[0].data}`
               }}
             />
           </TouchableOpacity>

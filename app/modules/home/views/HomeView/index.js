@@ -20,6 +20,7 @@ import PublicationCard from '@core/components/PublicationCard';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
+import Divider from '@core/components/Divider';
 
 const HomeView = ({ publications, getPublications }) => {
   useEffect(() => {
@@ -69,25 +70,27 @@ const HomeView = ({ publications, getPublications }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Inicio</Text>
-        <View style={styles.iconsContainer}>
-          <TouchableOpacity
-            onPress={() => NavigationService.navigate('Filters')}
-          >
-            <Octicons
-              name="settings"
-              size={28}
-              color={variables.colors.backgroundBlack}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
       <ImageBackground
         imageStyle={imageStyles}
         source={patternBackground}
         style={backgroundStyles}
       >
+        <View style={styles.header}>
+          <Text style={styles.title}>Inicio</Text>
+          <View style={styles.iconsContainer}>
+            <TouchableOpacity
+              onPress={() => NavigationService.navigate('Filters')}
+            >
+              <Octicons
+                name="settings"
+                size={28}
+                color={variables.colors.backgroundBlack}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <Divider />
+
         {content}
       </ImageBackground>
     </View>
