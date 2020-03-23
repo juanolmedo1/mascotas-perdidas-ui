@@ -64,7 +64,11 @@ const PublicationView = ({
             profileImage={profilePicture}
             username={username}
           />
-          <ScrollView horizontal={true} contentContainerStyle={styles.carousel}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            contentContainerStyle={styles.carousel}
+          >
             {photos.map(photo => (
               <Image
                 key={photo.data}
@@ -120,7 +124,7 @@ const PublicationView = ({
       source={patternBackground}
       style={backgroundStyles}
     >
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backContainer}

@@ -3,7 +3,7 @@ import {
   fetchProvincesSaga
 } from '@core/store/ubication/sagas';
 import { fetchPublicationSaga } from '@core/store/currentPublication/sagas';
-import { fetchLoginSaga } from '@login/store/sagas';
+import { fetchLoginSaga, fetchUserPublicationsSaga } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
 import {
   onPublicationCreatedSaga,
@@ -17,5 +17,6 @@ export default {
   fetchPublicationSaga,
   fetchPublicationsSaga,
   onPublicationCreatedSaga,
-  onSelectedImagesSaga
+  onSelectedImagesSaga,
+  fetchUserPublicationsSaga
 };

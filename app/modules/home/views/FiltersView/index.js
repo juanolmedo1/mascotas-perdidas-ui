@@ -85,7 +85,7 @@ const FiltersView = ({
   const { provinces, locations } = ubications;
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <ImageBackground
         imageStyle={imageStyles}
         source={patternBackground}

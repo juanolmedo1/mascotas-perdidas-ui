@@ -19,7 +19,10 @@ const PublicationType = ({
   const publicationTypeText = publicationTypes[type];
 
   const additionalContainerStyle = active
-    ? { borderColor: primaryColor, backgroundColor: primaryColor }
+    ? {
+        borderColor: primaryColor,
+        backgroundColor: primaryColor
+      }
     : { borderColor: primaryColor };
 
   const additionalTextStyle = active

@@ -17,7 +17,10 @@ const SimilarPublications = ({ publications, publicationType }) => {
         ¿Alguna de estas mascotas es la que usted
         {type}?
       </Text>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
         {publications.map(publication => (
           <TouchableOpacity
             key={publication.id}

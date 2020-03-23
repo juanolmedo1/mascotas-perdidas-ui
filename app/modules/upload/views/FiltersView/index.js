@@ -92,7 +92,7 @@ const FiltersView = ({
       source={patternBackground}
       style={backgroundStyles}
     >
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backContainer}

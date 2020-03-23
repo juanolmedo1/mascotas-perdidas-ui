@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import ProfileView from '@profile/views/ProfileView';
+import ProfileNavigator from '@profile/ProfileNavigator';
 import variables from '@styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
@@ -96,7 +96,7 @@ const BottomNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileView}
+        component={ProfileNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <IconAnt
