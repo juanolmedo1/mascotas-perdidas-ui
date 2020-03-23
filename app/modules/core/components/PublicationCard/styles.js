@@ -8,11 +8,11 @@ export default StyleSheet.create({
     width: 150,
     borderRadius: 8,
     alignItems: 'center',
-    elevation: 2,
+    elevation: 1,
     margin: variables.spacings.M
   },
   image: {
-    width: 148,
+    width: 150,
     height: 160,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8

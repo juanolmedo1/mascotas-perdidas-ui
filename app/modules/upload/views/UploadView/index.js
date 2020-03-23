@@ -146,10 +146,6 @@ const UploadView = ({
 
   const userHasSelectedAtLeastOnePhoto = newPublication.photosArray.length > 0;
 
-  if (!provinces.length || !locations.length) {
-    return <LoadingView />;
-  }
-
   return (
     <ImageBackground
       imageStyle={imageStyles}
@@ -169,34 +165,40 @@ const UploadView = ({
             <Text style={styles.title}>{LABELS.title}</Text>
           </View>
         </View>
-        <ImagesContainer images={newPublication.photosArray} />
-        <Text style={styles.text}> {LABELS.photosInstructions} </Text>
-        <Button
-          text={LABELS.buttons.addPhotos}
-          onPress={openImagePicker}
-          type="tertiary"
-        />
-        <View>
-          <Dropdown
-            data={provinces}
-            changeValue={updateProvince}
-            selectedValue={province}
-            title={LABELS.dropdowns.province}
-          />
-          <Dropdown
-            data={locations}
-            changeValue={updateLocation}
-            selectedValue={location}
-            title={LABELS.dropdowns.location}
-          />
-        </View>
-        <Button
-          disabled={!userHasSelectedAtLeastOnePhoto}
-          text={LABELS.buttons.goToFilters}
-          onPress={navigateToFilters}
-          type="primary"
-          rightArrow
-        />
+        {!provinces.length || !locations.length ? (
+          <LoadingView />
+        ) : (
+          <View style={styles.contentContainer}>
+            <ImagesContainer images={newPublication.photosArray} />
+            <Text style={styles.text}> {LABELS.photosInstructions} </Text>
+            <Button
+              text={LABELS.buttons.addPhotos}
+              onPress={openImagePicker}
+              type="tertiary"
+            />
+            <View>
+              <Dropdown
+                data={provinces}
+                changeValue={updateProvince}
+                selectedValue={province}
+                title={LABELS.dropdowns.province}
+              />
+              <Dropdown
+                data={locations}
+                changeValue={updateLocation}
+                selectedValue={location}
+                title={LABELS.dropdowns.location}
+              />
+            </View>
+            <Button
+              disabled={!userHasSelectedAtLeastOnePhoto}
+              text={LABELS.buttons.goToFilters}
+              onPress={navigateToFilters}
+              type="primary"
+              rightArrow
+            />
+          </View>
+        )}
         <DialogConfirmBox
           open={showConfirmBackModal}
           onCancel={cancelBack}

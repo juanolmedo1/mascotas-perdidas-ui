@@ -16,7 +16,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
-    marginHorizontal: variables.spacings.M
+    marginHorizontal: variables.spacings.M,
+    paddingTop: variables.spacings.S
   },
   additionalInfoContainer: {
     marginHorizontal: variables.spacings.M,

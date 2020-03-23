@@ -43,6 +43,7 @@ const HomeView = ({ publications, getPublications }) => {
     } else {
       content = (
         <FlatList
+          showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id}
           data={data}
           numColumns={2}

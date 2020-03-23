@@ -1,23 +1,33 @@
-import { View, Image, ScrollView } from 'react-native';
+import { View, Image } from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '@profile/components/ProfilePublications/styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import NavigationService from '@core/utils/navigation';
 
 const ProfilePublications = ({ publications }) => {
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.publicationsContainer}>
         {publications &&
           publications.map(publication => (
-            <TouchableOpacity key={publication.id}>
+            <TouchableOpacity
+              key={publication.id}
+              onPress={() =>
+                NavigationService.navigate('Publication', {
+                  id: publication.id
+                })
+              }
+            >
               <Image
                 style={styles.image}
-                source={{ uri: publication.photos[0] }}
+                source={{
+                  uri: `data:${publication.pet.photos[0].type};base64,${publication.pet.photos[0].data}`
+                }}
               />
             </TouchableOpacity>
           ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };

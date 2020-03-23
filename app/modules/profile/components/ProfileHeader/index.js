@@ -19,14 +19,14 @@ const ProfileHeader = ({ profile }) => {
         {firstName} {lastName}
       </Text>
       <View style={styles.iconsContainer}>
-        <TouchableOpacity style={styles.messageIcon}>
+        <TouchableOpacity style={styles.messageIcon} activeOpacity={0.8}>
           <IconFeather
             name="message-circle"
             size={30}
             color={variables.colors.backgroundBlue}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.settingIcon}>
+        <TouchableOpacity style={styles.settingIcon} activeOpacity={0.8}>
           <IconAnt
             name="setting"
             size={30}
