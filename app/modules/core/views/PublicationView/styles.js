@@ -23,6 +23,14 @@ export default StyleSheet.create({
     marginHorizontal: variables.spacings.M,
     marginBottom: variables.spacings.M
   },
+  divider: {
+    height: 0.5,
+    width: '100%',
+    alignSelf: 'center',
+    backgroundColor: variables.colors.backgroundDarkGrey,
+    marginTop: variables.spacings.XXXS,
+    marginBottom: variables.spacings.M
+  },
   infoTitle: {
     ...fonts.weights.semibold,
     fontSize: fonts.sizes.L,

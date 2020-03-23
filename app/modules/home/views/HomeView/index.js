@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-
 import { fetchPublications } from '@home/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import EmptyList from '@core/views/EmptyList';

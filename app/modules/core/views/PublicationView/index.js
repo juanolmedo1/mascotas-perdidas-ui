@@ -23,6 +23,7 @@ import PetHasRewardIcon from '@core/components/PetHasRewardIcon';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import variables from '@app/styles/variables';
 import PUBLICATION_ENTITY from '@entities/Publication';
+import PET_ENTITY from '@entities/Pet';
 import DateUtils from '@core/utils/date';
 import Divider from '@core/components/Divider';
 import NavigationService from '@core/utils/navigation';
@@ -94,10 +95,10 @@ const PublicationView = ({
           </View>
           <Divider />
           <View style={styles.iconsContainer}>
-            <PetSizeIcon size={size} />
+            {data.pet.type !== PET_ENTITY.types.cat && (
+              <PetSizeIcon size={size} />
+            )}
             <PetGenderIcon type={gender} />
-          </View>
-          <View style={styles.iconsContainer}>
             {type !== PUBLICATION_ENTITY.types.adoption && (
               <PetHasCollarIcon hasCollar={collar} />
             )}
@@ -106,9 +107,9 @@ const PublicationView = ({
 
           {Boolean(additionalInfo) && (
             <View>
-              <Divider />
               <View style={styles.additionalInfoContainer}>
                 <Text style={styles.infoTitle}>Información Adicional</Text>
+                <View style={styles.divider} />
                 <Text style={styles.text}>{additionalInfo}</Text>
               </View>
             </View>
