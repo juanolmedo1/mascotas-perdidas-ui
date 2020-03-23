@@ -1,7 +1,6 @@
 import {
   types,
   fetchLoginFailure,
-  fetchLoginSuccess,
   fetchUserPublicationsSuccess,
   fetchUserPublicationsFailure
 } from '@login/store/actions';
@@ -13,7 +12,6 @@ export function* fetchLogin(action) {
   const { payload } = action;
   try {
     yield call(UserService.login, payload);
-    yield put(fetchLoginSuccess({}));
     NavigationService.navigate('BottomNavigator');
   } catch (error) {
     yield put(fetchLoginFailure(error));
