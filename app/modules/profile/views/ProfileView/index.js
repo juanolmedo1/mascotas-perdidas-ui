@@ -7,18 +7,34 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+
 import { backgroundStyles, imageStyles } from '@styles/background';
+import { fetchUserPublications } from '@login/store/actions';
+import { setHasToRefreshProfile } from '@core/store/refreshments/actions';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import ProfileHeader from '@profile/components/ProfileHeader';
 import ProfilePublications from '@profile/components/ProfilePublications';
 import styles from '@profile/views/ProfileView/styles';
-import { fetchUserPublications } from '@login/store/actions';
 
-const ProfileView = ({ session, getUserPublications }) => {
+const ProfileView = ({
+  session,
+  getUserPublications,
+  refreshments,
+  refreshProfile
+}) => {
   const { profileInfo, requestPublicationsInProgress } = session;
+
   useEffect(() => {
     getUserPublications({ id: profileInfo.id });
-  }, [getUserPublications, profileInfo.id]);
+    if (refreshments.hasToRefreshProfile) {
+      refreshProfile(false);
+    }
+  }, [
+    getUserPublications,
+    profileInfo.id,
+    refreshments.hasToRefreshProfile,
+    refreshProfile
+  ]);
 
   const refresh = () => {
     getUserPublications({ id: profileInfo.id });
@@ -61,11 +77,13 @@ ProfileView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  getUserPublications: fetchUserPublications
+  getUserPublications: fetchUserPublications,
+  refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue)
 };
 
 const mapStateToProps = state => ({
-  session: state.session
+  session: state.session,
+  refreshments: state.refreshments
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);

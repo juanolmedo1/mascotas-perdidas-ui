@@ -65,6 +65,18 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
   }
 }`;
 
+const REPORT_PUBLICATION_MUTATION = `mutation addComplaint($id: String!){
+  addComplaint(id: $id) {
+    id
+  }
+}`;
+
+const DELETE_PUBLICATION_MUTATION = `mutation deletePublication($id: String!){
+  deletePublication(id: $id) {
+    id
+  }
+}`;
+
 const getPublication = async payload => {
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
   return response.getPublication;
@@ -75,7 +87,25 @@ const getPublications = async payload => {
   return response.getFilteredPublications;
 };
 
+const reportPublication = async payload => {
+  const response = await GraphQLClient.request(
+    REPORT_PUBLICATION_MUTATION,
+    payload
+  );
+  return response.reportPublication;
+};
+
+const deletePublication = async payload => {
+  const response = await GraphQLClient.request(
+    DELETE_PUBLICATION_MUTATION,
+    payload
+  );
+  return response.deletePublication;
+};
+
 export default {
+  deletePublication,
   getPublications,
-  getPublication
+  getPublication,
+  reportPublication
 };

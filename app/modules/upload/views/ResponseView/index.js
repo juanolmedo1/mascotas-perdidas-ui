@@ -11,6 +11,10 @@ import React, { useEffect } from 'react';
 
 import * as newPublicationActions from '@upload/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
+import {
+  setHasToRefreshHome,
+  setHasToRefreshProfile
+} from '@core/store/refreshments/actions';
 import Feather from 'react-native-vector-icons/Feather';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import NavigationService from '@core/utils/navigation';
@@ -21,7 +25,12 @@ import SimilarPublications from '@upload/components/SimilarPublications';
 import styles from '@upload/views/ResponseView/styles';
 import variables from '@app/styles/variables';
 
-const ResponseView = ({ clearPublicationValues, newPublication }) => {
+const ResponseView = ({
+  clearPublicationValues,
+  newPublication,
+  refreshHome,
+  refreshProfile
+}) => {
   const {
     requestFailed,
     similarPublications,
@@ -32,6 +41,8 @@ const ResponseView = ({ clearPublicationValues, newPublication }) => {
   const closeWithSuccess = () => {
     clearPublicationValues();
     NavigationService.reset(0, 'Upload');
+    refreshHome(true);
+    refreshProfile(true);
     NavigationService.navigate('Home');
   };
 
@@ -139,7 +150,9 @@ ResponseView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  clearPublicationValues: () => newPublicationActions.clearStore()
+  clearPublicationValues: () => newPublicationActions.clearStore(),
+  refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
+  refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue)
 };
 
 const mapStateToProps = state => ({

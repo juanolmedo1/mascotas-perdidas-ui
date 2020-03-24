@@ -5,12 +5,30 @@ import fonts from '@styles/fonts';
 const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
-  image: {
-    width,
-    height: '100%'
+  additionalInfoContainer: {
+    marginHorizontal: variables.spacings.M,
+    marginBottom: variables.spacings.M
+  },
+  backContainer: {
+    width: 60,
+    height: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    left: 0
+  },
+  block: {
+    flexDirection: 'row',
+    marginHorizontal: variables.spacings.M
   },
   carousel: {
     height: 300
+  },
+  header: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   iconsContainer: {
     flexDirection: 'row',
@@ -19,9 +37,29 @@ export default StyleSheet.create({
     marginHorizontal: variables.spacings.M,
     paddingTop: variables.spacings.S
   },
-  additionalInfoContainer: {
-    marginHorizontal: variables.spacings.M,
-    marginBottom: variables.spacings.M
+  image: {
+    width,
+    height: '100%'
+  },
+  infoTitle: {
+    ...fonts.weights.semibold,
+    fontSize: fonts.sizes.L,
+    marginBottom: variables.spacings.XS
+  },
+  date: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S,
+    color: variables.colors.textDarkGrey
+  },
+  dateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end'
+  },
+  dialogText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.L,
+    textAlign: 'center'
   },
   divider: {
     height: 0.5,
@@ -31,51 +69,26 @@ export default StyleSheet.create({
     marginTop: variables.spacings.XXXS,
     marginBottom: variables.spacings.M
   },
-  infoTitle: {
-    ...fonts.weights.semibold,
-    fontSize: fonts.sizes.L,
-    marginBottom: variables.spacings.XS
-  },
-  text: {
-    ...fonts.weights.regular,
-    fontSize: fonts.sizes.S
-  },
-  block: {
-    flexDirection: 'row',
-    marginHorizontal: variables.spacings.M
-  },
-  phoneNumberContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
+  extraActionContainer: {
+    width: 60,
+    height: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: 0
   },
   phone: {
     ...fonts.weights.regular,
     fontSize: fonts.sizes.S,
     marginLeft: variables.spacings.S
   },
-  dateContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end'
-  },
-  date: {
-    ...fonts.weights.regular,
-    fontSize: fonts.sizes.S,
-    color: variables.colors.textDarkGrey
-  },
-  header: {
-    height: 60,
+  phoneNumberContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center'
   },
-  backContainer: {
-    width: 60,
-    height: '100%',
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    left: 0
+  text: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S
   },
   title: {
     fontSize: fonts.sizes.L,

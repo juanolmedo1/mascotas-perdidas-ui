@@ -8,6 +8,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   list: {
+    flex: 1,
     alignItems: 'center'
   },
   block: {
