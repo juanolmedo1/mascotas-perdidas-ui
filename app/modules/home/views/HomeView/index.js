@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 
@@ -27,15 +28,20 @@ const HomeView = ({
   getPublications,
   publications,
   refreshments,
-  refreshHome,
-  navigation
+  refreshHome
 }) => {
   useEffect(() => {
     getPublications();
-    if (refreshments.hasToRefreshHome) {
-      refreshHome(false);
-    }
-  }, [getPublications, navigation, refreshHome, refreshments.hasToRefreshHome]);
+  }, [getPublications]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (refreshments.hasToRefreshHome) {
+        getPublications();
+        refreshHome(false);
+      }
+    }, [getPublications, refreshHome, refreshments.hasToRefreshHome])
+  );
 
   const refresh = () => {
     getPublications();

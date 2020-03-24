@@ -10,6 +10,7 @@ import React, { useEffect } from 'react';
 
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { fetchUserPublications } from '@login/store/actions';
+import { useFocusEffect } from '@react-navigation/native';
 import { setHasToRefreshProfile } from '@core/store/refreshments/actions';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import ProfileHeader from '@profile/components/ProfileHeader';
@@ -26,15 +27,21 @@ const ProfileView = ({
 
   useEffect(() => {
     getUserPublications({ id: profileInfo.id });
-    if (refreshments.hasToRefreshProfile) {
-      refreshProfile(false);
-    }
-  }, [
-    getUserPublications,
-    profileInfo.id,
-    refreshments.hasToRefreshProfile,
-    refreshProfile
-  ]);
+  }, [getUserPublications, profileInfo.id]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (refreshments.hasToRefreshProfile) {
+        getUserPublications({ id: profileInfo.id });
+        refreshProfile(false);
+      }
+    }, [
+      getUserPublications,
+      profileInfo.id,
+      refreshProfile,
+      refreshments.hasToRefreshProfile
+    ])
+  );
 
   const refresh = () => {
     getUserPublications({ id: profileInfo.id });
