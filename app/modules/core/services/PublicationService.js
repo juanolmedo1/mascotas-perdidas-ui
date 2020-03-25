@@ -21,6 +21,13 @@ const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
       id
       type
       createdAt
+      creator {
+        username
+        profilePicture {
+          type
+          data
+        }
+      }
       pet {
         photos {
           id

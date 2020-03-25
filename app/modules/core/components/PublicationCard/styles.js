@@ -11,11 +11,30 @@ export default StyleSheet.create({
     elevation: 1,
     margin: variables.spacings.M
   },
+  header: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderTopEndRadius: 8,
+    borderTopStartRadius: 8,
+    backgroundColor: variables.colors.backgroundWhite
+  },
+  profileImage: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    marginLeft: variables.spacings.S
+  },
+  username: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S,
+    marginLeft: variables.spacings.XS
+  },
   image: {
     width: 150,
-    height: 160,
-    borderTopRightRadius: 8,
-    borderTopLeftRadius: 8
+    height: 130
   },
   info: {
     flex: 1,
