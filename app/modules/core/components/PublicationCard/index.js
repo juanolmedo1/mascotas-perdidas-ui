@@ -6,13 +6,31 @@ import NavigationService from '@core/utils/navigation';
 import PublicationIcon from '@core/components/PublicationIcon';
 import styles from '@core/components/PublicationCard/styles';
 
-const PublicationCard = ({ id, imageShownBase64, imageType, type, date }) => {
+const PublicationCard = ({
+  id,
+  username,
+  profileImageBase64,
+  profileImageType,
+  imageShownBase64,
+  imageType,
+  type,
+  date
+}) => {
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => NavigationService.navigate('Publication', { id })}
       activeOpacity={0.8}
     >
+      <View style={styles.header}>
+        <Image
+          style={styles.profileImage}
+          source={{
+            uri: `data:${profileImageType};base64,${profileImageBase64}`
+          }}
+        />
+        <Text style={styles.username}>{username}</Text>
+      </View>
       <Image
         style={styles.image}
         source={{ uri: `data:${imageType};base64,${imageShownBase64}` }}
