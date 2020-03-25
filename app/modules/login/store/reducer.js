@@ -10,7 +10,7 @@ const initialState = {
     location: '06056010001'
   },
   profileInfo: {
-    id: '48ef1330-de1c-44e3-9780-671dbb7e2508',
+    id: '49c74868-15c3-47d3-b35a-73bacc1bac67',
     firstName: 'Juan',
     lastName: 'Olmedo',
     username: 'juan.olmedo',

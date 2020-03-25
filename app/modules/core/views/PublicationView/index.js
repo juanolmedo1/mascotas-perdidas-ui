@@ -119,7 +119,7 @@ const PublicationView = ({
           </View>
           <Divider />
           <View style={styles.iconsContainer}>
-            {data.pet.type !== PET_ENTITY.types.cat && (
+            {data.pet.type === PET_ENTITY.types.dog && (
               <PetSizeIcon size={size} />
             )}
             <PetGenderIcon type={gender} />
