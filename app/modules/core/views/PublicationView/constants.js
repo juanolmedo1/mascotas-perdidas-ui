@@ -15,7 +15,7 @@ export const LABELS = {
     },
     report: {
       dialogText:
-        'Si publicación es inapropiada o no cumple los fines de la aplicación, puede reportarla. No se le notificará a nadie si realiza está accion.',
+        'Si la publicación es inapropiada o no cumple los fines de la aplicación, puede reportarla. No se le notificará a nadie si realiza está accion.',
       confirmText: 'Reportar',
       cancelText: 'Cancelar'
     },

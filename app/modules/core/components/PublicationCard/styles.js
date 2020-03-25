@@ -22,8 +22,8 @@ export default StyleSheet.create({
     backgroundColor: variables.colors.backgroundWhite
   },
   profileImage: {
-    height: 24,
-    width: 24,
+    height: 26,
+    width: 26,
     borderRadius: 12,
     marginLeft: variables.spacings.S
   },

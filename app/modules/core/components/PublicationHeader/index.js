@@ -11,8 +11,7 @@ const PublicationHeader = ({ username, profileImage, type }) => {
         <Image
           style={styles.image}
           source={{
-            uri:
-              'https://instagram.faep9-1.fna.fbcdn.net/v/t51.2885-19/s320x320/56412495_2336547096630651_6295553287131234304_n.jpg?_nc_ht=instagram.faep9-1.fna.fbcdn.net&_nc_ohc=jJs8DCKfs-4AX8V4Qtb&oh=15fa0461fe42ff230772c6c7a34123dd&oe=5E8AAFE8'
+            uri: `data:${profileImage.type};base64,${profileImage.data}`
           }}
         />
         <Text style={styles.username}>{username}</Text>
