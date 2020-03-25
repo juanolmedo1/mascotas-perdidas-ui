@@ -7,10 +7,14 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { fetchPublications } from '@home/store/actions';
+
 import { backgroundStyles, imageStyles } from '@styles/background';
+import { fetchPublications } from '@home/store/actions';
+import { setHasToRefreshHome } from '@core/store/refreshments/actions';
+import Divider from '@core/components/Divider';
 import EmptyList from '@core/views/EmptyList';
 import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
@@ -19,12 +23,25 @@ import PublicationCard from '@core/components/PublicationCard';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
-import Divider from '@core/components/Divider';
 
-const HomeView = ({ publications, getPublications }) => {
+const HomeView = ({
+  getPublications,
+  publications,
+  refreshments,
+  refreshHome
+}) => {
   useEffect(() => {
     getPublications();
   }, [getPublications]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (refreshments.hasToRefreshHome) {
+        getPublications();
+        refreshHome(false);
+      }
+    }, [getPublications, refreshHome, refreshments.hasToRefreshHome])
+  );
 
   const refresh = () => {
     getPublications();
@@ -107,11 +124,13 @@ HomeView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  getPublications: fetchPublications
+  getPublications: fetchPublications,
+  refreshHome: refreshValue => setHasToRefreshHome(refreshValue)
 };
 
 const mapStateToProps = state => ({
-  publications: state.publications
+  publications: state.publications,
+  refreshments: state.refreshments
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeView);

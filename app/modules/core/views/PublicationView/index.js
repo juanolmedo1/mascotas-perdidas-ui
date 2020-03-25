@@ -1,43 +1,64 @@
 import { connect } from 'react-redux';
 import {
   Image,
-  Text,
-  View,
+  ImageBackground,
   ScrollView,
+  Text,
   TouchableOpacity,
-  ImageBackground
+  View
 } from 'react-native';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import * as currentPublicationActions from '@core/store/currentPublication/actions';
+import { backgroundStyles, imageStyles } from '@styles/background';
+import { LABELS } from '@core/views/PublicationView/constants';
 import {
-  fetchPublication,
-  clearCurrentPublication
-} from '@core/store/currentPublication/actions';
+  setHasToRefreshHome,
+  setHasToRefreshProfile
+} from '@core/store/refreshments/actions';
+import DateUtils from '@core/utils/date';
+import DialogConfirmBox from '@core/components/DialogConfirmBox';
+import DialogSimple from '@core/components/DialogSimple';
+import Divider from '@core/components/Divider';
+import IconIon from 'react-native-vector-icons/Ionicons';
+import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import LoadingView from '@core/views/LoadingView';
-import PublicationHeader from '@core/components/PublicationHeader';
-import styles from '@core/views/PublicationView/styles';
+import NavigationService from '@core/utils/navigation';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
+import PET_ENTITY from '@entities/Pet';
 import PetGenderIcon from '@core/components/PetGenderIcon';
-import PetSizeIcon from '@core/components/PetSizeIcon';
 import PetHasCollarIcon from '@core/components/PetHasCollarIcon';
 import PetHasRewardIcon from '@core/components/PetHasRewardIcon';
-import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
-import variables from '@app/styles/variables';
+import PetSizeIcon from '@core/components/PetSizeIcon';
 import PUBLICATION_ENTITY from '@entities/Publication';
-import PET_ENTITY from '@entities/Pet';
-import DateUtils from '@core/utils/date';
-import Divider from '@core/components/Divider';
-import NavigationService from '@core/utils/navigation';
-import IconIon from 'react-native-vector-icons/Ionicons';
-import patternBackground from '@app/assets/background/patternBackground.jpeg';
-import { backgroundStyles, imageStyles } from '@styles/background';
+import PublicationHeader from '@core/components/PublicationHeader';
+import styles from '@core/views/PublicationView/styles';
+import variables from '@app/styles/variables';
 
 const PublicationView = ({
-  route,
-  getPublication,
+  clearPublication,
   currentPublication,
-  clearPublication
+  deletePublication,
+  getPublication,
+  reportPublication,
+  refreshHome,
+  refreshProfile,
+  route,
+  session
 }) => {
   const { id } = route.params;
+
+  const {
+    deletedPublication,
+    deleteRequestInProgress,
+    deleteRequestFailed,
+    requestInProgress,
+    reportedPublication,
+    reportRequestInProgress,
+    reportRequestFailed,
+    data
+  } = currentPublication;
 
   useEffect(() => {
     getPublication(id);
@@ -46,11 +67,14 @@ const PublicationView = ({
     };
   }, [clearPublication, getPublication, id]);
 
-  const { data, requestInProgress } = currentPublication;
+  useEffect(() => {
+    setShowDeletedDialog(deletedPublication);
+    setShowReportedDialog(reportedPublication);
+  }, [deletedPublication, reportedPublication]);
 
   let content = null;
 
-  if (requestInProgress) {
+  if (requestInProgress || deleteRequestInProgress || reportRequestInProgress) {
     content = <LoadingView />;
   } else {
     if (data) {
@@ -108,7 +132,9 @@ const PublicationView = ({
           {Boolean(additionalInfo) && (
             <View>
               <View style={styles.additionalInfoContainer}>
-                <Text style={styles.infoTitle}>Información Adicional</Text>
+                <Text style={styles.infoTitle}>
+                  {LABELS.additionalInformation}
+                </Text>
                 <View style={styles.divider} />
                 <Text style={styles.text}>{additionalInfo}</Text>
               </View>
@@ -118,6 +144,74 @@ const PublicationView = ({
       );
     }
   }
+
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [showReportConfirmDialog, setShowReportConfirmDialog] = useState(false);
+  const [showDeletedDialog, setShowDeletedDialog] = useState(
+    deletedPublication
+  );
+  const [showReportedDialog, setShowReportedDialog] = useState(
+    reportedPublication
+  );
+
+  const onDeletePublication = () => {
+    toggleDeleteConfirmDialog(false);
+    deletePublication(id);
+  };
+
+  const onReportPublication = () => {
+    toggleReportConfirmDialog(false);
+    reportPublication(id);
+  };
+
+  const toggleDeleteConfirmDialog = toggle => {
+    setShowDeleteConfirmDialog(toggle);
+  };
+
+  const toggleReportConfirmDialog = toggle => {
+    setShowReportConfirmDialog(toggle);
+  };
+
+  const onDeletedPublication = () => {
+    setShowDeletedDialog(false);
+    if (!deleteRequestFailed) {
+      refreshHome(true);
+      refreshProfile(true);
+      NavigationService.goBack();
+    }
+  };
+
+  const onReportedPublication = () => {
+    setShowReportedDialog(false);
+  };
+
+  const renderPublicationOption = () => {
+    if (data && session) {
+      const publicationCreator = data.creator.id;
+      const loggedUser = session.profileInfo.id;
+      const isPublicationOwner = publicationCreator === loggedUser;
+      return (
+        <TouchableOpacity
+          style={styles.extraActionContainer}
+          onPress={
+            isPublicationOwner
+              ? () => toggleDeleteConfirmDialog(true)
+              : () => toggleReportConfirmDialog(true)
+          }
+        >
+          <IconSimple
+            name={isPublicationOwner ? 'trash' : 'exclamation'}
+            size={20}
+            color={
+              isPublicationOwner
+                ? variables.colors.backgroundBlack
+                : variables.colors.backgroundRed
+            }
+          />
+        </TouchableOpacity>
+      );
+    }
+  };
 
   return (
     <ImageBackground
@@ -137,15 +231,60 @@ const PublicationView = ({
               color={variables.colors.backgroundBlack}
             />
           </TouchableOpacity>
-          <Text style={styles.title}>Publicación</Text>
+          <Text style={styles.title}>{LABELS.title}</Text>
+          {renderPublicationOption()}
         </View>
         {content}
+        <DialogConfirmBox
+          open={showDeleteConfirmDialog}
+          onCancel={() => toggleDeleteConfirmDialog(false)}
+          onConfirm={onDeletePublication}
+          modalText={LABELS.dialogs.delete.dialogText}
+          confirmText={LABELS.dialogs.delete.confirmText}
+          cancelText={LABELS.dialogs.delete.cancelText}
+        />
+        <DialogConfirmBox
+          open={showReportConfirmDialog}
+          onCancel={() => toggleReportConfirmDialog(false)}
+          onConfirm={onReportPublication}
+          modalText={LABELS.dialogs.report.dialogText}
+          confirmText={LABELS.dialogs.report.confirmText}
+          cancelText={LABELS.dialogs.report.cancelText}
+        />
+        <DialogSimple
+          open={showDeletedDialog}
+          toggleDialog={onDeletedPublication}
+        >
+          <View>
+            <Text style={styles.dialogText}>
+              {deleteRequestFailed
+                ? LABELS.dialogs.deleted.fail
+                : LABELS.dialogs.deleted.success}
+            </Text>
+          </View>
+        </DialogSimple>
+        <DialogSimple
+          open={showReportedDialog}
+          toggleDialog={onReportedPublication}
+        >
+          <View>
+            <Text style={styles.dialogText}>
+              {reportRequestFailed
+                ? LABELS.dialogs.reported.fail
+                : LABELS.dialogs.reported.success}
+            </Text>
+          </View>
+        </DialogSimple>
       </ScrollView>
     </ImageBackground>
   );
 };
 
 PublicationView.propTypes = {
+  clearPublication: PropTypes.func.isRequired,
+  deletePublication: PropTypes.func.isRequired,
+  getPublication: PropTypes.func.isRequired,
+  reportPublication: PropTypes.func.isRequired,
   currentPublication: PropTypes.shape({
     requestInProgress: PropTypes.bool,
     requestFailed: PropTypes.bool,
@@ -154,12 +293,17 @@ PublicationView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  getPublication: fetchPublication,
-  clearPublication: clearCurrentPublication
+  clearPublication: currentPublicationActions.clearCurrentPublication,
+  deletePublication: id => currentPublicationActions.deletePublication(id),
+  getPublication: currentPublicationActions.fetchPublication,
+  reportPublication: id => currentPublicationActions.reportPublication(id),
+  refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
+  refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue)
 };
 
 const mapStateToProps = state => ({
-  currentPublication: state.currentPublication
+  currentPublication: state.currentPublication,
+  session: state.session
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublicationView);
