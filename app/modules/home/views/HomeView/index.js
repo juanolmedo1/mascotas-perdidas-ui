@@ -77,10 +77,8 @@ const HomeView = ({
               date={item.createdAt}
               type={item.type}
               username={item.creator.username}
-              profileImageBase64={item.creator.profilePicture.data}
-              profileImageType={item.creator.profilePicture.type}
-              imageType={item.pet.photos[0].type}
-              imageShownBase64={item.pet.photos[0].data}
+              profileImage={item.creator.profilePicture.data}
+              imageShown={item.pet.photos[0].data}
             />
           )}
         />
