@@ -1,6 +1,15 @@
 export const LABELS = {
   title: 'Publicación',
   additionalInformation: 'Información adicional',
+  similarPublications: {
+    buttons: {
+      searchAll: 'Buscar todas',
+      searchLatest: 'Buscar últimas'
+    },
+    textInfo:
+      'Info: permite buscar históricamente las publicaciones similares o buscar sólo aquellas que sean posteriores a la fecha de la última búsqueda realizada por usted.',
+    title: 'Buscar publicaciones similares'
+  },
   dialogs: {
     delete: {
       dialogText:

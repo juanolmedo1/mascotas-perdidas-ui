@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import IconIon from 'react-native-vector-icons/Ionicons';
+import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
@@ -17,12 +19,11 @@ import {
   setHasToRefreshHome,
   setHasToRefreshProfile
 } from '@core/store/refreshments/actions';
+import Button from '@core/components/Button';
 import DateUtils from '@core/utils/date';
 import DialogConfirmBox from '@core/components/DialogConfirmBox';
 import DialogSimple from '@core/components/DialogSimple';
 import Divider from '@core/components/Divider';
-import IconIon from 'react-native-vector-icons/Ionicons';
-import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
@@ -72,6 +73,41 @@ const PublicationView = ({
     setShowReportedDialog(reportedPublication);
   }, [deletedPublication, reportedPublication]);
 
+  const renderSimilarPublicationButtons = () => {
+    if (data && session) {
+      const publicationCreator = data.creator.id;
+      const loggedUser = session.profileInfo.id;
+      const isPublicationOwner = publicationCreator === loggedUser;
+      return isPublicationOwner ? (
+        <View style={styles.similarPublicationsContainer}>
+          <Text style={styles.title}>{LABELS.similarPublications.title}</Text>
+          <View style={styles.buttonContainer}>
+            <Button
+              text={LABELS.similarPublications.buttons.searchAll}
+              onPress={() =>
+                NavigationService.navigate('SimilarPublications', { data: [] })
+              }
+              type="primary"
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              text={LABELS.similarPublications.buttons.searchLatest}
+              onPress={() =>
+                NavigationService.navigate('SimilarPublications', { data: [] })
+              }
+              type="primary"
+            />
+          </View>
+          <Text style={styles.textInfo}>
+            {LABELS.similarPublications.textInfo}
+          </Text>
+          <Divider />
+        </View>
+      ) : null;
+    }
+  };
+
   let content = null;
 
   if (requestInProgress || deleteRequestInProgress || reportRequestInProgress) {
@@ -104,6 +140,7 @@ const PublicationView = ({
             ))}
           </ScrollView>
           <Divider />
+          {renderSimilarPublicationButtons()}
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
               <IconSimple

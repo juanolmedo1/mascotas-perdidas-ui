@@ -1,12 +1,5 @@
 import { connect } from 'react-redux';
-import {
-  ImageBackground,
-  FlatList,
-  View,
-  RefreshControl,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import { ImageBackground, View, Text, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
@@ -15,11 +8,10 @@ import { backgroundStyles, imageStyles } from '@styles/background';
 import { fetchPublications } from '@home/store/actions';
 import { setHasToRefreshHome } from '@core/store/refreshments/actions';
 import Divider from '@core/components/Divider';
-import EmptyList from '@core/views/EmptyList';
 import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
-import PublicationCard from '@core/components/PublicationCard';
+import PublicationsList from '@core/components/PublicationsList';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
@@ -54,36 +46,15 @@ const HomeView = ({
   if (requestInProgress) {
     content = <LoadingView />;
   } else {
-    if (!data.length) {
-      content = <EmptyList />;
-    } else {
-      content = (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          data={data}
-          numColumns={2}
-          contentContainerStyle={styles.list}
-          refreshControl={
-            <RefreshControl
-              refreshing={requestInProgress}
-              onRefresh={refresh}
-            />
-          }
-          renderItem={({ item }) => (
-            <PublicationCard
-              key={item.id}
-              id={item.id}
-              date={item.createdAt}
-              type={item.type}
-              username={item.creator.username}
-              profileImage={item.creator.profilePicture.data}
-              imageShown={item.pet.photos[0].data}
-            />
-          )}
-        />
-      );
-    }
+    content = (
+      <PublicationsList
+        data={data}
+        refreshControlProps={{
+          refreshing: requestInProgress,
+          onRefresh: refresh
+        }}
+      />
+    );
   }
 
   return (
@@ -108,7 +79,6 @@ const HomeView = ({
           </View>
         </View>
         <Divider />
-
         {content}
       </ImageBackground>
     </View>
