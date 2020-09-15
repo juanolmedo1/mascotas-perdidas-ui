@@ -10,7 +10,7 @@ const initialState = {
     location: '06056010001'
   },
   profileInfo: {
-    id: '49c74868-15c3-47d3-b35a-73bacc1bac67',
+    id: '52231213-0684-4ce6-aadf-53c5e67af720',
     firstName: 'Juan',
     lastName: 'Olmedo',
     username: 'juan.olmedo',
@@ -28,7 +28,7 @@ const initialState = {
     email: 'juuan.olmedo@hotmail.com',
     phoneNumber: '+542915079528',
     picture:
-      'https://instagram.faep9-1.fna.fbcdn.net/v/t51.2885-19/s320x320/56412495_2336547096630651_6295553287131234304_n.jpg?_nc_ht=instagram.faep9-1.fna.fbcdn.net&_nc_ohc=jJs8DCKfs-4AX8V4Qtb&oh=15fa0461fe42ff230772c6c7a34123dd&oe=5E8AAFE8',
+      'https://res.cloudinary.com/mascotas-perdidas/image/upload/v1600018604/profile/styvhmo00lwbcheuzjqx.jpg',
     publications: []
   }
 };

@@ -134,7 +134,7 @@ const PublicationView = ({
               <Image
                 key={photo.data}
                 style={styles.image}
-                source={{ uri: `data:${photo.type};base64,${photo.data}` }}
+                source={{ uri: photo.data }}
                 resizeMode="contain"
               />
             ))}

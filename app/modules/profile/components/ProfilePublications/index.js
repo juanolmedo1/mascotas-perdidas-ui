@@ -22,7 +22,7 @@ const ProfilePublications = ({ publications }) => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: `data:${publication.pet.photos[0].type};base64,${publication.pet.photos[0].data}`
+                  uri: publication.pet.photos[0].data
                 }}
               />
             </TouchableOpacity>
