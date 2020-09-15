@@ -9,6 +9,11 @@ export default StyleSheet.create({
     marginHorizontal: variables.spacings.M,
     marginBottom: variables.spacings.M
   },
+  buttonContainer: {
+    flex: 1,
+    marginVertical: variables.spacings.XS,
+    alignItems: 'center'
+  },
   backContainer: {
     width: 60,
     height: '100%',
@@ -86,9 +91,18 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  similarPublicationsContainer: {
+    marginHorizontal: variables.spacings.M,
+    marginBottom: variables.spacings.M
+  },
   text: {
     ...fonts.weights.regular,
     fontSize: fonts.sizes.S
+  },
+  textInfo: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.XS,
+    textAlign: 'center'
   },
   title: {
     fontSize: fonts.sizes.L,
