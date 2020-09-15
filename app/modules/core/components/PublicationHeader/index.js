@@ -11,7 +11,7 @@ const PublicationHeader = ({ username, profileImage, type }) => {
         <Image
           style={styles.image}
           source={{
-            uri: `data:${profileImage.type};base64,${profileImage.data}`
+            uri: profileImage.data
           }}
         />
         <Text style={styles.username}>{username}</Text>
