@@ -6,6 +6,9 @@ export const types = {
   FETCH_PUBLICATION__FAILURE: 'FETCH_PUBLICATION__FAILURE',
   FETCH_PUBLICATION__REQUEST: 'FETCH_PUBLICATION__REQUEST',
   FETCH_PUBLICATION__SUCCESS: 'FETCH_PUBLICATION__SUCCESS',
+  GET_SIMILAR_PUBLICATIONS_FAILURE: 'GET_SIMILAR_PUBLICATIONS_FAILURE',
+  GET_SIMILAR_PUBLICATIONS_REQUEST: 'GET_SIMILAR_PUBLICATIONS_REQUEST',
+  GET_SIMILAR_PUBLICATIONS_SUCCESS: 'GET_SIMILAR_PUBLICATIONS_SUCCESS',
   REPORT_PUBLICATION_FAILURE: 'REPORT_PUBLICATION_FAILURE',
   REPORT_PUBLICATION_REQUEST: 'REPORT_PUBLICATION_REQUEST',
   REPORT_PUBLICATION_SUCCESS: 'REPORT_PUBLICATION_SUCCESS'
@@ -42,6 +45,21 @@ export const fetchPublicationFailure = error => ({
 export const fetchPublicationSuccess = publication => ({
   payload: publication,
   type: types.FETCH_PUBLICATION__SUCCESS
+});
+
+export const getSimilarPublicationsFailure = error => ({
+  payload: error,
+  type: types.GET_SIMILAR_PUBLICATIONS_FAILURE
+});
+
+export const getSimilarPublications = id => ({
+  payload: { id },
+  type: types.GET_SIMILAR_PUBLICATIONS_REQUEST
+});
+
+export const getSimilarPublicationsSuccess = similarPublications => ({
+  payload: { similarPublications },
+  type: types.GET_SIMILAR_PUBLICATIONS_SUCCESS
 });
 
 export const reportPublication = id => ({

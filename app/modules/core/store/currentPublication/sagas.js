@@ -4,6 +4,8 @@ import {
   deletePublicationSuccess,
   fetchPublicationSuccess,
   fetchPublicationFailure,
+  getSimilarPublicationsFailure,
+  getSimilarPublicationsSuccess,
   reportPublicationFailure,
   reportPublicationSuccess
 } from '@core/store/currentPublication/actions';
@@ -41,6 +43,21 @@ export function* reportPublication(action) {
   }
 }
 
+export function* getSimilarPublications(action) {
+  const { payload } = action;
+  console.log('SAGA: getSimilarPublications');
+  try {
+    const similarPublications = yield call(
+      PublicationService.getMatchingPublications,
+      payload
+    );
+    console.log(similarPublications);
+    yield put(getSimilarPublicationsSuccess(similarPublications));
+  } catch (error) {
+    yield put(getSimilarPublicationsFailure(error));
+  }
+}
+
 export function* fetchPublicationSaga() {
   yield takeLatest(types.FETCH_PUBLICATION__REQUEST, fetchPublication);
 }
@@ -51,4 +68,11 @@ export function* deletePublicationSaga() {
 
 export function* reportPublicationSaga() {
   yield takeLatest(types.REPORT_PUBLICATION_REQUEST, reportPublication);
+}
+
+export function* getSimilarPublicationsSaga() {
+  yield takeLatest(
+    types.GET_SIMILAR_PUBLICATIONS_REQUEST,
+    getSimilarPublications
+  );
 }

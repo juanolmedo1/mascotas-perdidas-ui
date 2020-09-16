@@ -6,7 +6,11 @@ import EmptyList from '@core/views/EmptyList';
 import PublicationCard from '@core/components/PublicationCard';
 import styles from '@core/components/PublicationsList/styles';
 
-const publicationList = ({ data, refreshControlProps }) => {
+const publicationList = ({
+  data,
+  refreshControlProps,
+  scrollEnabled = true
+}) => {
   const refreshing = refreshControlProps
     ? refreshControlProps.refreshing
     : null;
@@ -20,6 +24,7 @@ const publicationList = ({ data, refreshControlProps }) => {
       data={data}
       numColumns={2}
       contentContainerStyle={styles.list}
+      scrollEnabled={scrollEnabled}
       refreshControl={
         refreshControlProps ? (
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

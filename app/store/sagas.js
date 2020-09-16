@@ -5,6 +5,7 @@ import {
 import {
   deletePublicationSaga,
   fetchPublicationSaga,
+  getSimilarPublicationsSaga,
   reportPublicationSaga
 } from '@core/store/currentPublication/sagas';
 import { fetchLoginSaga, fetchUserPublicationsSaga } from '@login/store/sagas';
@@ -22,6 +23,7 @@ export default {
   fetchPublicationSaga,
   fetchPublicationsSaga,
   fetchUserPublicationsSaga,
+  getSimilarPublicationsSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
   reportPublicationSaga

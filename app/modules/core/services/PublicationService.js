@@ -84,6 +84,49 @@ const DELETE_PUBLICATION_MUTATION = `mutation deletePublication($id: String!){
   }
 }`;
 
+const GET_MATCHINGS_QUERY = `query getMatchingPublications($id: String!){
+  getMatchingPublications(publicationId: $id){
+    publicationsViewed {
+      id
+      type
+      createdAt
+      creator {
+        username
+        profilePicture {
+          type
+          data
+        }
+      }
+      pet {
+        photos {
+          id
+          data
+          type
+        }
+      }
+    }
+    publicationsNotViewed {
+      id
+      type
+      createdAt
+      creator {
+        username
+        profilePicture {
+          type
+          data
+        }
+      }
+      pet {
+        photos {
+          id
+          data
+          type
+        }
+      }
+    }
+  }
+}`;
+
 const getPublication = async payload => {
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
   return response.getPublication;
@@ -110,8 +153,14 @@ const deletePublication = async payload => {
   return response.deletePublication;
 };
 
+const getMatchingPublications = async payload => {
+  const response = await GraphQLClient.request(GET_MATCHINGS_QUERY, payload);
+  return response.getMatchingPublications;
+};
+
 export default {
   deletePublication,
+  getMatchingPublications,
   getPublications,
   getPublication,
   reportPublication

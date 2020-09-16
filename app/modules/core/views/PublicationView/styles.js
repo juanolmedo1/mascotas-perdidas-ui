@@ -99,11 +99,6 @@ export default StyleSheet.create({
     ...fonts.weights.regular,
     fontSize: fonts.sizes.S
   },
-  textInfo: {
-    ...fonts.weights.regular,
-    fontSize: fonts.sizes.XS,
-    textAlign: 'center'
-  },
   title: {
     fontSize: fonts.sizes.L,
     ...fonts.weights.regular

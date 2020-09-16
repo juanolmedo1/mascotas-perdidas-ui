@@ -78,31 +78,22 @@ const PublicationView = ({
       const publicationCreator = data.creator.id;
       const loggedUser = session.profileInfo.id;
       const isPublicationOwner = publicationCreator === loggedUser;
-      return isPublicationOwner ? (
+      const publicationType = data.type;
+      const isAdoptionPublication =
+        publicationType === PUBLICATION_ENTITY.types.adoption;
+      return isPublicationOwner && !isAdoptionPublication ? (
         <View style={styles.similarPublicationsContainer}>
-          <Text style={styles.title}>{LABELS.similarPublications.title}</Text>
           <View style={styles.buttonContainer}>
             <Button
-              text={LABELS.similarPublications.buttons.searchAll}
+              text={
+                LABELS.similarPublications.buttons.searchSimilarPublications
+              }
               onPress={() =>
-                NavigationService.navigate('SimilarPublications', { data: [] })
+                NavigationService.navigate('SimilarPublications', { id: id })
               }
               type="primary"
             />
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              text={LABELS.similarPublications.buttons.searchLatest}
-              onPress={() =>
-                NavigationService.navigate('SimilarPublications', { data: [] })
-              }
-              type="primary"
-            />
-          </View>
-          <Text style={styles.textInfo}>
-            {LABELS.similarPublications.textInfo}
-          </Text>
-          <Divider />
         </View>
       ) : null;
     }
@@ -139,8 +130,8 @@ const PublicationView = ({
               />
             ))}
           </ScrollView>
-          <Divider />
           {renderSimilarPublicationButtons()}
+          <Divider />
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
               <IconSimple
