@@ -8,7 +8,8 @@ const colorReferences = {
   darkOrange: '#955508',
   red: '#e76363',
   green: '#679751',
-  blue: '#4674ab'
+  blue: '#4674ab',
+  facebook: '#1877f2'
 };
 
 const colors = {
@@ -37,7 +38,8 @@ const colors = {
   borderGreen: colorReferences.green,
   borderBlue: colorReferences.blue,
   borderDarkGrey: colorReferences.darkGrey,
-  borderLightGrey: colorReferences.lightGrey
+  borderLightGrey: colorReferences.lightGrey,
+  facebookColor: colorReferences.facebook
 };
 
 const spacings = {

@@ -58,7 +58,8 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   loginButton: {
-    marginTop: 40
+    marginTop: 32,
+    marginBottom: variables.spacings.M
   },
   registerButton: {
     marginTop: variables.spacings.L
