@@ -14,7 +14,8 @@
       "@profile/*": ["app/modules/profile/*"],
       "@store/*": ["app/store/*"],
       "@styles/*": ["app/styles/*"],
-      "@upload/*": ["app/modules/upload/*"]
+      "@upload/*": ["app/modules/upload/*"],
+      "@register/*": ["app/modules/register/*"]
     }
   },
   "exclude": ["node_modules", "android", "ios"]

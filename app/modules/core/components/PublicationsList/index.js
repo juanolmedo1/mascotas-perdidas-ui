@@ -1,7 +1,6 @@
 import { FlatList, RefreshControl } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import EmptyList from '@core/views/EmptyList';
 import PublicationCard from '@core/components/PublicationCard';
 import styles from '@core/components/PublicationsList/styles';
