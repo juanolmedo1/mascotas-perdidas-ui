@@ -9,6 +9,9 @@ const initialState = {
   reportedPublication: false,
   reportRequestInProgress: false,
   reportRequestFailed: false,
+  similarPublications: null,
+  similarPublicationsRequestInProgress: false,
+  similarPublicationsRequestFailed: false,
   data: null
 };
 
@@ -56,6 +59,26 @@ export default function(state = initialState, { type, payload }) {
         requestFailed: false,
         requestInProgress: false,
         data: payload
+      };
+    case types.GET_SIMILAR_PUBLICATIONS_FAILURE:
+      return {
+        ...state,
+        similarPublicationsRequestInProgress: false,
+        similarPublicationsRequestFailed: true,
+        similarPublications: null
+      };
+    case types.GET_SIMILAR_PUBLICATIONS_REQUEST:
+      return {
+        ...state,
+        similarPublicationsRequestInProgress: true,
+        similarPublicationsRequestFailed: false
+      };
+    case types.GET_SIMILAR_PUBLICATIONS_SUCCESS:
+      return {
+        ...state,
+        similarPublicationsRequestInProgress: false,
+        similarPublicationsRequestFailed: false,
+        similarPublications: payload.similarPublications
       };
     case types.REPORT_PUBLICATION_FAILURE:
       return {
