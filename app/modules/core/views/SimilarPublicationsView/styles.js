@@ -18,5 +18,13 @@ export default StyleSheet.create({
     fontSize: fonts.sizes.L,
     ...fonts.weights.regular,
     marginLeft: variables.spacings.M
+  },
+  upToDateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  upToDateText: {
+    color: variables.colors.textGreen
   }
 });

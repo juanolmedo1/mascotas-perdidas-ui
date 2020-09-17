@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import React, { useEffect } from 'react';
 
 import * as currentPublicationActions from '@core/store/currentPublication/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
+import { LABELS } from '@core/views/SimilarPublicationsView/constants';
 import Divider from '@core/components/Divider';
 import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
@@ -50,6 +52,15 @@ const SimilarPublicationsView = ({
     return publicationsNotViewed.length > 0 ? (
       <ScrollView>
         <PublicationsList scrollEnabled={false} data={publicationsNotViewed} />
+        <Divider />
+        <View style={styles.upToDateContainer}>
+          <Feather
+            name="check-circle"
+            size={70}
+            color={variables.colors.backgroundGreen}
+          />
+          <Text style={styles.upToDateText}> {LABELS.upToDateText} </Text>
+        </View>
         <Divider />
         <PublicationsList scrollEnabled={false} data={publicationsViewed} />
       </ScrollView>
