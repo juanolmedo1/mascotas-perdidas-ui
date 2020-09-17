@@ -45,7 +45,6 @@ export function* reportPublication(action) {
 
 export function* getSimilarPublications(action) {
   const { payload } = action;
-  console.log('SAGA: getSimilarPublications');
   try {
     const similarPublications = yield call(
       PublicationService.getMatchingPublications,
