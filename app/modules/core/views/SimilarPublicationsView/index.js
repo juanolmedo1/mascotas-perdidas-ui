@@ -54,11 +54,13 @@ const SimilarPublicationsView = ({
         <PublicationsList scrollEnabled={false} data={publicationsNotViewed} />
         <Divider />
         <View style={styles.upToDateContainer}>
-          <Feather
-            name="check-circle"
-            size={70}
-            color={variables.colors.backgroundGreen}
-          />
+          <View style={styles.iconContainer}>
+            <Feather
+              name="check"
+              size={40}
+              color={variables.colors.backgroundGreen}
+            />
+          </View>
           <Text style={styles.upToDateText}> {LABELS.upToDateText} </Text>
         </View>
         <Divider />
