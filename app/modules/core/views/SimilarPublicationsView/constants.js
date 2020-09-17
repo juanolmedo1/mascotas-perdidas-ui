@@ -1,3 +1,3 @@
 export const LABELS = {
-  upToDateText: '!Estás al día!'
+  upToDateText: '¡Estás al día!'
 };

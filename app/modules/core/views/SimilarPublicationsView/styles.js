@@ -14,6 +14,16 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
+  iconContainer: {
+    height: 60,
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: variables.colors.borderGreen,
+    borderRadius: 45,
+    marginBottom: variables.spacings.S
+  },
   title: {
     fontSize: fonts.sizes.L,
     ...fonts.weights.regular,

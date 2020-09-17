@@ -50,7 +50,6 @@ export function* getSimilarPublications(action) {
       PublicationService.getMatchingPublications,
       payload
     );
-    console.log(similarPublications);
     yield put(getSimilarPublicationsSuccess(similarPublications));
   } catch (error) {
     yield put(getSimilarPublicationsFailure(error));
