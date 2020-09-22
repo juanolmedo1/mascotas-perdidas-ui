@@ -10,6 +10,18 @@ const formatDate = date => {
   return format(new Date(date), 'HH:mm - dd/M/yy');
 };
 
+const formatBirthDate = date => {
+  return format(new Date(date), 'dd/MM/yyyy');
+};
+
+const transformToDate = date => {
+  const dateSplitted = date.split('/');
+  const day = dateSplitted[0];
+  const month = dateSplitted[1];
+  const year = dateSplitted[2];
+  return new Date(year, month - 1, day);
+};
+
 const difference = creationDate => {
   const secondsDifference = differenceInSeconds(
     new Date(Date.now()),
@@ -72,5 +84,7 @@ const difference = creationDate => {
 
 export default {
   difference,
-  formatDate
+  formatDate,
+  formatBirthDate,
+  transformToDate
 };

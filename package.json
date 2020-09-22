@@ -11,6 +11,7 @@
     "link": "react-native link"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^3.0.2",
     "@react-native-community/masked-view": "^0.1.6",
     "@react-native-community/slider": "^2.0.8",
     "@react-navigation/bottom-tabs": "^5.0.5",
@@ -20,6 +21,7 @@
     "date-fns": "^2.11.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "formik": "^2.1.5",
     "graphql-request": "^1.8.2",
     "react": "16.9.0",
     "react-native": "0.61.5",

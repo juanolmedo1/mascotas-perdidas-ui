@@ -13,6 +13,7 @@ import {
   onPublicationCreatedSaga,
   onSelectedImagesSaga
 } from '@upload/store/sagas';
+import { registerUserSaga } from '@register/store/sagas';
 
 export default {
   deletePublicationSaga,
@@ -24,5 +25,6 @@ export default {
   fetchUserPublicationsSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
-  reportPublicationSaga
+  reportPublicationSaga,
+  registerUserSaga
 };

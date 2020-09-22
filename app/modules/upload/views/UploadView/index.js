@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
 import * as newPublicationActions from '@upload/store/actions';
 import * as ubicationActions from '@core/store/ubication/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';

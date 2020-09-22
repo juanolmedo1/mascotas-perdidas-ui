@@ -3,7 +3,6 @@ import { ImageBackground, View, Text, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { fetchPublications } from '@home/store/actions';
 import { setHasToRefreshHome } from '@core/store/refreshments/actions';
