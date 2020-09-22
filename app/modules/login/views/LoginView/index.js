@@ -9,13 +9,26 @@ import variables from '@styles/variables';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import NavigationService from '@core/utils/navigation';
+import { fetchLoginFailure } from '@login/store/actions';
 
-const LoginView = ({ fetchLoginFunc }) => {
+const LoginView = ({ fetchLoginFunc, session, addProfileError }) => {
   const [username, onChangeUsername] = useState();
   const [password, onChangePassword] = useState();
 
+  const { requestProfileInProgress, requestProfileError } = session;
+
   const handleLogin = () => {
-    fetchLoginFunc({ username, password });
+    if (username && password) {
+      fetchLoginFunc({ username, password });
+    } else {
+      if (!username) {
+        addProfileError({ username: 'Este campo es obligatorio' });
+      } else {
+        if (!password) {
+          addProfileError({ password: 'Este campo es obligatorio' });
+        }
+      }
+    }
   };
 
   return (
@@ -42,6 +55,13 @@ const LoginView = ({ fetchLoginFunc }) => {
           placeholderTextColor={variables.colors.textWhite}
           onChangeText={text => onChangeUsername(text)}
         />
+        <View style={styles.errorContainer}>
+          {requestProfileError.username && (
+            <Text style={styles.errorMessage}>
+              {requestProfileError.username}
+            </Text>
+          )}
+        </View>
         <TextInput
           style={styles.input}
           value={password}
@@ -50,10 +70,22 @@ const LoginView = ({ fetchLoginFunc }) => {
           secureTextEntry={true}
           onChangeText={text => onChangePassword(text)}
         />
+        <View style={styles.errorContainer}>
+          {requestProfileError.password && (
+            <Text style={styles.errorMessage}>
+              {requestProfileError.password}
+            </Text>
+          )}
+        </View>
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.loginButton}>
-          <Button text="Ingresar" type="secondary" onPress={handleLogin} />
+          <Button
+            text="Ingresar"
+            loading={requestProfileInProgress}
+            type="secondary"
+            onPress={handleLogin}
+          />
         </View>
         <TouchableOpacity
           style={styles.registerButton}
@@ -79,7 +111,8 @@ LoginView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchLoginFunc: fetchLogin
+  fetchLoginFunc: fetchLogin,
+  addProfileError: fetchLoginFailure
 };
 
 const mapStateToProps = state => ({

@@ -1,15 +1,28 @@
 import GraphQLClient from '@core/utils/GraphQLClient';
 
-const login = async ({ username, password }) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (username === 'error') {
-        reject(new Error('invalid username'));
-      } else {
-        resolve({ username, password });
-      }
-    }, 3000);
-  });
+const USER_LOGIN_QUERY = `query login($username: String!, $password: String!){
+  login(options: {
+    username: $username,
+    password: $password
+  }){
+    id
+    firstName
+    lastName
+    province
+    location
+    phoneNumber
+    dateOfBirth
+    email
+    username
+    profilePicture {
+      data
+    }
+  }
+}`;
+
+const login = async payload => {
+  const response = await GraphQLClient.request(USER_LOGIN_QUERY, payload);
+  return response.login;
 };
 
 const GET_USER_PUBLICATIONS_QUERY = `query getUserPublications($id: String!){

@@ -6,13 +6,13 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import variables from '@styles/variables';
 
 const ProfileHeader = ({ profile }) => {
-  const { firstName, lastName, picture } = profile;
+  const { firstName, lastName, profilePicture } = profile;
   return (
     <View style={styles.container}>
       <Image
         style={styles.image}
         source={{
-          uri: picture
+          uri: profilePicture.data
         }}
       />
       <Text style={styles.title}>

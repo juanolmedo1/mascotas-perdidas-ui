@@ -5,32 +5,9 @@ const initialState = {
   requestProfileFailed: false,
   requestPublicationsInProgress: false,
   requestPublicationsFailed: false,
-  currentUbication: {
-    province: '06',
-    location: '06056010001'
-  },
-  profileInfo: {
-    id: '52231213-0684-4ce6-aadf-53c5e67af720',
-    firstName: 'Juan',
-    lastName: 'Olmedo',
-    username: 'juan.olmedo',
-    dateOfBirth: '15/05/1996',
-    ubication: {
-      province: {
-        id: '06',
-        name: 'Buenos Aires'
-      },
-      location: {
-        id: '06056010001',
-        name: 'Bahia Blanca'
-      }
-    },
-    email: 'juuan.olmedo@hotmail.com',
-    phoneNumber: '+542915079528',
-    picture:
-      'https://res.cloudinary.com/mascotas-perdidas/image/upload/v1600018604/profile/styvhmo00lwbcheuzjqx.jpg',
-    publications: []
-  }
+  currentUbication: {},
+  requestProfileError: {},
+  profileInfo: {}
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -45,13 +22,18 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         requestProfileFailed: true,
-        requestProfileInProgress: false
+        requestProfileInProgress: false,
+        requestProfileError: payload
       };
     case types.FETCH_LOGIN__SUCCESS:
       return {
         ...state,
         requestProfileFailed: false,
         requestProfileInProgress: false,
+        currentUbication: {
+          province: payload.province,
+          location: payload.location
+        },
         profileInfo: payload
       };
     case types.FETCH_USER_PUBLICATIONS__REQUEST:
