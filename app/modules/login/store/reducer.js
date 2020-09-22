@@ -5,10 +5,7 @@ const initialState = {
   requestProfileFailed: false,
   requestPublicationsInProgress: false,
   requestPublicationsFailed: false,
-  currentUbication: {
-    province: '06',
-    location: '06056010001'
-  },
+  currentUbication: {},
   requestProfileError: {},
   profileInfo: {}
 };
@@ -33,6 +30,10 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         requestProfileFailed: false,
         requestProfileInProgress: false,
+        currentUbication: {
+          province: payload.province,
+          location: payload.location
+        },
         profileInfo: payload
       };
     case types.FETCH_USER_PUBLICATIONS__REQUEST:
