@@ -33,7 +33,45 @@ const getUserPublications = async payload => {
   return response.getUserPublications;
 };
 
+const REGISTER_USER_MUTATION = `mutation createUser(
+  $name: String!,
+  $lastname: String!,
+  $province: String!,
+  $location: String!,
+  $phone: String!,
+  $dateOfBirth: String!,
+  $email: String!,
+  $username: String!,
+  $password: String!,
+  $data: String!,
+  $type: String!
+){
+  createUser(options: {
+    firstName: $name
+    lastName: $lastname
+    province: $province
+    location: $location
+    phoneNumber: $phone
+    dateOfBirth: $dateOfBirth
+    email: $email
+    username: $username
+    password: $password
+    photo: {
+      type: $type
+      data: $data
+    }
+  }){
+    id
+  }
+}`;
+
+const registerUser = async payload => {
+  const response = await GraphQLClient.request(REGISTER_USER_MUTATION, payload);
+  return response.createUser;
+};
+
 export default {
   login,
-  getUserPublications
+  getUserPublications,
+  registerUser
 };
