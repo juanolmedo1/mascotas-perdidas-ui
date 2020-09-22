@@ -43,19 +43,30 @@ export default StyleSheet.create({
     height: 40,
     borderWidth: 1,
     color: variables.colors.textWhite,
-    borderColor: variables.colors.borderWhite,
     borderRadius: 4,
+    borderColor: variables.colors.borderWhite,
     letterSpacing: 1,
     fontSize: fonts.sizes.S,
     ...fonts.weights.regular,
     paddingLeft: variables.spacings.L,
-    marginTop: variables.spacings.L
+    marginTop: variables.spacings.S
   },
   buttonsContainer: {
     flex: 4,
     width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center'
+  },
+  errorContainer: {
+    width: 260,
+    height: 10,
+    marginTop: variables.spacings.XXS
+  },
+  errorMessage: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.XS,
+    color: variables.colors.textWhite,
+    textAlign: 'right'
   },
   loginButton: {
     marginTop: 40

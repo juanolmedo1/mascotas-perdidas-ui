@@ -15,6 +15,7 @@ import { setHasToRefreshProfile } from '@core/store/refreshments/actions';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import ProfileHeader from '@profile/components/ProfileHeader';
 import ProfilePublications from '@profile/components/ProfilePublications';
+import LoadingView from '@core/views/LoadingView';
 import styles from '@profile/views/ProfileView/styles';
 
 const ProfileView = ({
@@ -64,7 +65,11 @@ const ProfileView = ({
       >
         <View style={styles.container}>
           <ProfileHeader profile={profileInfo} />
-          <ProfilePublications publications={profileInfo.publications} />
+          {requestPublicationsInProgress ? (
+            <LoadingView />
+          ) : (
+            <ProfilePublications publications={profileInfo.publications} />
+          )}
         </View>
       </ScrollView>
     </ImageBackground>

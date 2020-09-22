@@ -33,7 +33,7 @@ const ProfilePublications = ({ publications }) => {
 };
 
 ProfilePublications.propTypes = {
-  publications: PropTypes.array.isRequired
+  publications: PropTypes.array
 };
 
 export default ProfilePublications;
