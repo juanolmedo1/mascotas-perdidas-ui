@@ -14,7 +14,7 @@ export default StyleSheet.create({
     paddingTop: variables.spacings.M
   },
   title: {
-    fontSize: fonts.sizes.XL,
+    fontSize: fonts.sizes.L,
     ...fonts.weights.regular
   },
   content: {

@@ -1,10 +1,12 @@
 import { ImageBackground, Text, View } from 'react-native';
 import React from 'react';
+
 import { backgroundStyles, imageStyles } from '@styles/background';
-import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import { LABELS } from '@likes/views/LikesView/constants';
-import styles from '@likes/views/LikesView/styles';
 import Divider from '@app/modules/core/components/Divider';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
+import PublicationsList from '@core/components/PublicationsList';
+import styles from '@likes/views/LikesView/styles';
 
 const LikesView = () => {
   return (
@@ -19,7 +21,13 @@ const LikesView = () => {
         </View>
         <Divider />
         <View style={styles.content}>
-          <Text style={styles.contentText}>{LABELS.no_publications}</Text>
+          <PublicationsList
+            data={[]}
+            /*refreshControlProps={{
+              refreshing: requestInProgress,
+              onRefresh: refresh
+            }}*/
+          />
         </View>
       </View>
     </ImageBackground>

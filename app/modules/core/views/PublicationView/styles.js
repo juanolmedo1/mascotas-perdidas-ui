@@ -35,6 +35,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  headerIconContainer: {
+    marginRight: variables.spacings.M
+  },
   iconsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -75,9 +78,9 @@ export default StyleSheet.create({
     marginBottom: variables.spacings.M
   },
   extraActionContainer: {
-    width: 60,
     height: '100%',
     position: 'absolute',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     right: 0

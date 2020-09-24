@@ -48,7 +48,7 @@ const BottomNavigator = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <IconAnt
-              name="hearto"
+              name="staro"
               size={30}
               color={
                 focused

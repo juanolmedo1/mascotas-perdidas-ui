@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import PropTypes from 'prop-types';
@@ -219,24 +220,37 @@ const PublicationView = ({
       const loggedUser = session.profileInfo.id;
       const isPublicationOwner = publicationCreator === loggedUser;
       return (
-        <TouchableOpacity
-          style={styles.extraActionContainer}
-          onPress={
-            isPublicationOwner
-              ? () => toggleDeleteConfirmDialog(true)
-              : () => toggleReportConfirmDialog(true)
-          }
-        >
-          <IconSimple
-            name={isPublicationOwner ? 'trash' : 'exclamation'}
-            size={20}
-            color={
+        <View style={styles.extraActionContainer}>
+          <TouchableOpacity
+            style={styles.headerIconContainer}
+            onPress={() => console.log('fav')}
+          >
+            <IconFontAwesome
+              name="star"
+              //style={styles.icon}
+              size={25}
+              color={variables.colors.backgroundOrange}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerIconContainer}
+            onPress={
               isPublicationOwner
-                ? variables.colors.backgroundBlack
-                : variables.colors.backgroundRed
+                ? () => toggleDeleteConfirmDialog(true)
+                : () => toggleReportConfirmDialog(true)
             }
-          />
-        </TouchableOpacity>
+          >
+            <IconSimple
+              name={isPublicationOwner ? 'trash' : 'exclamation'}
+              size={23}
+              color={
+                isPublicationOwner
+                  ? variables.colors.backgroundBlack
+                  : variables.colors.backgroundRed
+              }
+            />
+          </TouchableOpacity>
+        </View>
       );
     }
   };
