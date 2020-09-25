@@ -5,6 +5,7 @@ import publications from '@home/store/reducer';
 import refreshments from '@core/store/refreshments/reducer';
 import session from '@login/store/reducer';
 import ubications from '@core/store/ubication/reducer';
+import registration from '@register/store/reducer';
 
 export default combineReducers({
   currentPublication,
@@ -12,5 +13,6 @@ export default combineReducers({
   publications,
   refreshments,
   session,
-  ubications
+  ubications,
+  registration
 });

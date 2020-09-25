@@ -17,7 +17,8 @@ module.exports = {
           '@profile': './app/modules/profile',
           '@store': './app/store',
           '@styles': './app/styles',
-          '@upload': './app/modules/upload'
+          '@upload': './app/modules/upload',
+          '@register': './app/modules/register'
         }
       }
     ]
