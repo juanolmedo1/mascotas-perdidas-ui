@@ -3,7 +3,7 @@ export const LABELS = {
   additionalInformation: 'Información adicional',
   similarPublications: {
     buttons: {
-      searchSimilarPublications: 'Buscar publicaciones similares'
+      searchSimilarPublications: 'Buscar posibles coincidencias'
     }
   },
   dialogs: {

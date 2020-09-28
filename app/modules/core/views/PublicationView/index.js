@@ -14,9 +14,14 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 import * as currentPublicationActions from '@core/store/currentPublication/actions';
+import {
+  addFavoritePublication,
+  deleteFavoritePublication
+} from '@likes/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@core/views/PublicationView/constants';
 import {
+  setHasToRefreshFavorites,
   setHasToRefreshHome,
   setHasToRefreshProfile
 } from '@core/store/refreshments/actions';
@@ -42,12 +47,16 @@ const PublicationView = ({
   clearPublication,
   currentPublication,
   deletePublication,
+  favPublication,
+  favorites,
   getPublication,
   reportPublication,
+  refreshFavorites,
   refreshHome,
   refreshProfile,
   route,
-  session
+  session,
+  unfavPublication
 }) => {
   const { id } = route.params;
 
@@ -62,6 +71,12 @@ const PublicationView = ({
     data
   } = currentPublication;
 
+  const { favoritesPublications, requestFavoritesInProgress } = favorites;
+
+  const publicationCreatorId = data && data.creator ? data.creator.id : null;
+  const loggedUserId = session.profileInfo.id;
+  const isPublicationOwner = publicationCreatorId === loggedUserId;
+
   useEffect(() => {
     getPublication(id);
     return () => {
@@ -74,35 +89,136 @@ const PublicationView = ({
     setShowReportedDialog(reportedPublication);
   }, [deletedPublication, reportedPublication]);
 
-  const renderSimilarPublicationButtons = () => {
-    if (data && session) {
-      const publicationCreator = data.creator.id;
-      const loggedUser = session.profileInfo.id;
-      const isPublicationOwner = publicationCreator === loggedUser;
-      const publicationType = data.type;
-      const isAdoptionPublication =
-        publicationType === PUBLICATION_ENTITY.types.adoption;
-      return isPublicationOwner && !isAdoptionPublication ? (
-        <View style={styles.similarPublicationsContainer}>
-          <View style={styles.buttonContainer}>
-            <Button
-              text={
-                LABELS.similarPublications.buttons.searchSimilarPublications
-              }
-              onPress={() =>
-                NavigationService.navigate('SimilarPublications', { id: id })
-              }
-              type="primary"
-            />
-          </View>
-        </View>
-      ) : null;
+  const checkUserFavorite = () => {
+    return favoritesPublications.findIndex(favorite => favorite.id === id) > -1;
+  };
+  const [isUserFavorite, setIsUserFavorite] = useState(checkUserFavorite());
+
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [showReportConfirmDialog, setShowReportConfirmDialog] = useState(false);
+  const [showDeletedDialog, setShowDeletedDialog] = useState(
+    deletedPublication
+  );
+  const [showReportedDialog, setShowReportedDialog] = useState(
+    reportedPublication
+  );
+
+  const onDeletePublication = () => {
+    toggleDeleteConfirmDialog(false);
+    deletePublication(id);
+  };
+
+  const onReportPublication = () => {
+    toggleReportConfirmDialog(false);
+    reportPublication(id);
+  };
+
+  const toggleDeleteConfirmDialog = toggle => {
+    setShowDeleteConfirmDialog(toggle);
+  };
+
+  const toggleReportConfirmDialog = toggle => {
+    setShowReportConfirmDialog(toggle);
+  };
+
+  const onDeletedPublication = () => {
+    setShowDeletedDialog(false);
+    if (!deleteRequestFailed) {
+      refreshHome(true);
+      refreshProfile(true);
+      NavigationService.goBack();
     }
+  };
+
+  const onReportedPublication = () => {
+    setShowReportedDialog(false);
+  };
+
+  const onUnfavPublication = (userId, publicationId) => {
+    unfavPublication({ userId: userId, publicationId: publicationId });
+    setIsUserFavorite(false);
+    refreshFavorites(true);
+  };
+
+  const onFavPublication = (userId, publicationId) => {
+    favPublication({ userId: userId, publicationId: publicationId });
+    setIsUserFavorite(true);
+    refreshFavorites(true);
+  };
+
+  const renderSimilarPublicationButton = () => {
+    const publicationType = data.type;
+    const isAdoptionPublication =
+      publicationType === PUBLICATION_ENTITY.types.adoption;
+    return isPublicationOwner && !isAdoptionPublication ? (
+      <View style={styles.similarPublicationsContainer}>
+        <View style={styles.buttonContainer}>
+          <Button
+            text={LABELS.similarPublications.buttons.searchSimilarPublications}
+            onPress={() =>
+              NavigationService.navigate('SimilarPublications', { id: id })
+            }
+            type="primary"
+          />
+        </View>
+      </View>
+    ) : null;
+  };
+
+  const renderPublicationActionFavorite = () => {
+    const iconName = isUserFavorite ? 'star' : 'star-o';
+    const onPressAction = isUserFavorite
+      ? () => onUnfavPublication(loggedUserId, id)
+      : () => onFavPublication(loggedUserId, id);
+    return !isPublicationOwner ? (
+      <TouchableOpacity
+        style={styles.headerIconContainer}
+        onPress={onPressAction}
+      >
+        <IconFontAwesome
+          name={iconName}
+          size={25}
+          color={variables.colors.backgroundOrange}
+        />
+      </TouchableOpacity>
+    ) : null;
+  };
+
+  const renderPublicationActionDeleteOrReport = () => {
+    const iconName = isPublicationOwner ? 'trash' : 'exclamation';
+    const iconColor = isPublicationOwner
+      ? variables.colors.backgroundBlack
+      : variables.colors.backgroundRed;
+    const onPressAction = isPublicationOwner
+      ? () => toggleDeleteConfirmDialog(true)
+      : () => toggleReportConfirmDialog(true);
+    return (
+      <TouchableOpacity
+        style={styles.headerIconContainer}
+        onPress={onPressAction}
+      >
+        <IconSimple name={iconName} size={23} color={iconColor} />
+      </TouchableOpacity>
+    );
+  };
+
+  const renderPublicationActions = () => {
+    return (
+      <View style={styles.extraActionContainer}>
+        {renderPublicationActionFavorite()}
+        {renderPublicationActionDeleteOrReport()}
+      </View>
+    );
   };
 
   let content = null;
 
-  if (requestInProgress || deleteRequestInProgress || reportRequestInProgress) {
+  if (
+    requestInProgress ||
+    deleteRequestInProgress ||
+    reportRequestInProgress ||
+    !data
+  ) {
     content = <LoadingView />;
   } else {
     if (data) {
@@ -131,7 +247,7 @@ const PublicationView = ({
               />
             ))}
           </ScrollView>
-          {renderSimilarPublicationButtons()}
+          {renderSimilarPublicationButton()}
           <Divider />
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
@@ -174,87 +290,6 @@ const PublicationView = ({
     }
   }
 
-  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
-  const [showReportConfirmDialog, setShowReportConfirmDialog] = useState(false);
-  const [showDeletedDialog, setShowDeletedDialog] = useState(
-    deletedPublication
-  );
-  const [showReportedDialog, setShowReportedDialog] = useState(
-    reportedPublication
-  );
-
-  const onDeletePublication = () => {
-    toggleDeleteConfirmDialog(false);
-    deletePublication(id);
-  };
-
-  const onReportPublication = () => {
-    toggleReportConfirmDialog(false);
-    reportPublication(id);
-  };
-
-  const toggleDeleteConfirmDialog = toggle => {
-    setShowDeleteConfirmDialog(toggle);
-  };
-
-  const toggleReportConfirmDialog = toggle => {
-    setShowReportConfirmDialog(toggle);
-  };
-
-  const onDeletedPublication = () => {
-    setShowDeletedDialog(false);
-    if (!deleteRequestFailed) {
-      refreshHome(true);
-      refreshProfile(true);
-      NavigationService.goBack();
-    }
-  };
-
-  const onReportedPublication = () => {
-    setShowReportedDialog(false);
-  };
-
-  const renderPublicationOption = () => {
-    if (data && session) {
-      const publicationCreator = data.creator.id;
-      const loggedUser = session.profileInfo.id;
-      const isPublicationOwner = publicationCreator === loggedUser;
-      return (
-        <View style={styles.extraActionContainer}>
-          <TouchableOpacity
-            style={styles.headerIconContainer}
-            onPress={() => console.log('fav')}
-          >
-            <IconFontAwesome
-              name="star"
-              //style={styles.icon}
-              size={25}
-              color={variables.colors.backgroundOrange}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.headerIconContainer}
-            onPress={
-              isPublicationOwner
-                ? () => toggleDeleteConfirmDialog(true)
-                : () => toggleReportConfirmDialog(true)
-            }
-          >
-            <IconSimple
-              name={isPublicationOwner ? 'trash' : 'exclamation'}
-              size={23}
-              color={
-                isPublicationOwner
-                  ? variables.colors.backgroundBlack
-                  : variables.colors.backgroundRed
-              }
-            />
-          </TouchableOpacity>
-        </View>
-      );
-    }
-  };
-
   return (
     <ImageBackground
       imageStyle={imageStyles}
@@ -274,7 +309,7 @@ const PublicationView = ({
             />
           </TouchableOpacity>
           <Text style={styles.title}>{LABELS.title}</Text>
-          {renderPublicationOption()}
+          {renderPublicationActions()}
         </View>
         {content}
         <DialogConfirmBox
@@ -337,14 +372,20 @@ PublicationView.propTypes = {
 const mapDispatchToProps = {
   clearPublication: currentPublicationActions.clearCurrentPublication,
   deletePublication: id => currentPublicationActions.deletePublication(id),
+  favPublication: ({ userId, publicationId }) =>
+    addFavoritePublication({ userId, publicationId }),
   getPublication: currentPublicationActions.fetchPublication,
   reportPublication: id => currentPublicationActions.reportPublication(id),
+  refreshFavorites: refreshValue => setHasToRefreshFavorites(refreshValue),
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
-  refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue)
+  refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue),
+  unfavPublication: ({ userId, publicationId }) =>
+    deleteFavoritePublication({ userId, publicationId })
 };
 
 const mapStateToProps = state => ({
   currentPublication: state.currentPublication,
+  favorites: state.favorites,
   session: state.session
 });
 

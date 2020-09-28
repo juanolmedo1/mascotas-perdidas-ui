@@ -1,13 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import ProfileNavigator from '@profile/ProfileNavigator';
-import variables from '@styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
-import LikesView from '@likes/views/LikesView';
-import NotificationsView from '@notifications/views/NotificationsView';
+import React from 'react';
+
 import HomeNavigator from '@home/HomeNavigator';
+import LikesNavigator from '@likes/LikesNavigator';
+import NotificationsView from '@notifications/views/NotificationsView';
+import ProfileNavigator from '@profile/ProfileNavigator';
 import UploadNavigator from '@upload/UploadNavigator';
+import variables from '@styles/variables';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +45,7 @@ const BottomNavigator = () => {
       />
       <Tab.Screen
         name="Likes"
-        component={LikesView}
+        component={LikesNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <IconAnt

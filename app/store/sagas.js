@@ -15,6 +15,11 @@ import {
   onSelectedImagesSaga
 } from '@upload/store/sagas';
 import { registerUserSaga } from '@register/store/sagas';
+import {
+  fetchUserFavoritesSaga,
+  onFavPublicationSaga,
+  onUnfavPublicationSaga
+} from '@likes/store/sagas';
 
 export default {
   deletePublicationSaga,
@@ -28,5 +33,8 @@ export default {
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
   reportPublicationSaga,
-  registerUserSaga
+  registerUserSaga,
+  fetchUserFavoritesSaga,
+  onFavPublicationSaga,
+  onUnfavPublicationSaga
 };
