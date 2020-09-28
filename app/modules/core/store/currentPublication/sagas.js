@@ -28,7 +28,6 @@ export function* deletePublication(action) {
     yield call(PublicationService.deletePublication, payload);
     yield put(deletePublicationSuccess());
   } catch (error) {
-    console.log(error);
     yield put(deletePublicationFailure(error));
   }
 }

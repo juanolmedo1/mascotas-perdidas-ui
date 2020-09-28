@@ -91,6 +91,7 @@ const SimilarPublicationsView = ({
           </TouchableOpacity>
           <Text style={styles.title}>Publicaciones similares</Text>
         </View>
+        <Divider />
         {renderContent()}
       </ImageBackground>
     </View>

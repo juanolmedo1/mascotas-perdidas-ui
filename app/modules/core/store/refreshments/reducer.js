@@ -2,7 +2,8 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
   hasToRefreshHome: false,
-  hasToRefreshProfile: false
+  hasToRefreshProfile: false,
+  hasToRefreshFavorites: false
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -16,6 +17,11 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         hasToRefreshProfile: payload.refreshValue
+      };
+    case actionTypes.SET_HAS_REFRESH_FAVORITES:
+      return {
+        ...state,
+        hasToRefreshFavorites: payload.refreshValue
       };
     default:
       return state;
