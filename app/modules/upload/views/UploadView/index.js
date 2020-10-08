@@ -30,6 +30,7 @@ const UploadView = ({
   getExtractedColors,
   getProvinces,
   getLocations,
+  getTypeAndBreed,
   newPublication,
   navigation,
   ubications,
@@ -77,6 +78,7 @@ const UploadView = ({
             return { data: image.data, mime: image.mime, path: image.path };
           });
         setHasChanges();
+        getTypeAndBreed(imagesMapped[0].data);
         setPublicationPhotosArray(imagesMapped);
       })
       .catch(error => {
@@ -135,10 +137,9 @@ const UploadView = ({
     setPublicationLocationId(value);
   };
 
-  const navigateToFilters = () => {
+  const navigateToBreedsView = () => {
     getExtractedColors(newPublication.photosArray);
-    const routeNameToNavigate = 'Filters';
-    NavigationService.navigate(routeNameToNavigate);
+    NavigationService.navigate('Breeds');
   };
 
   const { provinces, locations } = ubications;
@@ -192,7 +193,7 @@ const UploadView = ({
             <Button
               disabled={!userHasSelectedAtLeastOnePhoto}
               text={LABELS.buttons.goToFilters}
-              onPress={navigateToFilters}
+              onPress={navigateToBreedsView}
               type="primary"
               rightArrow
             />
@@ -267,6 +268,7 @@ const mapDispatchToProps = {
     newPublicationActions.getExtractedColors(selectedImages),
   getLocations: ubicationActions.fetchLocations,
   getProvinces: ubicationActions.fetchProvinces,
+  getTypeAndBreed: image => newPublicationActions.getTypeAndBreedRequest(image),
   setExtractedColors: newExtractedColors =>
     newPublicationActions.setExtractedColors(newExtractedColors),
   setHasChanges: () => newPublicationActions.setHasChanges(),

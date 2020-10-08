@@ -4,7 +4,7 @@ export const backgroundStyles = {
 };
 
 export const imageStyles = {
-  opacity: 0.14,
+  opacity: 0.3,
   width: '100%',
   height: '100%'
 };
