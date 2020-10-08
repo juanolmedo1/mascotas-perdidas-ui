@@ -70,6 +70,29 @@ export default StyleSheet.create({
     fontSize: fonts.sizes.M,
     textAlign: 'center'
   },
+  noDetectionButtonContainer: {
+    marginVertical: variables.spacings.XL
+  },
+  noDetectionIcon: {
+    paddingHorizontal: variables.spacings.S
+  },
+  noDetectionIconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignContent: 'flex-end',
+    marginVertical: variables.spacings.M
+  },
+  noDetectionContainer: {
+    flex: 1,
+    paddingHorizontal: variables.spacings.L,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  noDetectionText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.M,
+    textAlign: 'center'
+  },
   title: {
     ...fonts.weights.regular,
     fontSize: fonts.sizes.L

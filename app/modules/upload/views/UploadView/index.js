@@ -78,7 +78,6 @@ const UploadView = ({
             return { data: image.data, mime: image.mime, path: image.path };
           });
         setHasChanges();
-        getTypeAndBreed(imagesMapped[0].data);
         setPublicationPhotosArray(imagesMapped);
       })
       .catch(error => {
@@ -138,6 +137,7 @@ const UploadView = ({
   };
 
   const navigateToBreedsView = () => {
+    getTypeAndBreed(newPublication.photosArray[0].data);
     getExtractedColors(newPublication.photosArray);
     NavigationService.navigate('Breeds');
   };

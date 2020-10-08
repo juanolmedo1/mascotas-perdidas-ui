@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import React from 'react';
 
@@ -25,7 +26,7 @@ const BreedsView = ({ newPublication, setPetBreed }) => {
   const renderBreedsList = () => (
     <FlatList
       showsVerticalScrollIndicator={false}
-      keyExtractor={item => item.breed}
+      keyExtractor={item => item.label}
       data={newPublication.petPrediction.breed}
       numColumns={1}
       contentContainerStyle={styles.breedList}
@@ -85,13 +86,37 @@ const BreedsView = ({ newPublication, setPetBreed }) => {
 
   const renderNotDetectedTypeContent = () => {
     return (
-      <View>
-        <Text> No detectamos que sea un gato o perro </Text>
-        <Button
-          text={'Siguiente'}
-          type="primary"
-          onPress={() => navigateConfirmed(false)}
-        />
+      <View style={styles.noDetectionContainer}>
+        <View>
+          <View style={styles.noDetectionIconsContainer}>
+            <IconAwesome5
+              name="dog"
+              size={50}
+              style={styles.noDetectionIcon}
+              color={variables.colors.backgroundOrange}
+            />
+            <IconAwesome5
+              name="question-circle"
+              size={50}
+              style={styles.noDetectionIcon}
+              color={variables.colors.backgroundOrange}
+            />
+            <IconAwesome5
+              name="cat"
+              size={50}
+              style={styles.noDetectionIcon}
+              color={variables.colors.backgroundOrange}
+            />
+          </View>
+          <Text style={styles.noDetectionText}>{LABELS.noDetection.text}</Text>
+        </View>
+        <View style={styles.noDetectionButtonContainer}>
+          <Button
+            text={LABELS.buttons.next}
+            type="primary"
+            onPress={() => navigateConfirmed(false)}
+          />
+        </View>
       </View>
     );
   };
@@ -102,39 +127,37 @@ const BreedsView = ({ newPublication, setPetBreed }) => {
       source={patternBackground}
       style={backgroundStyles}
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backContainer}
-            onPress={() => NavigationService.goBack()}
-          >
-            <IconIon
-              name="md-arrow-back"
-              size={25}
-              color={variables.colors.backgroundBlack}
-            />
-          </TouchableOpacity>
-          <Text style={styles.title}>{LABELS.title}</Text>
-        </View>
-        {!newPublication.petPrediction ? (
-          <LoadingView />
-        ) : newPublication.petPrediction.breed === 0 ? (
-          renderNotDetectedTypeContent()
-        ) : (
-          <>
-            <View style={styles.introductionContainer}>
-              <Text style={styles.introductionTitle}>
-                {LABELS.introduction.title(newPublication.petPrediction.type)}
-              </Text>
-              <Text style={styles.introductionDescription}>
-                {LABELS.introduction.description}
-              </Text>
-            </View>
-            {renderBreedsList()}
-            {renderButtons()}
-          </>
-        )}
-      </ScrollView>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backContainer}
+          onPress={() => NavigationService.goBack()}
+        >
+          <IconIon
+            name="md-arrow-back"
+            size={25}
+            color={variables.colors.backgroundBlack}
+          />
+        </TouchableOpacity>
+        <Text style={styles.title}>{LABELS.title}</Text>
+      </View>
+      {!newPublication.petPrediction ? (
+        <LoadingView />
+      ) : newPublication.petPrediction.breed.length === 0 ? (
+        renderNotDetectedTypeContent()
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.introductionContainer}>
+            <Text style={styles.introductionTitle}>
+              {LABELS.introduction.title(newPublication.petPrediction.type)}
+            </Text>
+            <Text style={styles.introductionDescription}>
+              {LABELS.introduction.description}
+            </Text>
+          </View>
+          {renderBreedsList()}
+          {renderButtons()}
+        </ScrollView>
+      )}
     </ImageBackground>
   );
 };
