@@ -21,6 +21,15 @@ export const createPublicationSuccess = similarPublications =>
 export const getExtractedColors = selectedImages =>
   createAction(actionTypes.GET_EXTRACTED_COLORS, { selectedImages });
 
+export const getTypeAndBreedFailure = error =>
+  createAction(actionTypes.GET_TYPE_AND_BREED_FAILURE, { error });
+
+export const getTypeAndBreedRequest = image =>
+  createAction(actionTypes.GET_TYPE_AND_BREED_REQUEST, { image });
+
+export const getTypeAndBreedSuccess = imagePrediction =>
+  createAction(actionTypes.GET_TYPE_AND_BREED_SUCCESS, imagePrediction);
+
 export const setAdditionalInformation = additionalInformation =>
   createAction(actionTypes.SET_ADDITIONAL_INFORMATION, {
     additionalInformation
@@ -35,6 +44,9 @@ export const setExtractingColors = extractingColors =>
   createAction(actionTypes.SET_EXTRACTING_COLORS, { extractingColors });
 
 export const setHasChanges = () => createAction(actionTypes.SET_HAS_CHANGES);
+
+export const setPetBreed = petBreed =>
+  createAction(actionTypes.SET_PET_BREED, { petBreed });
 
 export const setPetCollar = hasCollar =>
   createAction(actionTypes.SET_PET_COLLAR, { hasCollar });

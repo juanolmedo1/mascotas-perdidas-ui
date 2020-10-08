@@ -11,6 +11,7 @@ import {
 import { fetchLoginSaga, fetchUserPublicationsSaga } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
 import {
+  detectTypeAndBreedSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga
 } from '@upload/store/sagas';
@@ -23,6 +24,7 @@ import {
 
 export default {
   deletePublicationSaga,
+  detectTypeAndBreedSaga,
   fetchLocationsSaga,
   fetchLoginSaga,
   fetchProvincesSaga,

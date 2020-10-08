@@ -309,7 +309,7 @@ const PublicationView = ({
             />
           </TouchableOpacity>
           <Text style={styles.title}>{LABELS.title}</Text>
-          {renderPublicationActions()}
+          {requestInProgress ? null : renderPublicationActions()}
         </View>
         {content}
         <DialogConfirmBox

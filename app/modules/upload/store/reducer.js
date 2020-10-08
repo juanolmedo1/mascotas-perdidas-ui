@@ -7,9 +7,11 @@ const initialState = {
   extractedColors: [],
   extractingColors: false,
   hasChanges: false,
+  petBreed: null,
   petColors: [],
   petCollar: false,
   petGender: PET_ENTITY.genders.male,
+  petPrediction: null,
   petSize: PET_ENTITY.sizes.medium,
   petType: PET_ENTITY.types.dog,
   phoneNumber: null,
@@ -18,6 +20,8 @@ const initialState = {
   publicationType: PUBLICATION_ENTITY.types.lost,
   requestFailed: false,
   requestInProgress: false,
+  requestPetPredictionInProgress: false,
+  requestPetPredictionFail: false,
   similarPublications: [],
   userId: null
 };
@@ -75,6 +79,27 @@ export default function(state = initialState, { type, payload }) {
         requestInProgress: false,
         similarPublications: payload.similarPublications
       };
+    case actionTypes.GET_TYPE_AND_BREED_FAILURE:
+      return {
+        ...state,
+        requestPetPredictionFail: true,
+        requestPetPredictionInProgress: false,
+        petPrediction: null
+      };
+    case actionTypes.GET_TYPE_AND_BREED_REQUEST:
+      return {
+        ...state,
+        requestPetPredictionFail: false,
+        requestPetPredictionInProgress: true,
+        petPrediction: null
+      };
+    case actionTypes.GET_TYPE_AND_BREED_SUCCESS:
+      return {
+        ...state,
+        requestPetPredictionFail: false,
+        requestPetPredictionInProgress: false,
+        petPrediction: payload
+      };
     case actionTypes.SET_ADDITIONAL_INFORMATION:
       return {
         ...state,
@@ -94,6 +119,11 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         hasChanges: true
+      };
+    case actionTypes.SET_PET_BREED:
+      return {
+        ...state,
+        petBreed: payload.petBreed
       };
     case actionTypes.SET_PET_COLLAR:
       return {
