@@ -5,6 +5,8 @@ import * as actionTypes from '@upload/store/actionTypes';
 import {
   createPublicationFail,
   createPublicationSuccess,
+  getCommonBreedAttributesValuesFailure,
+  getCommonBreedAttributesValuesSuccess,
   getTypeAndBreedFailure,
   getTypeAndBreedSuccess,
   setExtractedColors,
@@ -125,4 +127,24 @@ export function* detectTypeAndBreed(action) {
 
 export function* detectTypeAndBreedSaga() {
   yield takeLatest(actionTypes.GET_TYPE_AND_BREED_REQUEST, detectTypeAndBreed);
+}
+
+export function* getCommonBreedAttributes(action) {
+  const { payload } = action;
+  try {
+    const breedCommonValues = yield call(
+      NewPublicationService.getCommonValues,
+      payload
+    );
+    yield put(getCommonBreedAttributesValuesSuccess(breedCommonValues));
+  } catch (error) {
+    yield put(getCommonBreedAttributesValuesFailure(error));
+  }
+}
+
+export function* getCommonBreedAttributesSaga() {
+  yield takeLatest(
+    actionTypes.GET_COMMON_BREED_ATTRIBUTES_REQUEST,
+    getCommonBreedAttributes
+  );
 }

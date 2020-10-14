@@ -2,6 +2,9 @@ import * as actionTypes from './actionTypes';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 
+const normalColors = [...Object.values(PET_ENTITY.colors.normal)];
+const otherColors = [...Object.values(PET_ENTITY.colors.others)];
+
 const initialState = {
   additionalInformation: '',
   extractedColors: [],
@@ -20,6 +23,8 @@ const initialState = {
   publicationType: PUBLICATION_ENTITY.types.lost,
   requestFailed: false,
   requestInProgress: false,
+  requestCommonBreedValuesInProgress: false,
+  requestCommonBreedValuesFail: false,
   requestPetPredictionInProgress: false,
   requestPetPredictionFail: false,
   similarPublications: [],
@@ -53,6 +58,31 @@ const handleSelectedColors = (state, { petColor }) => {
   };
 };
 
+const handleCommonBreedAttributes = (state, payload) => {
+  const { color: commonColors, gender, size } = payload;
+  const commonToExtractedColors = [];
+  commonColors.forEach(commonColor => {
+    const isNormalsColor = normalColors.find(
+      normalColor => normalColor === commonColor
+    );
+    const isOthersColor = otherColors.find(
+      otherColor => otherColor === commonColor
+    );
+    if (!isNormalsColor && !isOthersColor) {
+      commonToExtractedColors.push(commonColor);
+    }
+  });
+  return {
+    ...state,
+    requestCommonBreedValuesFail: false,
+    requestCommonBreedValuesInProgress: false,
+    extractedColors: [...state.extractedColors, ...commonToExtractedColors],
+    petGender: gender,
+    petColors: commonColors,
+    petSize: size
+  };
+};
+
 export default function(state = initialState, { type, payload }) {
   switch (type) {
     case actionTypes.CLEAR_STORE:
@@ -79,6 +109,20 @@ export default function(state = initialState, { type, payload }) {
         requestInProgress: false,
         similarPublications: payload.similarPublications
       };
+    case actionTypes.GET_COMMON_BREED_ATTRIBUTES_FAILURE:
+      return {
+        ...state,
+        requestCommonBreedValuesFail: true,
+        requestCommonBreedValuesInProgress: false
+      };
+    case actionTypes.GET_COMMON_BREED_ATTRIBUTES_REQUEST:
+      return {
+        ...state,
+        requestCommonBreedValuesFail: false,
+        requestCommonBreedValuesInProgress: true
+      };
+    case actionTypes.GET_COMMON_BREED_ATTRIBUTES_SUCCESS:
+      return handleCommonBreedAttributes(state, payload);
     case actionTypes.GET_TYPE_AND_BREED_FAILURE:
       return {
         ...state,
@@ -108,7 +152,10 @@ export default function(state = initialState, { type, payload }) {
     case actionTypes.SET_EXTRACTED_COLORS:
       return {
         ...state,
-        extractedColors: payload.newExtractedColors
+        extractedColors: [
+          ...state.extractedColors,
+          ...payload.newExtractedColors
+        ]
       };
     case actionTypes.SET_EXTRACTING_COLORS:
       return {

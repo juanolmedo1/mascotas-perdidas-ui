@@ -18,6 +18,18 @@ export const createPublicationFail = error =>
 export const createPublicationSuccess = similarPublications =>
   createAction(actionTypes.CREATE_PUBLICATION_SUCCESS, { similarPublications });
 
+export const getCommonBreedAttributesValuesFailure = error =>
+  createAction(actionTypes.GET_COMMON_BREED_ATTRIBUTES_FAILURE, { error });
+
+export const getCommonBreedAttributesValuesRequest = breed =>
+  createAction(actionTypes.GET_COMMON_BREED_ATTRIBUTES_REQUEST, { breed });
+
+export const getCommonBreedAttributesValuesSuccess = commonAttributesValues =>
+  createAction(
+    actionTypes.GET_COMMON_BREED_ATTRIBUTES_SUCCESS,
+    commonAttributesValues
+  );
+
 export const getExtractedColors = selectedImages =>
   createAction(actionTypes.GET_EXTRACTED_COLORS, { selectedImages });
 

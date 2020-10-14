@@ -12,6 +12,7 @@ import { fetchLoginSaga, fetchUserPublicationsSaga } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
 import {
   detectTypeAndBreedSaga,
+  getCommonBreedAttributesSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga
 } from '@upload/store/sagas';
@@ -31,6 +32,7 @@ export default {
   fetchPublicationSaga,
   fetchPublicationsSaga,
   fetchUserPublicationsSaga,
+  getCommonBreedAttributesSaga,
   getSimilarPublicationsSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
