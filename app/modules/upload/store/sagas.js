@@ -5,10 +5,13 @@ import * as actionTypes from '@upload/store/actionTypes';
 import {
   createPublicationFail,
   createPublicationSuccess,
+  getTypeAndBreedFailure,
+  getTypeAndBreedSuccess,
   setExtractedColors,
   setExtractingColors
 } from '@upload/store/actions';
 import NewPublicationService from '@upload/services/NewPublicationService';
+import PhotoDetectionService from '@upload/services/PhotoDetectionService';
 import NavigationService from '@core/utils/navigation';
 import { getCurrentUbication } from '@login/store/selectors';
 
@@ -105,4 +108,21 @@ export function* onSelectedImages(action) {
 
 export function* onSelectedImagesSaga() {
   yield takeLatest(actionTypes.GET_EXTRACTED_COLORS, onSelectedImages);
+}
+
+export function* detectTypeAndBreed(action) {
+  const { payload } = action;
+  try {
+    const petPrediction = yield call(
+      PhotoDetectionService.getTypeAndBreed,
+      payload
+    );
+    yield put(getTypeAndBreedSuccess(petPrediction));
+  } catch (error) {
+    yield put(getTypeAndBreedFailure(error));
+  }
+}
+
+export function* detectTypeAndBreedSaga() {
+  yield takeLatest(actionTypes.GET_TYPE_AND_BREED_REQUEST, detectTypeAndBreed);
 }

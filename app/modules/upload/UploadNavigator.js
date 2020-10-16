@@ -1,9 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import UploadView from '@upload/views/UploadView';
+
+import BreedsView from '@upload/views/BreedsView';
 import FiltersView from '@upload/views/FiltersView';
-import ResponseView from '@upload/views/ResponseView';
 import PublicationView from '@core/views/PublicationView';
+import ResponseView from '@upload/views/ResponseView';
+import UploadView from '@upload/views/UploadView';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +15,13 @@ const UploadNavigator = () => {
       <Stack.Screen
         name="Upload"
         component={UploadView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="Breeds"
+        component={BreedsView}
         options={{
           headerShown: false
         }}
