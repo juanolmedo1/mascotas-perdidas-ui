@@ -17,6 +17,20 @@ export default StyleSheet.create({
     marginBottom: 10,
     marginTop: 5
   },
+  callout: {
+    flex: 1,
+    alignItems: 'center',
+    height: 150,
+    width: 150
+  },
+  calloutImage: {
+    flex: 1,
+    width: 100,
+    height: 100
+  },
+  calloutText: {
+    flex: 1
+  },
   column: {
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -35,6 +49,17 @@ export default StyleSheet.create({
     width: 70,
     flexDirection: 'row',
     justifyContent: 'flex-end'
+  },
+  mapContainer: {
+    flex: 1
+  },
+  map: {
+    flex: 1
+  },
+  markerContainer: {
+    padding: variables.spacings.XXS,
+    backgroundColor: variables.colors.backgroundOrange,
+    borderRadius: 4
   },
   title: {
     fontSize: fonts.sizes.XL,

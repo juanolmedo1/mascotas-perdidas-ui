@@ -1,10 +1,11 @@
 import { ImageBackground, Text, View } from 'react-native';
 import React from 'react';
+
 import { backgroundStyles, imageStyles } from '@styles/background';
-import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import { LABELS } from '@notifications/views/NotificationsView/constants';
-import styles from '@notifications/views/NotificationsView/styles';
 import Divider from '@app/modules/core/components/Divider';
+import patternBackground from '@app/assets/background/patternBackground.jpeg';
+import styles from '@notifications/views/NotificationsView/styles';
 
 const NotificationsView = () => {
   return (
