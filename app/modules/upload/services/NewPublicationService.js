@@ -53,6 +53,23 @@ const createPublication = async payload => {
   return response.createPublication;
 };
 
+const GET_COMMON_VALUES_QUERY = `query getCommonValues($breed: String!){
+  getCommonValues(breed: $breed){
+    gender
+    size
+    color
+  }
+}`;
+
+const getCommonValues = async payload => {
+  const response = await GraphQLClient.request(
+    GET_COMMON_VALUES_QUERY,
+    payload
+  );
+  return response.getCommonValues;
+};
+
 export default {
-  createPublication
+  createPublication,
+  getCommonValues
 };

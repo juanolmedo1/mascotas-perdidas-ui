@@ -22,7 +22,11 @@ import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import styles from '@upload/views/BreedsView/styles';
 import variables from '@styles/variables';
 
-const BreedsView = ({ newPublication, setPetBreed }) => {
+const BreedsView = ({
+  newPublication,
+  getCommonBreedAttributes,
+  setPetBreed
+}) => {
   const renderBreedsList = () => (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -58,6 +62,8 @@ const BreedsView = ({ newPublication, setPetBreed }) => {
   const navigateConfirmed = confirmedBreed => {
     if (!confirmedBreed) {
       setPetBreed('Other');
+    } else {
+      getCommonBreedAttributes(newPublication.petBreed);
     }
     NavigationService.navigate('Filters');
   };
@@ -163,6 +169,8 @@ const BreedsView = ({ newPublication, setPetBreed }) => {
 };
 
 const mapDispatchToProps = {
+  getCommonBreedAttributes: petBreed =>
+    newPublicationActions.getCommonBreedAttributesValuesRequest(petBreed),
   setPetBreed: petBreed => newPublicationActions.setPetBreed(petBreed)
 };
 

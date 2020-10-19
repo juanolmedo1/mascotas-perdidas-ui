@@ -36,22 +36,26 @@ const FiltersView = ({
   createPublication,
   navigation,
   newPublication,
-  //setAdditionalInformation,
   setPetColor,
   setPetCollar,
   setPetGender,
   setPetType,
   setPetSize,
-  //setPhoneNumber,
   setPublicationReward,
   setPublicationType
 }) => {
   const {
     requestFailed,
     requestInProgress,
+    requestCommonBreedValuesInProgress,
+    requestCommonBreedValuesFail,
     similarPublications,
     ...newPublicationRest
   } = newPublication;
+
+  const hasSelectedColor = newPublication.petColors.length > 0;
+  const preloadedAttributes =
+    newPublication.petBreed !== 'Other' && !requestCommonBreedValuesFail;
 
   useEffect(() => {
     const backAction = () => {
@@ -72,19 +76,14 @@ const FiltersView = ({
   );
 
   const createNewPublication = () => {
-    /*Por ahora lo mandamos con el create publication sin hacer dispatch de ninguna acción
-    setPhoneNumber(phoneNumberText);
-    setAdditionalInformation(additionalInformationText);
-    */
     const newPublicationValues = {
       ...newPublicationRest,
+      petColors: newPublicationRest.petColors.sort(),
       phoneNumber: phoneNumberText,
       additionalInformation: additionalInformationText
     };
     createPublication(newPublicationValues);
   };
-
-  const hasSelectedColor = newPublication.petColors.length > 0;
 
   return (
     <ImageBackground
@@ -106,10 +105,16 @@ const FiltersView = ({
           </TouchableOpacity>
           <Text style={styles.title}>{LABELS.title}</Text>
         </View>
-        {newPublication.extractingColors ? (
+        {newPublication.extractingColors ||
+        newPublication.requestCommonBreedValuesInProgress ? (
           <LoadingView />
         ) : (
           <View>
+            {preloadedAttributes ? (
+              <View style={styles.block}>
+                <Text style={styles.preloadedText}>{LABELS.preloadedText}</Text>
+              </View>
+            ) : null}
             <View style={styles.block}>
               <Text style={styles.subtitle}>{LABELS.subtitle}</Text>
             </View>
@@ -196,12 +201,10 @@ const FiltersView = ({
 FiltersView.propTypes = {
   clearPublicationValues: PropTypes.func,
   createPublication: PropTypes.func.isRequired,
-  //setAdditionalInformation: PropTypes.func.isRequired,
   setPetCollar: PropTypes.func.isRequired,
   setPetGender: PropTypes.func.isRequired,
   setPetType: PropTypes.func.isRequired,
   setPetSize: PropTypes.func.isRequired,
-  //setPhoneNumber: PropTypes.func.isRequired,
   setPublicationReward: PropTypes.func.isRequired,
   setPublicationType: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
@@ -236,13 +239,11 @@ FiltersView.propTypes = {
 const mapDispatchToProps = {
   createPublication: newPublication =>
     newPublicationActions.createPublicationRequest(newPublication),
-  // setAdditionalInformation: additionalInformation => newPublicationActions.setAdditionalInformation(additionalInformation),
   setPetColor: petColor => newPublicationActions.setPetColor(petColor),
   setPetCollar: hasCollar => newPublicationActions.setPetCollar(hasCollar),
   setPetGender: petGender => newPublicationActions.setPetGender(petGender),
   setPetType: petType => newPublicationActions.setPetType(petType),
   setPetSize: petSize => newPublicationActions.setPetSize(petSize),
-  // setPhoneNumber: phoneNumber => newPublicationActions.setPhoneNumber(phoneNumber),
   setPublicationReward: hasReward =>
     newPublicationActions.setPublicationReward(hasReward),
   setPublicationType: publicationType =>

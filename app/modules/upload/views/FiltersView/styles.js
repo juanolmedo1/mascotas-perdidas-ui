@@ -37,6 +37,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     left: 0
   },
+  preloadedText: {
+    marginHorizontal: variables.spacings.L,
+    ...fonts.weights.bold,
+    fontSize: fonts.sizes.M,
+    textAlign: 'center',
+    color: variables.colors.textGreen
+  },
   title: {
     fontSize: fonts.sizes.L,
     ...fonts.weights.regular
