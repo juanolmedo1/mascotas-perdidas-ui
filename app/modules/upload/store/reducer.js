@@ -142,7 +142,8 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         requestPetPredictionFail: false,
         requestPetPredictionInProgress: false,
-        petPrediction: payload
+        petPrediction: payload,
+        petType: payload.type.toUpperCase()
       };
     case actionTypes.SET_ADDITIONAL_INFORMATION:
       return {
