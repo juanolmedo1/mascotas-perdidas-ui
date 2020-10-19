@@ -21,12 +21,32 @@ export function* fetchPublications() {
       PublicationService.getPublications,
       filtersWithUbication
     );
-    yield put(fetchPublicationsSuccess(publications));
+    const mockedPublications = mockupUbication(publications);
+    yield put(fetchPublicationsSuccess(mockedPublications));
     yield NavigationService.navigate('Home');
   } catch (error) {
     yield put(fetchPublicationsFailure(error));
   }
 }
+
+const mockupUbication = publications => {
+  const minLat = -38.7;
+  const maxLat = -38.68;
+  const minLong = -62.31;
+  const maxLong = -62.27;
+  const mockPublications = [];
+  publications.forEach(publication => {
+    const randomLat = Math.random() * (minLat - maxLat) + maxLat;
+    const randomLong = Math.random() * (minLong - maxLong) + maxLong;
+    const newPublicationMocked = {
+      ...publication,
+      latitude: randomLat,
+      longitude: randomLong
+    };
+    mockPublications.push(newPublicationMocked);
+  });
+  return mockPublications;
+};
 
 export function* fetchPublicationsSaga() {
   yield takeLatest(types.FETCH_PUBLICATIONS__REQUEST, fetchPublications);
