@@ -6,16 +6,21 @@ import {
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import PublicationService from '@core/services/PublicationService';
 import { getFilters } from '@home/store/selectors';
-import { getCurrentUbication } from '@login/store/selectors';
 import NavigationService from '@core/utils/navigation';
+import {
+  getLatitude,
+  getLongitude
+} from '@app/modules/core/store/ubication/selectors';
 
 export function* fetchPublications() {
   try {
     const filters = yield select(getFilters);
-    const currentUbication = yield select(getCurrentUbication);
+    const latitude = yield select(getLatitude);
+    const longitude = yield select(getLongitude);
     const filtersWithUbication = {
       ...filters,
-      ...currentUbication
+      latitude,
+      longitude
     };
     const publications = yield call(
       PublicationService.getPublications,

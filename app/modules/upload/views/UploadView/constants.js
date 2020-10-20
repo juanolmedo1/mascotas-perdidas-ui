@@ -5,10 +5,6 @@ export const LABELS = {
     goToFilters: 'Continuar',
     cancel: 'Cancelar'
   },
-  dropdowns: {
-    location: 'Localidad',
-    province: 'Provincia'
-  },
   modal: {
     modalText:
       '¡Atención! Se han efectuado cambios para realizar la publicación. ¿Desea descartarla?',

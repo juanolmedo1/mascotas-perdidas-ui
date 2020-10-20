@@ -5,7 +5,6 @@ const initialState = {
   requestProfileFailed: false,
   requestPublicationsInProgress: false,
   requestPublicationsFailed: false,
-  currentUbication: {},
   requestProfileError: {},
   profileInfo: {}
 };
@@ -30,10 +29,6 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         requestProfileFailed: false,
         requestProfileInProgress: false,
-        currentUbication: {
-          province: payload.province,
-          location: payload.location
-        },
         profileInfo: payload
       };
     case types.FETCH_USER_PUBLICATIONS__REQUEST:
@@ -56,22 +51,6 @@ export default function(state = initialState, { type, payload }) {
         profileInfo: {
           ...state.profileInfo,
           publications: payload
-        }
-      };
-    case types.SET_CURRENT_PROVINCE:
-      return {
-        ...state,
-        currentUbication: {
-          ...state.currentUbication,
-          province: payload
-        }
-      };
-    case types.SET_CURRENT_LOCATION:
-      return {
-        ...state,
-        currentUbication: {
-          ...state.currentUbication,
-          location: payload
         }
       };
     default:

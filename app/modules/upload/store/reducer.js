@@ -28,6 +28,8 @@ const initialState = {
   requestPetPredictionInProgress: false,
   requestPetPredictionFail: false,
   similarPublications: [],
+  latitude: null,
+  longitude: null,
   userId: null
 };
 
@@ -219,6 +221,13 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         userId: payload.userId
+      };
+
+    case actionTypes.SET_PUBLICATION_UBICATION:
+      return {
+        ...state,
+        latitude: payload.latitude,
+        longitude: payload.longitude
       };
     default:
       return state;

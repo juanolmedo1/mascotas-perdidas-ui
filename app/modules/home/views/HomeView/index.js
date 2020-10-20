@@ -28,14 +28,20 @@ import PublicationsList from '@core/components/PublicationsList';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
+import {
+  setUbicationFailure,
+  setUbicationSuccess
+} from '@app/modules/core/store/ubication/actions';
 
 const HomeView = ({
   getPublications,
   publications,
   refreshments,
-  refreshHome
+  refreshHome,
+  setUbication,
+  setUbicationFail,
+  ubications
 }) => {
-  const [location, setLocation] = useState(undefined);
   const [mapView, setMapView] = useState(false);
 
   async function requestPermissions() {
@@ -59,17 +65,17 @@ const HomeView = ({
     Geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
-        setLocation({
+        setUbication({
           latitude,
           longitude
         });
       },
       error => {
-        console.log(error.code, error.message);
+        setUbicationFail({ error });
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
-  }, []);
+  }, [setUbication, setUbicationFail]);
 
   useEffect(() => {
     getPublications();
@@ -136,7 +142,7 @@ const HomeView = ({
   };
 
   const renderMap = () => {
-    return location ? (
+    return ubications.latitude && ubications.longitude ? (
       <View style={styles.mapContainer}>
         <MapView
           customMapStyle={mapStylesJson}
@@ -144,16 +150,16 @@ const HomeView = ({
           style={styles.map}
           showsUserLocation={true}
           initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: ubications.latitude,
+            longitude: ubications.longitude,
             latitudeDelta: 0.05,
             longitudeDelta: 0.05
           }}
         >
           <Marker
             coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude
+              latitude: ubications.latitude,
+              longitude: ubications.longitude
             }}
           />
           {renderPublications()}
@@ -208,10 +214,13 @@ HomeView.propTypes = {
 
 const mapDispatchToProps = {
   getPublications: fetchPublications,
+  setUbication: setUbicationSuccess,
+  setUbicationFail: setUbicationFailure,
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue)
 };
 
 const mapStateToProps = state => ({
+  ubications: state.ubications,
   publications: state.publications,
   refreshments: state.refreshments
 });

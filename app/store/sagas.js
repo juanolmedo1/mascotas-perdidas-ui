@@ -1,8 +1,4 @@
 import {
-  fetchLocationsSaga,
-  fetchProvincesSaga
-} from '@core/store/ubication/sagas';
-import {
   deletePublicationSaga,
   fetchPublicationSaga,
   getSimilarPublicationsSaga,
@@ -26,9 +22,7 @@ import {
 export default {
   deletePublicationSaga,
   detectTypeAndBreedSaga,
-  fetchLocationsSaga,
   fetchLoginSaga,
-  fetchProvincesSaga,
   fetchPublicationSaga,
   fetchPublicationsSaga,
   fetchUserPublicationsSaga,

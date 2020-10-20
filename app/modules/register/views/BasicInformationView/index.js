@@ -58,7 +58,7 @@ const BasicInformationView = ({ registration, setInformation }) => {
           const errors = validateValues(values);
           if (Object.keys(errors).length === 0) {
             setInformation(values);
-            NavigationService.navigate('UbicationView');
+            NavigationService.navigate('UsernameView');
           }
         }}
       >

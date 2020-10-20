@@ -89,3 +89,6 @@ export const setPublicationReward = hasReward =>
 
 export const setUserId = userId =>
   createAction(actionTypes.SET_USER_ID, { userId });
+
+export const setPublicationUbication = ubication =>
+  createAction(actionTypes.SET_PUBLICATION_UBICATION, ubication);
