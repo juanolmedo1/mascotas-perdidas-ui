@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { fetchPublications } from '@home/store/actions';
-import { mapStylesJson } from '@home/views/HomeView/mapStylesJson';
+import { mapStylesJson } from '@app/styles/mapStylesJson';
 import { setHasToRefreshHome } from '@core/store/refreshments/actions';
 import Divider from '@core/components/Divider';
 import HomeViewToggler from '@home/components/HomeViewToggler';
@@ -69,21 +69,19 @@ const HomeView = ({
           latitude,
           longitude
         });
+        getPublications();
       },
       error => {
         setUbicationFail({ error });
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
-  }, [setUbication, setUbicationFail]);
-
-  useEffect(() => {
-    getPublications();
-  }, [getPublications]);
+  }, [getPublications, setUbication, setUbicationFail]);
 
   useFocusEffect(
     React.useCallback(() => {
       if (refreshments.hasToRefreshHome) {
+        setMapView(false);
         getPublications();
         refreshHome(false);
       }
@@ -97,7 +95,9 @@ const HomeView = ({
   const { requestFailed, requestInProgress, data } = publications;
 
   const renderList = () => {
-    return requestInProgress ? (
+    return requestInProgress ||
+      !ubications.latitude ||
+      !ubications.longitude ? (
       <LoadingView />
     ) : (
       <PublicationsList
@@ -114,8 +114,8 @@ const HomeView = ({
     return data.map(publication => (
       <Marker
         coordinate={{
-          latitude: publication.latitude,
-          longitude: publication.longitude
+          latitude: publication.ubication.firstLatitude,
+          longitude: publication.ubication.firstLongitude
         }}
       >
         <View style={styles.markerContainer}>

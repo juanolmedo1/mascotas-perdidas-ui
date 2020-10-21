@@ -37,6 +37,10 @@ const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
           type
         }
       }
+      ubication {
+        firstLatitude
+        firstLongitude
+      }
     }
   }`;
 

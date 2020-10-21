@@ -9,17 +9,20 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+
 import * as newPublicationActions from '@upload/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@upload/views/UploadView/constants';
 import Button from '@core/components/Button';
-import ImagesContainer from '@upload/components/ImagesContainer';
 import DialogConfirmBox from '@core/components/DialogConfirmBox';
+import Divider from '@core/components/Divider';
+import ImagesContainer from '@upload/components/ImagesContainer';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@upload/views/UploadView/styles';
+import UbicationSelector from '@core/components/UbicationSelector';
 
 const UploadView = ({
   clearPublicationValues,
@@ -38,6 +41,7 @@ const UploadView = ({
   setUserId
 }) => {
   const [showConfirmBackModal, setShowConfirmBackModal] = useState(false);
+  const [showUbicationSelector, setShowUbicationSelector] = useState(false);
 
   const confirmBack = () => {
     setShowConfirmBackModal(false);
@@ -113,7 +117,16 @@ const UploadView = ({
     NavigationService.navigate('Breeds');
   };
 
-  const { latitude, longitude } = ubications;
+  const onConfirmUbicationHandler = ubication => {
+    setShowUbicationSelector(false);
+    setPublicationUbication(ubication);
+  };
+
+  const { latitude: userLatitude, longitude: userLongitude } = ubications;
+  const {
+    latitude: publicationLatitude,
+    longitude: publicationLongitude
+  } = newPublication;
 
   const userHasSelectedAtLeastOnePhoto = newPublication.photosArray.length > 0;
 
@@ -138,12 +151,31 @@ const UploadView = ({
         </View>
         <View style={styles.contentContainer}>
           <ImagesContainer images={newPublication.photosArray} />
-          <Text style={styles.text}> {LABELS.photosInstructions} </Text>
           <Button
             text={LABELS.buttons.addPhotos}
             onPress={openImagePicker}
             type="tertiary"
           />
+          <Text style={styles.text}> {LABELS.photosInstructions} </Text>
+          <Divider />
+          <Button
+            text={LABELS.buttons.selectUbication}
+            onPress={() => setShowUbicationSelector(true)}
+            type="tertiary"
+          />
+          <Text style={styles.text}>{LABELS.ubicationInstructions}</Text>
+          {showUbicationSelector ? (
+            <UbicationSelector
+              startLatitude={publicationLatitude || userLatitude}
+              startLongitude={publicationLongitude || userLongitude}
+              startLatitudeDelta={0.05}
+              startLongitudeDelta={0.05}
+              onConfirmUbication={ubication =>
+                onConfirmUbicationHandler(ubication)
+              }
+            />
+          ) : null}
+
           <Button
             disabled={!userHasSelectedAtLeastOnePhoto}
             text={LABELS.buttons.goToFilters}
