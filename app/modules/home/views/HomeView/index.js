@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { fetchPublications } from '@home/store/actions';
-import { mapStylesJson } from '@home/views/HomeView/mapStylesJson';
+import { mapStylesJson } from '@app/styles/mapStylesJson';
 import { setHasToRefreshHome } from '@core/store/refreshments/actions';
 import Divider from '@core/components/Divider';
 import HomeViewToggler from '@home/components/HomeViewToggler';
@@ -28,14 +28,20 @@ import PublicationsList from '@core/components/PublicationsList';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
+import {
+  setUbicationFailure,
+  setUbicationSuccess
+} from '@app/modules/core/store/ubication/actions';
 
 const HomeView = ({
   getPublications,
   publications,
   refreshments,
-  refreshHome
+  refreshHome,
+  setUbication,
+  setUbicationFail,
+  ubications
 }) => {
-  const [location, setLocation] = useState(undefined);
   const [mapView, setMapView] = useState(false);
 
   async function requestPermissions() {
@@ -59,25 +65,23 @@ const HomeView = ({
     Geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
-        setLocation({
+        setUbication({
           latitude,
           longitude
         });
+        getPublications();
       },
       error => {
-        console.log(error.code, error.message);
+        setUbicationFail({ error });
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
-  }, []);
-
-  useEffect(() => {
-    getPublications();
-  }, [getPublications]);
+  }, [getPublications, setUbication, setUbicationFail]);
 
   useFocusEffect(
     React.useCallback(() => {
       if (refreshments.hasToRefreshHome) {
+        setMapView(false);
         getPublications();
         refreshHome(false);
       }
@@ -91,7 +95,9 @@ const HomeView = ({
   const { requestFailed, requestInProgress, data } = publications;
 
   const renderList = () => {
-    return requestInProgress ? (
+    return requestInProgress ||
+      !ubications.latitude ||
+      !ubications.longitude ? (
       <LoadingView />
     ) : (
       <PublicationsList
@@ -108,13 +114,12 @@ const HomeView = ({
     return data.map(publication => (
       <Marker
         coordinate={{
-          latitude: publication.latitude,
-          longitude: publication.longitude
+          latitude: publication.ubication.firstLatitude,
+          longitude: publication.ubication.firstLongitude
         }}
+        key={publication.id}
       >
-        <View style={styles.markerContainer}>
-          <PublicationIcon type={publication.type} />
-        </View>
+        <PublicationIcon type={publication.type} />
         <Callout
           style={styles.callout}
           tooltip={true}
@@ -136,7 +141,7 @@ const HomeView = ({
   };
 
   const renderMap = () => {
-    return location ? (
+    return ubications.latitude && ubications.longitude ? (
       <View style={styles.mapContainer}>
         <MapView
           customMapStyle={mapStylesJson}
@@ -144,16 +149,16 @@ const HomeView = ({
           style={styles.map}
           showsUserLocation={true}
           initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: ubications.latitude,
+            longitude: ubications.longitude,
             latitudeDelta: 0.05,
             longitudeDelta: 0.05
           }}
         >
           <Marker
             coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude
+              latitude: ubications.latitude,
+              longitude: ubications.longitude
             }}
           />
           {renderPublications()}
@@ -208,10 +213,13 @@ HomeView.propTypes = {
 
 const mapDispatchToProps = {
   getPublications: fetchPublications,
+  setUbication: setUbicationSuccess,
+  setUbicationFail: setUbicationFailure,
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue)
 };
 
 const mapStateToProps = state => ({
+  ubications: state.ubications,
   publications: state.publications,
   refreshments: state.refreshments
 });

@@ -1,4 +1,4 @@
 export const LABELS = {
-  title: 'Publicaciones favoritas',
+  title: 'Favoritas',
   no_publications: 'No tiene me gusta'
 };

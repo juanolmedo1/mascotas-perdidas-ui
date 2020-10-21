@@ -7,9 +7,8 @@ import {
   View
 } from 'react-native';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { fetchLocations, fetchProvinces } from '@core/store/ubication/actions';
 import {
   addGenderType,
   addPetType,
@@ -24,10 +23,7 @@ import {
 } from '@home/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@home/views/FiltersView/constants';
-import { setCurrentLocation, setCurrentProvince } from '@login/store/actions';
-import DialogSimple from '@core/components/DialogSimple';
 import Divider from '@app/modules/core/components/Divider';
-import Dropdown from '@core/components/Dropdown';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconEvil from 'react-native-vector-icons/EvilIcons';
 import NavigationService from '@core/utils/navigation';
@@ -43,10 +39,6 @@ import variables from '@app/styles/variables';
 const FiltersView = ({
   filters,
   getFilteredPublications,
-  setProvince,
-  setLocation,
-  getProvinces,
-  getLocations,
   ubications,
   clear,
   addPublication,
@@ -56,33 +48,10 @@ const FiltersView = ({
   addGender,
   removeGender,
   addSize,
-  removeSize,
-  currentUbication
+  removeSize
 }) => {
   const { publicationType, petType, petGender, petSize, count } = filters;
-  const { province, location } = currentUbication;
-
-  useEffect(() => {
-    getProvinces();
-    getLocations(province);
-  }, [getProvinces, getLocations, province]);
-
-  const [showDialog, setShowDialog] = useState(false);
-
-  const toggleDialog = () => {
-    setShowDialog(!showDialog);
-  };
-
-  const updateProvince = value => {
-    setProvince(value);
-    getLocations(value);
-  };
-
-  const updateLocation = value => {
-    setLocation(value);
-  };
-
-  const { provinces, locations } = ubications;
+  const { latitude, longitude } = ubications;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -129,7 +98,9 @@ const FiltersView = ({
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.changeUbicationButton}
-            onPress={() => setShowDialog(true)}
+            onPress={() =>
+              console.log('MOSTRAR MAPA CON ', latitude, longitude)
+            }
             activeOpacity={0.8}
           >
             <IconEvil
@@ -169,22 +140,6 @@ const FiltersView = ({
             removeSize={removeSize}
           />
         </View>
-        <DialogSimple open={showDialog} toggleDialog={toggleDialog}>
-          <View>
-            <Dropdown
-              data={provinces}
-              changeValue={updateProvince}
-              selectedValue={province}
-              title={LABELS.dropdowns.province}
-            />
-            <Dropdown
-              data={locations}
-              changeValue={updateLocation}
-              selectedValue={location}
-              title={LABELS.dropdowns.location}
-            />
-          </View>
-        </DialogSimple>
       </ImageBackground>
     </ScrollView>
   );
@@ -206,10 +161,6 @@ FiltersView.propTypes = {
 
 const mapDispatchToProps = {
   getFilteredPublications: fetchPublications,
-  getLocations: fetchLocations,
-  getProvinces: fetchProvinces,
-  setProvince: setCurrentProvince,
-  setLocation: setCurrentLocation,
   clear: clearFilters,
   addPublication: addPublicationType,
   removePublication: removePublicationType,
@@ -223,8 +174,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   filters: state.publications.filters,
-  ubications: state.ubications,
-  currentUbication: state.session.currentUbication
+  ubications: state.ubications
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiltersView);

@@ -56,11 +56,6 @@ export default StyleSheet.create({
   map: {
     flex: 1
   },
-  markerContainer: {
-    padding: variables.spacings.XXS,
-    backgroundColor: variables.colors.backgroundOrange,
-    borderRadius: 4
-  },
   title: {
     fontSize: fonts.sizes.XL,
     ...fonts.weights.regular

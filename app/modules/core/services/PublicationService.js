@@ -1,16 +1,18 @@
 import GraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
-    $province: String!, 
-    $location: String!, 
+    $latitude: Float!, 
+    $longitude: Float!, 
     $publicationType: [String!]!, 
     $petType: [String!]!, 
     $petGender: [String!]!, 
     $petSize: [String!]!
   ){
     getFilteredPublications(options: { 
-      province: $province
-      location: $location
+      ubicationData: {
+        latitude: $latitude
+        longitude: $longitude
+      }
       type: $publicationType
       petFilters: {
         type: $petType,
@@ -34,6 +36,10 @@ const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
           data
           type
         }
+      }
+      ubication {
+        firstLatitude
+        firstLongitude
       }
     }
   }`;

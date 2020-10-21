@@ -9,27 +9,24 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+
 import * as newPublicationActions from '@upload/store/actions';
-import * as ubicationActions from '@core/store/ubication/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
-import { setCurrentLocation, setCurrentProvince } from '@login/store/actions';
 import { LABELS } from '@upload/views/UploadView/constants';
 import Button from '@core/components/Button';
-import Dropdown from '@core/components/Dropdown';
-import ImagesContainer from '@upload/components/ImagesContainer';
-import LoadingView from '@core/views/LoadingView';
 import DialogConfirmBox from '@core/components/DialogConfirmBox';
+import Divider from '@core/components/Divider';
+import ImagesContainer from '@upload/components/ImagesContainer';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@upload/views/UploadView/styles';
+import UbicationSelector from '@core/components/UbicationSelector';
 
 const UploadView = ({
   clearPublicationValues,
   getExtractedColors,
-  getProvinces,
-  getLocations,
   getTypeAndBreed,
   newPublication,
   navigation,
@@ -39,12 +36,12 @@ const UploadView = ({
   setHasChanges,
   setPetColor,
   setPhoneNumber,
-  setPublicationLocationId,
-  setPublicationProvinceId,
+  setPublicationUbication,
   setPublicationPhotosArray,
   setUserId
 }) => {
   const [showConfirmBackModal, setShowConfirmBackModal] = useState(false);
+  const [showUbicationSelector, setShowUbicationSelector] = useState(false);
 
   const confirmBack = () => {
     setShowConfirmBackModal(false);
@@ -108,33 +105,11 @@ const UploadView = ({
   }, [navigation, newPublication.hasChanges]);
 
   const { id: userId, phoneNumber: userPhoneNumber } = session.profileInfo;
-  const { province, location } = session.currentUbication;
 
   useEffect(() => {
-    getProvinces();
-    getLocations(province);
     setPhoneNumber(userPhoneNumber);
     setUserId(userId);
-  }, [
-    getLocations,
-    getProvinces,
-    province,
-    setPhoneNumber,
-    setUserId,
-    userId,
-    userPhoneNumber
-  ]);
-
-  const updateProvince = value => {
-    setHasChanges();
-    setPublicationProvinceId(value);
-    getLocations(value);
-  };
-
-  const updateLocation = value => {
-    setHasChanges();
-    setPublicationLocationId(value);
-  };
+  }, [setPhoneNumber, setUserId, userId, userPhoneNumber]);
 
   const navigateToBreedsView = () => {
     getTypeAndBreed(newPublication.photosArray[0].data);
@@ -142,7 +117,16 @@ const UploadView = ({
     NavigationService.navigate('Breeds');
   };
 
-  const { provinces, locations } = ubications;
+  const onConfirmUbicationHandler = ubication => {
+    setShowUbicationSelector(false);
+    setPublicationUbication(ubication);
+  };
+
+  const { latitude: userLatitude, longitude: userLongitude } = ubications;
+  const {
+    latitude: publicationLatitude,
+    longitude: publicationLongitude
+  } = newPublication;
 
   const userHasSelectedAtLeastOnePhoto = newPublication.photosArray.length > 0;
 
@@ -165,40 +149,41 @@ const UploadView = ({
             <Text style={styles.title}>{LABELS.title}</Text>
           </View>
         </View>
-        {!provinces.length || !locations.length ? (
-          <LoadingView />
-        ) : (
-          <View style={styles.contentContainer}>
-            <ImagesContainer images={newPublication.photosArray} />
-            <Text style={styles.text}> {LABELS.photosInstructions} </Text>
-            <Button
-              text={LABELS.buttons.addPhotos}
-              onPress={openImagePicker}
-              type="tertiary"
+        <View style={styles.contentContainer}>
+          <ImagesContainer images={newPublication.photosArray} />
+          <Button
+            text={LABELS.buttons.addPhotos}
+            onPress={openImagePicker}
+            type="tertiary"
+          />
+          <Text style={styles.text}> {LABELS.photosInstructions} </Text>
+          <Divider />
+          <Button
+            text={LABELS.buttons.selectUbication}
+            onPress={() => setShowUbicationSelector(true)}
+            type="tertiary"
+          />
+          <Text style={styles.text}>{LABELS.ubicationInstructions}</Text>
+          {showUbicationSelector ? (
+            <UbicationSelector
+              startLatitude={publicationLatitude || userLatitude}
+              startLongitude={publicationLongitude || userLongitude}
+              startLatitudeDelta={0.05}
+              startLongitudeDelta={0.05}
+              onConfirmUbication={ubication =>
+                onConfirmUbicationHandler(ubication)
+              }
             />
-            <View>
-              <Dropdown
-                data={provinces}
-                changeValue={updateProvince}
-                selectedValue={province}
-                title={LABELS.dropdowns.province}
-              />
-              <Dropdown
-                data={locations}
-                changeValue={updateLocation}
-                selectedValue={location}
-                title={LABELS.dropdowns.location}
-              />
-            </View>
-            <Button
-              disabled={!userHasSelectedAtLeastOnePhoto}
-              text={LABELS.buttons.goToFilters}
-              onPress={navigateToBreedsView}
-              type="primary"
-              rightArrow
-            />
-          </View>
-        )}
+          ) : null}
+
+          <Button
+            disabled={!userHasSelectedAtLeastOnePhoto}
+            text={LABELS.buttons.goToFilters}
+            onPress={navigateToBreedsView}
+            type="primary"
+            rightArrow
+          />
+        </View>
         <DialogConfirmBox
           open={showConfirmBackModal}
           onCancel={cancelBack}
@@ -215,14 +200,10 @@ const UploadView = ({
 UploadView.propTypes = {
   clearPublicationValues: PropTypes.func,
   getExtractedColors: PropTypes.func,
-  getProvinces: PropTypes.func.isRequired,
-  getLocations: PropTypes.func.isRequired,
   setExtractedColors: PropTypes.func.isRequired,
   setHasChanges: PropTypes.func.isRequired,
   setPetColor: PropTypes.func.isRequired,
   setPhoneNumber: PropTypes.func.isRequired,
-  setPublicationLocationId: PropTypes.func.isRequired,
-  setPublicationProvinceId: PropTypes.func.isRequired,
   setPublicationPhotosArray: PropTypes.func.isRequired,
   setUserId: PropTypes.func.isRequired,
   newPublication: PropTypes.shape({
@@ -253,12 +234,9 @@ UploadView.propTypes = {
     userId: PropTypes.string
   }).isRequired,
   ubications: PropTypes.shape({
-    provincesInProgress: PropTypes.bool,
-    provincesFailed: PropTypes.bool,
-    provinces: PropTypes.array,
-    locationsInProgress: PropTypes.bool,
-    locationsFailed: PropTypes.bool,
-    locations: PropTypes.array
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+    error: PropTypes.object
   }).isRequired
 };
 
@@ -266,8 +244,6 @@ const mapDispatchToProps = {
   clearPublicationValues: () => newPublicationActions.clearStore(),
   getExtractedColors: selectedImages =>
     newPublicationActions.getExtractedColors(selectedImages),
-  getLocations: ubicationActions.fetchLocations,
-  getProvinces: ubicationActions.fetchProvinces,
   getTypeAndBreed: image => newPublicationActions.getTypeAndBreedRequest(image),
   setExtractedColors: newExtractedColors =>
     newPublicationActions.setExtractedColors(newExtractedColors),
@@ -277,8 +253,8 @@ const mapDispatchToProps = {
     newPublicationActions.setPhoneNumber(phoneNumber),
   setPublicationPhotosArray: photosArray =>
     newPublicationActions.setPhotosArray(photosArray),
-  setPublicationProvinceId: provinceId => setCurrentProvince(provinceId),
-  setPublicationLocationId: locationId => setCurrentLocation(locationId),
+  setPublicationUbication: ubication =>
+    newPublicationActions.setPublicationUbication(ubication),
   setUserId: userId => newPublicationActions.setUserId(userId)
 };
 

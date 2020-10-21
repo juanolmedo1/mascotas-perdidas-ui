@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { getAllSwatches } from 'react-native-palette';
 
 import * as actionTypes from '@upload/store/actionTypes';
@@ -15,19 +15,16 @@ import {
 import NewPublicationService from '@upload/services/NewPublicationService';
 import PhotoDetectionService from '@upload/services/PhotoDetectionService';
 import NavigationService from '@core/utils/navigation';
-import { getCurrentUbication } from '@login/store/selectors';
 
 export function* onPublicationCreated(action) {
   const { newPublication } = action.payload;
   const photosArrayWithOnlyBase64 = newPublication.photosArray.map(
     photoObject => ({ data: photoObject.data, type: photoObject.mime })
   );
-  const { province, location } = yield select(getCurrentUbication);
+
   const newPublicationValues = {
     ...newPublication,
-    photosArray: photosArrayWithOnlyBase64,
-    locationId: location,
-    provinceId: province
+    photosArray: photosArrayWithOnlyBase64
   };
   try {
     const similarPublications = yield call(

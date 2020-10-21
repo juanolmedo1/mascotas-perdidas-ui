@@ -10,18 +10,22 @@ const homeViewToggler = ({
   onListViewSelected,
   onMapViewSelected
 }) => {
+  const listStyle = !mapViewActive
+    ? styles.viewOptionActive
+    : styles.viewOptionInactive;
+  const mapStyle = mapViewActive
+    ? styles.viewOptionActive
+    : styles.viewOptionInactive;
   return (
     <View style={styles.viewOptionsContainer}>
       <TouchableOpacity
         onPress={onListViewSelected}
-        style={
-          !mapViewActive ? styles.viewOptionActive : styles.viewOptionInactive
-        }
+        activeOpacity={0.8}
+        style={[listStyle, styles.leftIcon]}
       >
         <IconAwesome
           name="list-ul"
           size={18}
-          style={styles.viewOptionIcon}
           color={
             !mapViewActive
               ? variables.colors.backgroundBlack
@@ -31,14 +35,12 @@ const homeViewToggler = ({
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onMapViewSelected}
-        style={
-          mapViewActive ? styles.viewOptionActive : styles.viewOptionInactive
-        }
+        activeOpacity={0.8}
+        style={[mapStyle, styles.rightIcon]}
       >
         <IconAwesome
           name="map-o"
           size={18}
-          style={styles.viewOptionIcon}
           color={
             mapViewActive
               ? variables.colors.backgroundBlack

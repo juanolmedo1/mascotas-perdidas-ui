@@ -8,10 +8,6 @@ const initialState = {
     dateOfBirth: DateUtils.formatBirthDate(new Date(2000, 0, 1)),
     phone: ''
   },
-  ubication: {
-    province: '06',
-    location: '06056010001'
-  },
   loginData: {
     username: '',
     email: '',
@@ -32,22 +28,6 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         basicInformation: payload
-      };
-    case types.SET_PROVINCE:
-      return {
-        ...state,
-        ubication: {
-          ...state.ubication,
-          province: payload
-        }
-      };
-    case types.SET_LOCATION:
-      return {
-        ...state,
-        ubication: {
-          ...state.ubication,
-          location: payload
-        }
       };
     case types.SET_LOGIN_DATA:
       return {

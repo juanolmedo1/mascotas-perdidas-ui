@@ -83,7 +83,6 @@ ProfileView.propTypes = {
     requestFailed: PropTypes.bool,
     requestPublicationsInProgress: PropTypes.bool,
     requestPublicationsFailed: PropTypes.bool,
-    currentUbication: PropTypes.object,
     profileInfo: PropTypes.object
   }).isRequired
 };

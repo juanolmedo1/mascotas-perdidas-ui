@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import IconIon from 'react-native-vector-icons/Ionicons';
 
 import { fetchFavorites } from '@likes/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
@@ -10,11 +9,9 @@ import { LABELS } from '@likes/views/LikesView/constants';
 import { setHasToRefreshFavorites } from '@core/store/refreshments/actions';
 import Divider from '@app/modules/core/components/Divider';
 import LoadingView from '@core/views/LoadingView';
-import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PublicationsList from '@core/components/PublicationsList';
 import styles from '@likes/views/LikesView/styles';
-import variables from '@app/styles/variables';
 
 const LikesView = ({
   favorites,
@@ -52,16 +49,6 @@ const LikesView = ({
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backContainer}
-            onPress={() => NavigationService.goBack()}
-          >
-            <IconIon
-              name="md-arrow-back"
-              size={25}
-              color={variables.colors.backgroundBlack}
-            />
-          </TouchableOpacity>
           <Text style={styles.title}>{LABELS.title}</Text>
         </View>
         <Divider />

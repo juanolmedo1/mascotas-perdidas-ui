@@ -20,12 +20,11 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     width: '100%',
-    paddingHorizontal: variables.spacings.L,
-    paddingTop: variables.spacings.XXL,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   contentText: {
-    fontSize: fonts.sizes.M,
+    fontSize: fonts.sizes.L,
     ...fonts.weights.regular
   }
 });

@@ -1,7 +1,5 @@
 export const types = {
   SET_BASIC_INFORMATION: 'SET_BASIC_INFORMATION',
-  SET_PROVINCE: 'SET_PROVINCE',
-  SET_LOCATION: 'SET_LOCATION',
   SET_LOGIN_DATA: 'SET_LOGIN_DATA',
   SET_PROFILE_PHOTO: 'SET_PROFILE_PHOTO',
   CLEAR_INFORMATION: 'CLEAR_INFORMATION',
@@ -13,16 +11,6 @@ export const types = {
 export const setBasicInformation = userData => ({
   payload: userData,
   type: types.SET_BASIC_INFORMATION
-});
-
-export const setProvince = data => ({
-  payload: data,
-  type: types.SET_PROVINCE
-});
-
-export const setLocation = data => ({
-  payload: data,
-  type: types.SET_LOCATION
 });
 
 export const setLoginData = data => ({

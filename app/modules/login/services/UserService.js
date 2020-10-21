@@ -8,8 +8,6 @@ const USER_LOGIN_QUERY = `query login($username: String!, $password: String!){
     id
     firstName
     lastName
-    province
-    location
     phoneNumber
     dateOfBirth
     email
@@ -49,8 +47,6 @@ const getUserPublications = async payload => {
 const REGISTER_USER_MUTATION = `mutation createUser(
   $name: String!,
   $lastname: String!,
-  $province: String!,
-  $location: String!,
   $phone: String!,
   $dateOfBirth: String!,
   $email: String!,
@@ -62,8 +58,6 @@ const REGISTER_USER_MUTATION = `mutation createUser(
   createUser(options: {
     firstName: $name
     lastName: $lastname
-    province: $province
-    location: $location
     phoneNumber: $phone
     dateOfBirth: $dateOfBirth
     email: $email
