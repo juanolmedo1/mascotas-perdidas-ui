@@ -1,26 +1,40 @@
 import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
 
+const baseIconContainer = {
+  flex: 1,
+  height: '100%',
+  justifyContent: 'center',
+  alignItems: 'center'
+};
+
 export default StyleSheet.create({
-  viewOptionIcon: {
-    padding: variables.spacings.M
-  },
   viewOptionsContainer: {
     position: 'absolute',
-    width: '25%',
+    height: 46,
+    width: '30%',
     right: 0,
-    top: '89%',
+    bottom: 0,
     zIndex: 3,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: variables.spacings.M
+    marginRight: variables.spacings.M,
+    marginBottom: variables.spacings.S
   },
   viewOptionActive: {
+    ...baseIconContainer,
     backgroundColor: variables.colors.backgroundOrange
   },
   viewOptionInactive: {
+    ...baseIconContainer,
     backgroundColor: variables.colors.backgroundWhite
+  },
+  leftIcon: {
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8
+  },
+  rightIcon: {
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8
   }
 });

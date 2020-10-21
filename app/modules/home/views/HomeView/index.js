@@ -117,10 +117,9 @@ const HomeView = ({
           latitude: publication.ubication.firstLatitude,
           longitude: publication.ubication.firstLongitude
         }}
+        key={publication.id}
       >
-        <View style={styles.markerContainer}>
-          <PublicationIcon type={publication.type} />
-        </View>
+        <PublicationIcon type={publication.type} />
         <Callout
           style={styles.callout}
           tooltip={true}

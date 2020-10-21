@@ -11,13 +11,11 @@ export default StyleSheet.create({
   header: {
     width: '100%',
     paddingHorizontal: variables.spacings.L,
-    paddingTop: variables.spacings.M,
-    flexDirection: 'row'
+    paddingTop: variables.spacings.M
   },
   title: {
-    fontSize: fonts.sizes.L,
-    ...fonts.weights.regular,
-    marginLeft: variables.spacings.M
+    fontSize: fonts.sizes.XL,
+    ...fonts.weights.regular
   },
   content: {
     flex: 1,
