@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators
+} from '@react-navigation/stack';
 import React from 'react';
 
 import BreedsView from '@upload/views/BreedsView';
@@ -11,7 +14,12 @@ const Stack = createStackNavigator();
 
 const UploadNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Upload">
+    <Stack.Navigator
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}
+      initialRouteName="Upload"
+    >
       <Stack.Screen
         name="Upload"
         component={UploadView}
