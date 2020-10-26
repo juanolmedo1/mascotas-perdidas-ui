@@ -93,15 +93,17 @@ const FiltersView = ({
           </TouchableOpacity>
         </View>
         {showUbicationSelector ? (
-          <UbicationSelector
-            startLatitude={latitude}
-            startLongitude={longitude}
-            startLatitudeDelta={1}
-            startLongitudeDelta={1}
-            onConfirmUbication={ubication =>
-              onConfirmUbicationHandler(ubication)
-            }
-          />
+          <View style={styles.ubicationSelectorContainer}>
+            <UbicationSelector
+              startLatitude={latitude}
+              startLongitude={longitude}
+              startLatitudeDelta={1}
+              startLongitudeDelta={1}
+              onConfirmUbication={ubication =>
+                onConfirmUbicationHandler(ubication)
+              }
+            />
+          </View>
         ) : null}
         <Divider />
         <View style={styles.menu}>

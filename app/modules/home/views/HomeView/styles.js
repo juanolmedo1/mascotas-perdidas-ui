@@ -41,6 +41,7 @@ export default StyleSheet.create({
   header: {
     paddingHorizontal: variables.spacings.L,
     paddingTop: variables.spacings.M,
+    paddingBottom: variables.spacings.XS,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'

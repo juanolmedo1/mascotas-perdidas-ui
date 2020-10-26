@@ -15,6 +15,9 @@ export const LABELS = {
         petType === PET_ENTITY.types.cat.toLowerCase() ? 'gato' : 'perro'
       } y sus posibles razas!`
   },
+  breed: {
+    other: 'Other'
+  },
   noDetection: {
     text:
       'No hemos detectado que la mascota sea un perro o gato, ni sus posibles razas. Si esto es incorrecto, por favor vuelva atrás e intente nuevamente, sino prosiga.'

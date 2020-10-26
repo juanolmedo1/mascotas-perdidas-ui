@@ -53,9 +53,9 @@ const BreedsView = ({
         </>
       ))}
       <TouchableOpacity
-        key={'Other'}
+        key={LABELS.breed.other}
         activeOpacity={0.8}
-        onPress={() => confirmBreed('Other')}
+        onPress={() => confirmBreed(LABELS.breed.other)}
       >
         <View style={styles.otherBreedElement}>
           <View style={styles.otherBreedContainer}>
@@ -70,7 +70,7 @@ const BreedsView = ({
 
   const confirmBreed = breed => {
     setPetBreed(breed);
-    if (breed !== 'Other') {
+    if (breed !== LABELS.breed.other) {
       getCommonBreedAttributes(breed);
     }
     NavigationService.navigate('Filters');
@@ -110,7 +110,7 @@ const BreedsView = ({
           <Button
             text={LABELS.buttons.next}
             type="primary"
-            onPress={() => confirmBreed('Other')}
+            onPress={() => confirmBreed(LABELS.breed.other)}
           />
         </View>
       </View>
