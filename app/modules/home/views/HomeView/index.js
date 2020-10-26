@@ -190,7 +190,7 @@ const HomeView = ({
             </TouchableOpacity>
           </View>
         </View>
-        <Divider />
+        {!mapView && <Divider />}
         <HomeViewToggler
           mapViewActive={mapView}
           onListViewSelected={() => setMapView(false)}

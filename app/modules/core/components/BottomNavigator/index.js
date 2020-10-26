@@ -29,13 +29,13 @@ const BottomNavigator = () => {
       <Tab.Screen
         name="Home"
         component={HomeNavigator}
-        options={({ focused, route }) => {
+        options={({ route }) => {
           const stackScreenName = route.state
             ? route.state.routes[route.state.index].name
             : null;
           return {
             tabBarVisible: stackScreenName !== 'Filters',
-            tabBarIcon: () => (
+            tabBarIcon: ({ focused }) => (
               <IconAnt
                 name="home"
                 size={30}

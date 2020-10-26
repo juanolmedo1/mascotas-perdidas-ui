@@ -2,14 +2,6 @@ import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
 import fonts from '@styles/fonts';
 
-const breedElementStyles = {
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: variables.spacings.XS,
-  borderTopWidth: 1
-};
-
 export default StyleSheet.create({
   header: {
     height: 60,
@@ -25,20 +17,41 @@ export default StyleSheet.create({
     alignItems: 'center',
     left: 0
   },
-  breedElement: {
-    ...breedElementStyles
+  contentContainer: {
+    marginTop: variables.spacings.S
   },
-  breedElementSelected: {
-    ...breedElementStyles,
-    backgroundColor: variables.colors.backgroundOrange
+  breedElement: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
+    alignSelf: 'center',
+    justifyContent: 'space-between'
   },
   breedImage: {
-    height: 120,
-    width: 120
+    height: 80,
+    width: 80,
+    borderRadius: 4
   },
   breedLabel: {
-    marginHorizontal: variables.spacings.S,
-    width: '30%',
+    width: '40%',
+    textAlign: 'center'
+  },
+  otherBreedContainer: {
+    flex: 1
+  },
+  otherBreedElement: {
+    width: '90%',
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 60,
+    borderColor: variables.colors.borderRed,
+    borderRadius: 4,
+    borderWidth: 0.8
+  },
+  otherBreedLabel: {
+    color: variables.colors.textRed,
     textAlign: 'center'
   },
   breedList: {
@@ -47,14 +60,6 @@ export default StyleSheet.create({
   breedProb: {
     ...fonts.weights.bold,
     marginHorizontal: variables.spacings.S
-  },
-  buttonContainer: {
-    marginBottom: variables.spacings.S
-  },
-  buttonsContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: variables.spacings.M
   },
   introductionContainer: {
     marginHorizontal: variables.spacings.L
@@ -67,26 +72,35 @@ export default StyleSheet.create({
   introductionTitle: {
     marginBottom: variables.spacings.S,
     ...fonts.weights.bold,
-    fontSize: fonts.sizes.M,
+    color: variables.colors.textBlack,
+    fontSize: fonts.sizes.L,
     textAlign: 'center'
   },
   noDetectionButtonContainer: {
-    marginVertical: variables.spacings.XL
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   noDetectionIcon: {
     paddingHorizontal: variables.spacings.S
   },
   noDetectionIconsContainer: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignContent: 'flex-end',
-    marginVertical: variables.spacings.M
+    alignItems: 'center'
+  },
+  noDetectionMessageContainer: {
+    flex: 4,
+    justifyContent: 'center'
   },
   noDetectionContainer: {
+    flex: 1
+  },
+  noDetectionTextContainer: {
     flex: 1,
     paddingHorizontal: variables.spacings.L,
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'center'
   },
   noDetectionText: {
     ...fonts.weights.regular,

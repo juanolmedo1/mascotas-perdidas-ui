@@ -6,6 +6,7 @@ import configureStore from '@core/store';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginNavigator from '@login/LoginNavigator';
 import { navigationRef } from '@core/utils/navigation';
+import { StatusBar } from 'react-native';
 
 const store = configureStore({
   reducer,
@@ -14,6 +15,7 @@ const store = configureStore({
 
 const App = () => (
   <Provider store={store}>
+    <StatusBar hidden />
     <NavigationContainer ref={navigationRef}>
       <LoginNavigator />
     </NavigationContainer>
