@@ -11,8 +11,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   mapContainer: {
-    position: 'absolute',
-    top: 0,
+    flex: 1,
     width: '100%',
     height: '100%',
     zIndex: 2

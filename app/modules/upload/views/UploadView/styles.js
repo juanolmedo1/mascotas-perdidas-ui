@@ -47,9 +47,9 @@ export default StyleSheet.create({
   },
   text: {
     ...fonts.weights.regular,
-    marginBottom: variables.spacings.XXS,
-    fontSize: fonts.sizes.M,
-    marginHorizontal: variables.spacings.L,
-    textAlign: 'center'
+    fontSize: fonts.sizes.S,
+    marginHorizontal: variables.spacings.S,
+    marginVertical: variables.spacings.M,
+    textAlign: 'left'
   }
 });

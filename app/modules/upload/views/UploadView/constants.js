@@ -14,5 +14,5 @@ export const LABELS = {
   },
   photosInstructions: 'Por favor, seleccione al menos una foto y como máximo 3',
   ubicationInstructions:
-    'Al abrir el mapa, arrastre el marcador hasta la ubicación o toque una parte del mapa para ubicarlo'
+    'Presione el marcador unos segundos para poder arrastrarlo y seleccionar la ubicación deseada'
 };

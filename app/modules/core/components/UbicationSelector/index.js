@@ -11,7 +11,9 @@ const UbicationSelector = ({
   startLongitude,
   startLatitudeDelta,
   startLongitudeDelta,
-  onConfirmUbication
+  onConfirmUbication,
+  buttonDisabled = false,
+  buttonText = 'Confirmar ubicación'
 }) => {
   const [ubication, setUbication] = useState({
     latitude: startLatitude,
@@ -44,7 +46,8 @@ const UbicationSelector = ({
       </MapView>
       <View style={styles.buttonContainer}>
         <Button
-          text="Confirmar ubicación"
+          text={buttonText}
+          disabled={buttonDisabled}
           onPress={() => onConfirmUbication(ubication)}
           type="primary"
         />

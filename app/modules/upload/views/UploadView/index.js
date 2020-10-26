@@ -41,7 +41,6 @@ const UploadView = ({
   setUserId
 }) => {
   const [showConfirmBackModal, setShowConfirmBackModal] = useState(false);
-  const [showUbicationSelector, setShowUbicationSelector] = useState(false);
 
   const confirmBack = () => {
     setShowConfirmBackModal(false);
@@ -118,7 +117,6 @@ const UploadView = ({
   };
 
   const onConfirmUbicationHandler = ubication => {
-    setShowUbicationSelector(false);
     setPublicationUbication(ubication);
   };
 
@@ -150,38 +148,22 @@ const UploadView = ({
           </View>
         </View>
         <View style={styles.contentContainer}>
-          <ImagesContainer images={newPublication.photosArray} />
-          <Button
-            text={LABELS.buttons.addPhotos}
-            onPress={openImagePicker}
-            type="tertiary"
-          />
-          <Text style={styles.text}> {LABELS.photosInstructions} </Text>
-          <Divider />
-          <Button
-            text={LABELS.buttons.selectUbication}
-            onPress={() => setShowUbicationSelector(true)}
-            type="tertiary"
+          <ImagesContainer
+            images={newPublication.photosArray}
+            openPicker={openImagePicker}
           />
           <Text style={styles.text}>{LABELS.ubicationInstructions}</Text>
-          {showUbicationSelector ? (
-            <UbicationSelector
-              startLatitude={publicationLatitude || userLatitude}
-              startLongitude={publicationLongitude || userLongitude}
-              startLatitudeDelta={0.05}
-              startLongitudeDelta={0.05}
-              onConfirmUbication={ubication =>
-                onConfirmUbicationHandler(ubication)
-              }
-            />
-          ) : null}
-
-          <Button
-            disabled={!userHasSelectedAtLeastOnePhoto}
-            text={LABELS.buttons.goToFilters}
-            onPress={navigateToBreedsView}
-            type="primary"
-            rightArrow
+          <UbicationSelector
+            startLatitude={publicationLatitude || userLatitude}
+            startLongitude={publicationLongitude || userLongitude}
+            startLatitudeDelta={0.05}
+            startLongitudeDelta={0.05}
+            buttonText="Continuar"
+            buttonDisabled={!userHasSelectedAtLeastOnePhoto}
+            onConfirmUbication={ubication => {
+              onConfirmUbicationHandler(ubication);
+              navigateToBreedsView();
+            }}
           />
         </View>
         <DialogConfirmBox
