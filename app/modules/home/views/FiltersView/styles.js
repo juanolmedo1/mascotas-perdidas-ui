@@ -1,6 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import variables from '@styles/variables';
 import fonts from '@styles/fonts';
+
+const { height, width } = Dimensions.get('screen');
 
 export default StyleSheet.create({
   header: {
@@ -30,6 +32,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: variables.spacings.S
+  },
+  ubicationSelectorContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width,
+    height
   },
   icon: {
     width: 60,

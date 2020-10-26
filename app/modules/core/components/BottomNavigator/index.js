@@ -29,18 +29,24 @@ const BottomNavigator = () => {
       <Tab.Screen
         name="Home"
         component={HomeNavigator}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <IconAnt
-              name="home"
-              size={30}
-              color={
-                focused
-                  ? variables.colors.textOrange
-                  : variables.colors.textDarkGrey
-              }
-            />
-          )
+        options={({ route }) => {
+          const stackScreenName = route.state
+            ? route.state.routes[route.state.index].name
+            : null;
+          return {
+            tabBarVisible: stackScreenName !== 'Filters',
+            tabBarIcon: ({ focused }) => (
+              <IconAnt
+                name="home"
+                size={30}
+                color={
+                  focused
+                    ? variables.colors.textOrange
+                    : variables.colors.textDarkGrey
+                }
+              />
+            )
+          };
         }}
       />
       <Tab.Screen

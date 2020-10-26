@@ -13,6 +13,8 @@ export default StyleSheet.create({
     height: 101,
     borderRadius: 8,
     borderWidth: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 1,
     borderColor: variables.colors.borderDarkGrey
   },

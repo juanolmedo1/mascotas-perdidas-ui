@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   addGenderType,
@@ -23,6 +23,7 @@ import {
 } from '@home/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@home/views/FiltersView/constants';
+import { setUbicationSuccess } from '@core/store/ubication/actions';
 import Divider from '@app/modules/core/components/Divider';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconEvil from 'react-native-vector-icons/EvilIcons';
@@ -34,24 +35,32 @@ import MultipleSelectSize from '@core/components/MultipleSelectSize';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PET_ENTITY from '@entities/Pet';
 import styles from '@home/views/FiltersView/styles';
+import UbicationSelector from '@core/components/UbicationSelector';
 import variables from '@app/styles/variables';
 
 const FiltersView = ({
+  addGender,
+  addPet,
+  addPublication,
+  addSize,
+  clear,
   filters,
   getFilteredPublications,
-  ubications,
-  clear,
-  addPublication,
-  removePublication,
-  addPet,
-  removePet,
-  addGender,
   removeGender,
-  addSize,
-  removeSize
+  removePet,
+  removePublication,
+  removeSize,
+  setUbication,
+  ubications
 }) => {
   const { publicationType, petType, petGender, petSize, count } = filters;
   const { latitude, longitude } = ubications;
+  const [showUbicationSelector, setShowUbicationSelector] = useState(false);
+
+  const onConfirmUbicationHandler = ubication => {
+    setShowUbicationSelector(false);
+    setUbication(ubication);
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -83,6 +92,19 @@ const FiltersView = ({
             <Text style={styles.applyText}>{LABELS.applyTitle}</Text>
           </TouchableOpacity>
         </View>
+        {showUbicationSelector ? (
+          <View style={styles.ubicationSelectorContainer}>
+            <UbicationSelector
+              startLatitude={latitude}
+              startLongitude={longitude}
+              startLatitudeDelta={1}
+              startLongitudeDelta={1}
+              onConfirmUbication={ubication =>
+                onConfirmUbicationHandler(ubication)
+              }
+            />
+          </View>
+        ) : null}
         <Divider />
         <View style={styles.menu}>
           <TouchableOpacity
@@ -98,9 +120,7 @@ const FiltersView = ({
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.changeUbicationButton}
-            onPress={() =>
-              console.log('MOSTRAR MAPA CON ', latitude, longitude)
-            }
+            onPress={() => setShowUbicationSelector(true)}
             activeOpacity={0.8}
           >
             <IconEvil
@@ -160,16 +180,17 @@ FiltersView.propTypes = {
 };
 
 const mapDispatchToProps = {
-  getFilteredPublications: fetchPublications,
-  clear: clearFilters,
-  addPublication: addPublicationType,
-  removePublication: removePublicationType,
-  addPet: addPetType,
-  removePet: removePetType,
   addGender: addGenderType,
-  removeGender: removeGenderType,
+  addPet: addPetType,
+  addPublication: addPublicationType,
   addSize: addSizeType,
-  removeSize: removeSizeType
+  clear: clearFilters,
+  getFilteredPublications: fetchPublications,
+  removeGender: removeGenderType,
+  removePet: removePetType,
+  removePublication: removePublicationType,
+  removeSize: removeSizeType,
+  setUbication: setUbicationSuccess
 };
 
 const mapStateToProps = state => ({

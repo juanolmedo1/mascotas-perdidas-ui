@@ -18,6 +18,10 @@ import { backgroundStyles, imageStyles } from '@styles/background';
 import { fetchPublications } from '@home/store/actions';
 import { mapStylesJson } from '@app/styles/mapStylesJson';
 import { setHasToRefreshHome } from '@core/store/refreshments/actions';
+import {
+  setUbicationFailure,
+  setUbicationSuccess
+} from '@app/modules/core/store/ubication/actions';
 import Divider from '@core/components/Divider';
 import HomeViewToggler from '@home/components/HomeViewToggler';
 import LoadingView from '@core/views/LoadingView';
@@ -28,10 +32,6 @@ import PublicationsList from '@core/components/PublicationsList';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
-import {
-  setUbicationFailure,
-  setUbicationSuccess
-} from '@app/modules/core/store/ubication/actions';
 
 const HomeView = ({
   getPublications,
@@ -190,7 +190,7 @@ const HomeView = ({
             </TouchableOpacity>
           </View>
         </View>
-        <Divider />
+        {!mapView && <Divider />}
         <HomeViewToggler
           mapViewActive={mapView}
           onListViewSelected={() => setMapView(false)}
