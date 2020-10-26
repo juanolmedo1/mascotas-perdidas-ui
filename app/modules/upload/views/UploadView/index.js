@@ -112,6 +112,12 @@ const UploadView = ({
   }, [setPhoneNumber, setUserId, userId, userPhoneNumber]);
 
   const navigateToBreedsView = () => {
+    if (!publicationLatitude || !publicationLongitude) {
+      setPublicationUbication({
+        longitude: userLongitude,
+        latitude: userLatitude
+      });
+    }
     getTypeAndBreed(newPublication.photosArray[0].data);
     getExtractedColors(newPublication.photosArray);
     NavigationService.navigate('Breeds');

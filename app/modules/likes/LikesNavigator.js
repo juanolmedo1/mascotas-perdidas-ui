@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators
+} from '@react-navigation/stack';
 import React from 'react';
 
 import LikesView from '@likes/views/LikesView';
@@ -8,7 +11,12 @@ const Stack = createStackNavigator();
 
 const LikesNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Likes">
+    <Stack.Navigator
+      initialRouteName="Likes"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}
+    >
       <Stack.Screen
         name="Likes"
         component={LikesView}

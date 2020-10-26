@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
@@ -84,6 +85,13 @@ const PublicationView = ({
     };
   }, [clearPublication, getPublication, id]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      clearPublication();
+      getPublication(id);
+    }, [clearPublication, getPublication, id])
+  );
+
   useEffect(() => {
     setShowDeletedDialog(deletedPublication);
     setShowReportedDialog(reportedPublication);
@@ -156,7 +164,10 @@ const PublicationView = ({
           <Button
             text={LABELS.similarPublications.buttons.searchSimilarPublications}
             onPress={() =>
-              NavigationService.navigate('SimilarPublications', { id: id })
+              NavigationService.navigate('SimilarPublicationsNavigator', {
+                screen: 'SimilarPublications',
+                params: { id: id }
+              })
             }
             type="primary"
           />

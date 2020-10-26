@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators
+} from '@react-navigation/stack';
 import React from 'react';
 
 import ProfileView from '@profile/views/ProfileView';
@@ -9,7 +12,12 @@ const Stack = createStackNavigator();
 
 const ProfileNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Profile">
+    <Stack.Navigator
+      initialRouteName="Profile"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}
+    >
       <Stack.Screen
         name="Profile"
         component={ProfileView}

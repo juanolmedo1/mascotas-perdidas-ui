@@ -20,7 +20,7 @@ export default function(state = initialState, { type, payload }) {
     case types.CLEAR_CURRENT_PUBLICATION:
       return {
         ...state,
-        ...initialState
+        data: null
       };
     case types.DELETE_PUBLICATION_FAILURE:
       return {
