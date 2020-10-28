@@ -47,7 +47,7 @@ export default StyleSheet.create({
     width,
     height: '100%'
   },
-  infoTitle: {
+  subtitle: {
     ...fonts.weights.semibold,
     fontSize: fonts.sizes.L,
     marginBottom: variables.spacings.XS
@@ -161,5 +161,12 @@ export default StyleSheet.create({
   },
   iconBorderFail: {
     borderColor: variables.colors.borderRed
+  },
+  ubicationContainer: {
+    height: 300,
+    width: '100%'
+  },
+  ubicationTitleContainer: {
+    marginHorizontal: variables.spacings.M
   }
 });

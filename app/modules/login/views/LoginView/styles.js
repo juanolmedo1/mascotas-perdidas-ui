@@ -38,18 +38,33 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
-  input: {
+  inputContainer: {
     width: 260,
     height: 40,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     borderWidth: 1,
-    color: variables.colors.textWhite,
-    borderRadius: 4,
     borderColor: variables.colors.borderWhite,
+    borderRadius: 4,
+    marginTop: variables.spacings.M
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    color: variables.colors.textWhite,
     letterSpacing: 1,
     fontSize: fonts.sizes.S,
     ...fonts.weights.regular,
-    paddingLeft: variables.spacings.L,
-    marginTop: variables.spacings.S
+    paddingHorizontal: variables.spacings.S
+  },
+  iconContainer: {
+    width: 30,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRightWidth: 1,
+    borderRightColor: variables.colors.borderWhite
   },
   buttonsContainer: {
     flex: 4,

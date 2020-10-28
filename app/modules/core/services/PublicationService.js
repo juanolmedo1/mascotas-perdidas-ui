@@ -40,6 +40,9 @@ const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
       ubication {
         firstLatitude
         firstLongitude
+        country
+        administrativeAreaLevel1
+        locality
       }
     }
   }`;
@@ -53,6 +56,10 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
     additionalInfo
     complaints
     createdAt
+    ubication {
+      firstLatitude
+      firstLongitude
+    }
     creator {
       id
       username
