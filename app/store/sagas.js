@@ -1,6 +1,7 @@
 import {
   deletePublicationSaga,
   fetchPublicationSaga,
+  getHeatMapPublicationsSaga,
   getSimilarPublicationsSaga,
   reportPublicationSaga
 } from '@core/store/currentPublication/sagas';
@@ -27,6 +28,7 @@ export default {
   fetchPublicationsSaga,
   fetchUserPublicationsSaga,
   getCommonBreedAttributesSaga,
+  getHeatMapPublicationsSaga,
   getSimilarPublicationsSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,

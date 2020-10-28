@@ -1,6 +1,11 @@
 export const LABELS = {
   title: 'Publicación',
   additionalInformation: 'Información adicional',
+  heatmapPublications: {
+    buttons: {
+      searchHeatUbications: '¿En qué zonas buscar?'
+    }
+  },
   similarPublications: {
     buttons: {
       searchSimilarPublications: 'Buscar posibles coincidencias'

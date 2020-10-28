@@ -4,6 +4,9 @@ const initialState = {
   deletedPublication: false,
   deleteRequestInProgress: false,
   deleteRequestFailed: false,
+  heatmapPublications: null,
+  heatmapPublicationsRequestInProgress: false,
+  heatmapPublicationsRequestFailed: false,
   requestInProgress: false,
   requestFailed: false,
   reportedPublication: false,
@@ -17,11 +20,13 @@ const initialState = {
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
-    case types.CLEAR_CURRENT_PUBLICATION:
+    case types.CLEAR_CURRENT_PUBLICATION: {
+      const { similarPublications, ...initialStateRest } = initialState;
       return {
         ...state,
-        data: null
+        ...initialStateRest
       };
+    }
     case types.DELETE_PUBLICATION_FAILURE:
       return {
         ...state,
@@ -59,6 +64,26 @@ export default function(state = initialState, { type, payload }) {
         requestFailed: false,
         requestInProgress: false,
         data: payload
+      };
+    case types.GET_HEATMAP_PUBLICATIONS_FAILURE:
+      return {
+        ...state,
+        heatmapPublicationsRequestInProgress: false,
+        heatmapPublicationsRequestFailed: true,
+        heatmapPublications: null
+      };
+    case types.GET_HEATMAP_PUBLICATIONS_REQUEST:
+      return {
+        ...state,
+        heatmapPublicationsRequestInProgress: true,
+        heatmapPublicationsRequestFailed: false
+      };
+    case types.GET_HEATMAP_PUBLICATIONS_SUCCESS:
+      return {
+        ...state,
+        heatmapPublicationsRequestInProgress: false,
+        heatmapPublicationsRequestFailed: false,
+        heatmapPublications: payload.heatmapPublications
       };
     case types.GET_SIMILAR_PUBLICATIONS_FAILURE:
       return {

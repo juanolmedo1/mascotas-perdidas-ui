@@ -40,6 +40,14 @@ const UploadView = ({
 }) => {
   const [showConfirmBackModal, setShowConfirmBackModal] = useState(false);
 
+  const { latitude: userLatitude, longitude: userLongitude } = ubications;
+  const {
+    latitude: publicationLatitude,
+    longitude: publicationLongitude
+  } = newPublication;
+
+  const userHasSelectedAtLeastOnePhoto = newPublication.photosArray.length > 0;
+
   const confirmBack = () => {
     setShowConfirmBackModal(false);
     clearPublicationValues();
@@ -109,12 +117,6 @@ const UploadView = ({
   }, [setPhoneNumber, setUserId, userId, userPhoneNumber]);
 
   const navigateToBreedsView = () => {
-    if (!publicationLatitude || !publicationLongitude) {
-      setPublicationUbication({
-        longitude: userLongitude,
-        latitude: userLatitude
-      });
-    }
     getTypeAndBreed(newPublication.photosArray[0].data);
     getExtractedColors(newPublication.photosArray);
     NavigationService.navigate('Breeds');
@@ -123,14 +125,6 @@ const UploadView = ({
   const onConfirmUbicationHandler = ubication => {
     setPublicationUbication(ubication);
   };
-
-  const { latitude: userLatitude, longitude: userLongitude } = ubications;
-  const {
-    latitude: publicationLatitude,
-    longitude: publicationLongitude
-  } = newPublication;
-
-  const userHasSelectedAtLeastOnePhoto = newPublication.photosArray.length > 0;
 
   return (
     <ImageBackground

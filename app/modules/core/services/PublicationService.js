@@ -75,6 +75,17 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
       }
     }
     createdAt
+    ubication {
+      id
+      firstLatitude
+      firstLongitude
+      lastLatitude
+      lastLongitude
+      country
+      administrativeAreaLevel1
+      administrativeAreaLevel2
+      locality      
+    }
   }
 }`;
 
@@ -133,6 +144,19 @@ const GET_MATCHINGS_QUERY = `query getMatchingPublications($id: String!){
   }
 }`;
 
+const GET_HEATMAP_PUBLICATIONS_QUERY = `query getHeatMapPublications($publicationId: String!, $offset: Float!){
+  getHeatMapPublications(options: { 
+    publicationId: $publicationId
+    offset: $offset
+  }){
+    id
+    ubication {
+      lastLatitude
+      lastLongitude
+    }
+  }
+}`;
+
 const getPublication = async payload => {
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
   return response.getPublication;
@@ -164,8 +188,17 @@ const getMatchingPublications = async payload => {
   return response.getMatchingPublications;
 };
 
+const getHeatMapPublications = async payload => {
+  const response = await GraphQLClient.request(
+    GET_HEATMAP_PUBLICATIONS_QUERY,
+    payload
+  );
+  return response.getHeatMapPublications;
+};
+
 export default {
   deletePublication,
+  getHeatMapPublications,
   getMatchingPublications,
   getPublications,
   getPublication,

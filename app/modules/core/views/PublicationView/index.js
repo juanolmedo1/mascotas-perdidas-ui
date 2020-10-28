@@ -154,6 +154,22 @@ const PublicationView = ({
     refreshFavorites(true);
   };
 
+  const navigateToSimilarPublications = () => {
+    NavigationService.navigate('SimilarPublicationsNavigator', {
+      screen: 'SimilarPublications',
+      params: { id: id }
+    });
+  };
+
+  const navigateToHeatmapPublications = () => {
+    const { firstLatitude, firstLongitude } = data.ubication;
+    NavigationService.navigate('HeatmapPublications', {
+      id: id,
+      publicationLatitude: firstLatitude,
+      publicationLongitude: firstLongitude
+    });
+  };
+
   const renderSimilarPublicationButton = () => {
     const publicationType = data.type;
     const isAdoptionPublication =
@@ -163,12 +179,14 @@ const PublicationView = ({
         <View style={styles.buttonContainer}>
           <Button
             text={LABELS.similarPublications.buttons.searchSimilarPublications}
-            onPress={() =>
-              NavigationService.navigate('SimilarPublicationsNavigator', {
-                screen: 'SimilarPublications',
-                params: { id: id }
-              })
-            }
+            onPress={navigateToSimilarPublications}
+            type="primary"
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            text={LABELS.heatmapPublications.buttons.searchHeatUbications}
+            onPress={navigateToHeatmapPublications}
             type="primary"
           />
         </View>

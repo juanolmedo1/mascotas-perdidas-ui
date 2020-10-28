@@ -6,6 +6,9 @@ export const types = {
   FETCH_PUBLICATION__FAILURE: 'FETCH_PUBLICATION__FAILURE',
   FETCH_PUBLICATION__REQUEST: 'FETCH_PUBLICATION__REQUEST',
   FETCH_PUBLICATION__SUCCESS: 'FETCH_PUBLICATION__SUCCESS',
+  GET_HEATMAP_PUBLICATIONS_FAILURE: 'GET_HEATMAP_PUBLICATIONS_FAILURE',
+  GET_HEATMAP_PUBLICATIONS_REQUEST: 'GET_HEATMAP_PUBLICATIONS_REQUEST',
+  GET_HEATMAP_PUBLICATIONS_SUCCESS: 'GET_HEATMAP_PUBLICATIONS_SUCCESS',
   GET_SIMILAR_PUBLICATIONS_FAILURE: 'GET_SIMILAR_PUBLICATIONS_FAILURE',
   GET_SIMILAR_PUBLICATIONS_REQUEST: 'GET_SIMILAR_PUBLICATIONS_REQUEST',
   GET_SIMILAR_PUBLICATIONS_SUCCESS: 'GET_SIMILAR_PUBLICATIONS_SUCCESS',
@@ -45,6 +48,21 @@ export const fetchPublicationFailure = error => ({
 export const fetchPublicationSuccess = publication => ({
   payload: publication,
   type: types.FETCH_PUBLICATION__SUCCESS
+});
+
+export const getHeatmapPublicationsFailure = error => ({
+  payload: error,
+  type: types.GET_HEATMAP_PUBLICATIONS_FAILURE
+});
+
+export const getHeatmapPublications = ({ publicationId, offset }) => ({
+  payload: { publicationId, offset },
+  type: types.GET_HEATMAP_PUBLICATIONS_REQUEST
+});
+
+export const getHeatmapPublicationsSuccess = heatmapPublications => ({
+  payload: { heatmapPublications },
+  type: types.GET_HEATMAP_PUBLICATIONS_SUCCESS
 });
 
 export const getSimilarPublicationsFailure = error => ({

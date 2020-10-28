@@ -4,6 +4,8 @@ import {
   deletePublicationSuccess,
   fetchPublicationSuccess,
   fetchPublicationFailure,
+  getHeatmapPublicationsFailure,
+  getHeatmapPublicationsSuccess,
   getSimilarPublicationsFailure,
   getSimilarPublicationsSuccess,
   reportPublicationFailure,
@@ -55,6 +57,19 @@ export function* getSimilarPublications(action) {
   }
 }
 
+export function* getHeatmapPublications(action) {
+  const { payload } = action;
+  try {
+    const heatmapPublications = yield call(
+      PublicationService.getHeatMapPublications,
+      payload
+    );
+    yield put(getHeatmapPublicationsSuccess(heatmapPublications));
+  } catch (error) {
+    yield put(getHeatmapPublicationsFailure(error));
+  }
+}
+
 export function* fetchPublicationSaga() {
   yield takeLatest(types.FETCH_PUBLICATION__REQUEST, fetchPublication);
 }
@@ -71,5 +86,12 @@ export function* getSimilarPublicationsSaga() {
   yield takeLatest(
     types.GET_SIMILAR_PUBLICATIONS_REQUEST,
     getSimilarPublications
+  );
+}
+
+export function* getHeatMapPublicationsSaga() {
+  yield takeLatest(
+    types.GET_HEATMAP_PUBLICATIONS_REQUEST,
+    getHeatmapPublications
   );
 }
