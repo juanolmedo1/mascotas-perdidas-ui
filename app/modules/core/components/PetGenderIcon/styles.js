@@ -4,15 +4,15 @@ import fonts from '@app/styles/fonts';
 
 export default StyleSheet.create({
   container: {
-    height: 140,
-    width: 120,
+    height: 100,
+    width: '25%',
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
   iconContainer: {
-    height: 70,
-    width: 70,
-    borderRadius: 35,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
@@ -22,10 +22,10 @@ export default StyleSheet.create({
   },
   title: {
     ...fonts.weights.semibold,
-    fontSize: fonts.sizes.L
+    fontSize: fonts.sizes.S
   },
   value: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.S
+    fontSize: fonts.sizes.XS
   }
 });

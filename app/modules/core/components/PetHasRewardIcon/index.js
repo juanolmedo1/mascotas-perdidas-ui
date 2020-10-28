@@ -10,12 +10,7 @@ const PetHasRewardIcon = () => {
     <View style={styles.container}>
       <Text style={styles.title}>{LABELS.title}</Text>
       <View style={styles.iconContainer}>
-        <IconFontAwesome
-          name="dollar"
-          style={styles.icon}
-          size={50}
-          color={iconColor}
-        />
+        <IconFontAwesome name="dollar" size={20} color={iconColor} />
       </View>
     </View>
   );

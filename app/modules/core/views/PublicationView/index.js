@@ -43,6 +43,8 @@ import PUBLICATION_ENTITY from '@entities/Publication';
 import PublicationHeader from '@core/components/PublicationHeader';
 import styles from '@core/views/PublicationView/styles';
 import variables from '@app/styles/variables';
+import IconAnt from 'react-native-vector-icons/AntDesign';
+import Modal from 'react-native-modal';
 
 const PublicationView = ({
   clearPublication,
@@ -63,11 +65,9 @@ const PublicationView = ({
 
   const {
     deletedPublication,
-    deleteRequestInProgress,
     deleteRequestFailed,
     requestInProgress,
     reportedPublication,
-    reportRequestInProgress,
     reportRequestFailed,
     data
   } = currentPublication;
@@ -78,10 +78,20 @@ const PublicationView = ({
   const loggedUserId = session.profileInfo.id;
   const isPublicationOwner = publicationCreatorId === loggedUserId;
 
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   useEffect(() => {
-    getPublication(id);
+    let isMounted = true;
+    if (isMounted) {
+      getPublication(id);
+    }
     return () => {
       clearPublication();
+      isMounted = false;
     };
   }, [clearPublication, getPublication, id]);
 
@@ -93,8 +103,14 @@ const PublicationView = ({
   );
 
   useEffect(() => {
-    setShowDeletedDialog(deletedPublication);
-    setShowReportedDialog(reportedPublication);
+    let isMounted = true;
+    if (isMounted) {
+      setShowDeletedDialog(deletedPublication);
+      setShowReportedDialog(reportedPublication);
+    }
+    return () => {
+      isMounted = false;
+    };
   }, [deletedPublication, reportedPublication]);
 
   const checkUserFavorite = () => {
@@ -176,60 +192,120 @@ const PublicationView = ({
     ) : null;
   };
 
-  const renderPublicationActionFavorite = () => {
-    const iconName = isUserFavorite ? 'star' : 'star-o';
-    const onPressAction = isUserFavorite
-      ? () => onUnfavPublication(loggedUserId, id)
-      : () => onFavPublication(loggedUserId, id);
-    return !isPublicationOwner ? (
-      <TouchableOpacity
-        style={styles.headerIconContainer}
-        onPress={onPressAction}
-      >
-        <IconFontAwesome
-          name={iconName}
-          size={25}
-          color={variables.colors.backgroundOrange}
-        />
-      </TouchableOpacity>
-    ) : null;
-  };
-
-  const renderPublicationActionDeleteOrReport = () => {
-    const iconName = isPublicationOwner ? 'trash' : 'exclamation';
-    const iconColor = isPublicationOwner
-      ? variables.colors.backgroundBlack
-      : variables.colors.backgroundRed;
-    const onPressAction = isPublicationOwner
-      ? () => toggleDeleteConfirmDialog(true)
-      : () => toggleReportConfirmDialog(true);
-    return (
-      <TouchableOpacity
-        style={styles.headerIconContainer}
-        onPress={onPressAction}
-      >
-        <IconSimple name={iconName} size={23} color={iconColor} />
-      </TouchableOpacity>
-    );
-  };
-
-  const renderPublicationActions = () => {
+  const renderOwnerActions = () => {
+    const renderHeatMapOption = data.type === PUBLICATION_ENTITY.types.lost;
+    const renderSimilarPublicationOption =
+      data.type !== PUBLICATION_ENTITY.types.adoption;
     return (
       <View style={styles.extraActionContainer}>
-        {renderPublicationActionFavorite()}
-        {renderPublicationActionDeleteOrReport()}
+        <TouchableOpacity
+          style={styles.headerIconContainer}
+          activeOpacity={0.9}
+          onPress={toggleModal}
+        >
+          <IconSimple
+            name="options"
+            size={20}
+            color={variables.colors.backgroundBlack}
+          />
+        </TouchableOpacity>
+        <Modal
+          isVisible={isModalVisible}
+          backdropOpacity={0.8}
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          onBackdropPress={toggleModal}
+          useNativeDriver={true}
+          style={styles.modal}
+        >
+          <View style={styles.modalContainer}>
+            <TouchableOpacity
+              style={styles.modalButtonContainer}
+              activeOpacity={0.9}
+              onPress={() => {
+                toggleDeleteConfirmDialog(true);
+                toggleModal();
+              }}
+            >
+              <Text style={styles.modalDeleteText}>{LABELS.modal.delete}</Text>
+            </TouchableOpacity>
+            {renderSimilarPublicationOption && (
+              <>
+                <View style={styles.modalDivider} />
+                <TouchableOpacity
+                  style={styles.modalButtonContainer}
+                  activeOpacity={0.9}
+                  onPress={toggleModal}
+                >
+                  <Text style={styles.modalText}>
+                    {LABELS.modal.similarPublications}
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+            {renderHeatMapOption && (
+              <>
+                <View style={styles.modalDivider} />
+                <TouchableOpacity
+                  style={styles.modalButtonContainer}
+                  activeOpacity={0.9}
+                  onPress={toggleModal}
+                >
+                  <Text style={styles.modalText}>{LABELS.modal.heatMap}</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+          <TouchableOpacity
+            style={styles.modalCancelButton}
+            activeOpacity={0.9}
+            onPress={toggleModal}
+          >
+            <Text style={styles.modalText}>{LABELS.modal.cancel}</Text>
+          </TouchableOpacity>
+        </Modal>
       </View>
     );
   };
 
+  const renderNotOwnerActions = () => {
+    const iconName = isUserFavorite ? 'star' : 'star-o';
+    const onPressAction = isUserFavorite
+      ? () => onUnfavPublication(loggedUserId, id)
+      : () => onFavPublication(loggedUserId, id);
+    return (
+      <View style={styles.extraActionContainer}>
+        <TouchableOpacity
+          style={styles.headerIconContainer}
+          onPress={onPressAction}
+        >
+          <IconFontAwesome
+            name={iconName}
+            size={25}
+            color={variables.colors.backgroundOrange}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.headerIconContainer}
+          onPress={() => toggleReportConfirmDialog(true)}
+        >
+          <IconSimple
+            name={'exclamation'}
+            size={23}
+            color={variables.colors.backgroundDarkGrey}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderPublicationActions = () => {
+    return isPublicationOwner ? renderOwnerActions() : renderNotOwnerActions();
+  };
+
   let content = null;
 
-  if (
-    requestInProgress ||
-    deleteRequestInProgress ||
-    reportRequestInProgress ||
-    !data
-  ) {
+  if (requestInProgress || !data) {
     content = <LoadingView />;
   } else {
     if (data) {
@@ -327,6 +403,9 @@ const PublicationView = ({
           open={showDeleteConfirmDialog}
           onCancel={() => toggleDeleteConfirmDialog(false)}
           onConfirm={onDeletePublication}
+          onBackdropPress={() => toggleDeleteConfirmDialog(false)}
+          onBackButtonPress={() => toggleDeleteConfirmDialog(false)}
+          title={LABELS.dialogs.delete.title}
           modalText={LABELS.dialogs.delete.dialogText}
           confirmText={LABELS.dialogs.delete.confirmText}
           cancelText={LABELS.dialogs.delete.cancelText}
@@ -335,6 +414,9 @@ const PublicationView = ({
           open={showReportConfirmDialog}
           onCancel={() => toggleReportConfirmDialog(false)}
           onConfirm={onReportPublication}
+          onBackdropPress={() => toggleReportConfirmDialog(false)}
+          onBackButtonPress={() => toggleReportConfirmDialog(false)}
+          title={LABELS.dialogs.report.title}
           modalText={LABELS.dialogs.report.dialogText}
           confirmText={LABELS.dialogs.report.confirmText}
           cancelText={LABELS.dialogs.report.cancelText}
@@ -342,8 +424,28 @@ const PublicationView = ({
         <DialogSimple
           open={showDeletedDialog}
           toggleDialog={onDeletedPublication}
+          onBackdropPress={onDeletedPublication}
+          onBackButtonPress={onDeletedPublication}
         >
-          <View>
+          <View style={styles.contentContainer}>
+            <View
+              style={[
+                styles.iconContainer,
+                deleteRequestFailed
+                  ? styles.iconBorderFail
+                  : styles.iconBorderSuccess
+              ]}
+            >
+              <IconAnt
+                name={deleteRequestFailed ? 'exclamation' : 'check'}
+                size={50}
+                color={
+                  deleteRequestFailed
+                    ? variables.colors.backgroundRed
+                    : variables.colors.backgroundGreen
+                }
+              />
+            </View>
             <Text style={styles.dialogText}>
               {deleteRequestFailed
                 ? LABELS.dialogs.deleted.fail
@@ -354,8 +456,28 @@ const PublicationView = ({
         <DialogSimple
           open={showReportedDialog}
           toggleDialog={onReportedPublication}
+          onBackdropPress={onReportedPublication}
+          onBackButtonPress={onReportedPublication}
         >
-          <View>
+          <View style={styles.contentContainer}>
+            <View
+              style={[
+                styles.iconContainer,
+                reportRequestFailed
+                  ? styles.iconBorderFail
+                  : styles.iconBorderSuccess
+              ]}
+            >
+              <IconAnt
+                name={reportRequestFailed ? 'exclamation' : 'check'}
+                size={50}
+                color={
+                  reportRequestFailed
+                    ? variables.colors.backgroundRed
+                    : variables.colors.backgroundGreen
+                }
+              />
+            </View>
             <Text style={styles.dialogText}>
               {reportRequestFailed
                 ? LABELS.dialogs.reported.fail

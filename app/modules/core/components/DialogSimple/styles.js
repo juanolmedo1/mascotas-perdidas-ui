@@ -3,30 +3,21 @@ import fonts from '@app/styles/fonts';
 import variables from '@styles/variables';
 
 export default StyleSheet.create({
-  modalScreen: {
-    flex: 1,
-    flexDirection: 'column',
+  modal: {
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: variables.colors.backgroundLightGrey,
-    opacity: 0.95
+    alignItems: 'center'
   },
   modalContainer: {
-    width: 300,
-    height: 300,
-    padding: 5,
+    height: 250,
+    width: '90%',
     borderRadius: 8,
-    elevation: 10,
-    backgroundColor: variables.colors.backgroundWhite
-  },
-  modal: {
-    flex: 1,
+    backgroundColor: variables.colors.backgroundWhite,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
   content: {
-    flex: 4,
+    flex: 3,
     height: 300,
     width: '100%',
     justifyContent: 'center',

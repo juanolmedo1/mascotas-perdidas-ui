@@ -1,30 +1,33 @@
-import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from '@core/components/DialogSimple/styles';
+import Modal from 'react-native-modal';
 
-const DialogSimple = ({ toggleDialog, open = false, children }) => {
+const DialogSimple = ({ toggleDialog, open = false, children, ...props }) => {
   return (
-    <View>
-      <Modal animationType="slide" transparent={true} visible={open}>
-        <View style={styles.modalScreen}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modal}>
-              <View style={styles.content}>{children}</View>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.closeButton}
-                  onPress={toggleDialog}
-                >
-                  <Text style={styles.closeText}>Cerrar</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
+    <Modal
+      isVisible={open}
+      backdropOpacity={0.8}
+      animationIn="zoomIn"
+      animationOut="zoomOut"
+      useNativeDriver={true}
+      style={styles.modal}
+      {...props}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.content}>{children}</View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.closeButton}
+            onPress={toggleDialog}
+          >
+            <Text style={styles.closeText}>Cerrar</Text>
+          </TouchableOpacity>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
