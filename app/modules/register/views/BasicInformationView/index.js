@@ -123,6 +123,7 @@ const BasicInformationView = ({ registration, setInformation }) => {
               title="Telefono"
               error={errors.phone}
               icon="phoneNumber"
+              keyboardType="phone-pad"
               value={values.phone}
               onChangeText={handleChange('phone')}
               onBlur={handleBlur('phone')}

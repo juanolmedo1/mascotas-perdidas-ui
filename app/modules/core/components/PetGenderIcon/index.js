@@ -12,21 +12,21 @@ const PetGenderIcon = ({ type }) => {
     MALE: (
       <IconIon
         name="ios-male"
-        size={40}
+        size={25}
         color={variables.colors.backgroundOrange}
       />
     ),
     FEMALE: (
       <IconIon
         name="ios-female"
-        size={40}
+        size={25}
         color={variables.colors.backgroundOrange}
       />
     ),
     UNDEFINED: (
       <IconAnt
         name="question"
-        size={50}
+        size={25}
         color={variables.colors.backgroundOrange}
       />
     )

@@ -41,9 +41,7 @@ export default StyleSheet.create({
   iconsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    marginHorizontal: variables.spacings.M,
-    paddingTop: variables.spacings.S
+    paddingVertical: variables.spacings.S
   },
   image: {
     width,
@@ -66,7 +64,7 @@ export default StyleSheet.create({
   },
   dialogText: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.L,
+    fontSize: fonts.sizes.M,
     textAlign: 'center'
   },
   divider: {
@@ -105,5 +103,63 @@ export default StyleSheet.create({
   title: {
     fontSize: fonts.sizes.L,
     ...fonts.weights.regular
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: variables.spacings.M
+  },
+  modalContainer: {
+    borderRadius: 10,
+    backgroundColor: variables.colors.backgroundWhite,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalCancelButton: {
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: variables.colors.backgroundWhite,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: variables.spacings.S
+  },
+  modalText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S
+  },
+  modalButtonContainer: {
+    height: 50,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalDeleteText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S,
+    color: variables.colors.textRed
+  },
+  modalDivider: {
+    width: '100%',
+    height: 0.5,
+    backgroundColor: variables.colors.backgroundLightGrey
+  },
+  contentContainer: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  iconContainer: {
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: variables.spacings.L
+  },
+  iconBorderSuccess: {
+    borderColor: variables.colors.borderGreen
+  },
+  iconBorderFail: {
+    borderColor: variables.colors.borderRed
   }
 });

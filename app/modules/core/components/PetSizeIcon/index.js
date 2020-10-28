@@ -9,10 +9,10 @@ import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const PetSizeIcon = ({ size }) => {
   const petSizes = {
-    VERY_SMALL: 18,
+    VERY_SMALL: 20,
     SMALL: 30,
-    MEDIUM: 45,
-    LARGE: 55
+    MEDIUM: 37,
+    LARGE: 45
   };
 
   const iconSize = petSizes[size];

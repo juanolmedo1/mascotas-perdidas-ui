@@ -7,8 +7,9 @@ export const LABELS = {
     selectUbication: '+ Seleccionar ubicación'
   },
   modal: {
+    title: '¡Atención!',
     modalText:
-      '¡Atención! Se han efectuado cambios para realizar la publicación. ¿Desea descartarla?',
+      'Se han efectuado cambios para realizar la publicación. ¿Desea descartarla?',
     confirmText: 'Descartar',
     cancelText: 'Cancelar'
   },
