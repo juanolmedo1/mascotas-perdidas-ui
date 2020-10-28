@@ -7,6 +7,7 @@ import styles from '@login/views/LoginView/styles';
 import Button from '@core/components/Button';
 import variables from '@styles/variables';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import NavigationService from '@core/utils/navigation';
 import { fetchLoginFailure } from '@login/store/actions';
@@ -48,13 +49,22 @@ const LoginView = ({ fetchLoginFunc, session, addProfileError }) => {
         />
       </View>
       <View style={styles.inputsContainer}>
-        <TextInput
-          style={styles.input}
-          value={username}
-          placeholder={'Usuario'}
-          placeholderTextColor={variables.colors.textWhite}
-          onChangeText={text => onChangeUsername(text)}
-        />
+        <View style={styles.inputContainer}>
+          <View style={styles.iconContainer}>
+            <IconSimple
+              name={'user'}
+              size={16}
+              color={variables.colors.backgroundWhite}
+            />
+          </View>
+          <TextInput
+            style={styles.input}
+            value={username}
+            placeholder={'Usuario'}
+            placeholderTextColor={variables.colors.textWhite}
+            onChangeText={text => onChangeUsername(text)}
+          />
+        </View>
         <View style={styles.errorContainer}>
           {requestProfileError.username && (
             <Text style={styles.errorMessage}>
@@ -62,14 +72,25 @@ const LoginView = ({ fetchLoginFunc, session, addProfileError }) => {
             </Text>
           )}
         </View>
-        <TextInput
-          style={styles.input}
-          value={password}
-          placeholder={'Contraseña'}
-          placeholderTextColor={variables.colors.textWhite}
-          secureTextEntry={true}
-          onChangeText={text => onChangePassword(text)}
-        />
+
+        <View style={styles.inputContainer}>
+          <View style={styles.iconContainer}>
+            <IconSimple
+              name={'lock'}
+              size={16}
+              color={variables.colors.backgroundWhite}
+            />
+          </View>
+          <TextInput
+            style={styles.input}
+            value={password}
+            placeholder={'Contraseña'}
+            placeholderTextColor={variables.colors.textWhite}
+            secureTextEntry={true}
+            onChangeText={text => onChangePassword(text)}
+          />
+        </View>
+
         <View style={styles.errorContainer}>
           {requestProfileError.password && (
             <Text style={styles.errorMessage}>

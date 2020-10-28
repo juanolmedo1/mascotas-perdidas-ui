@@ -45,6 +45,7 @@ import styles from '@core/views/PublicationView/styles';
 import variables from '@app/styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
+import UbicationMarker from '@core/components/UbicationMarker';
 
 const PublicationView = ({
   clearPublication,
@@ -364,7 +365,7 @@ const PublicationView = ({
           {Boolean(additionalInfo) && (
             <View>
               <View style={styles.additionalInfoContainer}>
-                <Text style={styles.infoTitle}>
+                <Text style={styles.subtitle}>
                   {LABELS.additionalInformation}
                 </Text>
                 <View style={styles.divider} />
@@ -372,6 +373,18 @@ const PublicationView = ({
               </View>
             </View>
           )}
+          <View style={styles.ubicationTitleContainer}>
+            <Text style={styles.subtitle}>{LABELS.ubication}</Text>
+            <View style={styles.divider} />
+          </View>
+          <View style={styles.ubicationContainer}>
+            <UbicationMarker
+              startLatitude={data.ubication.firstLatitude}
+              startLongitude={data.ubication.firstLongitude}
+              startLatitudeDelta={0.01}
+              startLongitudeDelta={0.01}
+            />
+          </View>
         </View>
       );
     }
