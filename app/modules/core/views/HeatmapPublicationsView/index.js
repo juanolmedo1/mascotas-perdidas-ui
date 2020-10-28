@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconIon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MapView, {
+  Circle,
   Heatmap,
   Marker,
-  Polygon,
   PROVIDER_GOOGLE
 } from 'react-native-maps';
 import React, { useEffect } from 'react';
@@ -12,10 +14,13 @@ import React, { useEffect } from 'react';
 import * as currentPublicationActions from '@core/store/currentPublication/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import {
+  CIRCLE as circleProperties,
+  HEATMAP as heatmapProperties,
   LABELS,
   MAP_DELTA as mapDelta,
   OFFSET as offset
 } from '@core/views/HeatmapPublicationsView/constants';
+import DialogSimple from '@core/components/DialogSimple';
 import { mapStylesJson } from '@app/styles/mapStylesJson';
 import Divider from '@core/components/Divider';
 import LoadingView from '@core/views/LoadingView';
@@ -29,7 +34,12 @@ const HeatmapPublicationsView = ({
   getHeatmapPublications,
   route
 }) => {
-  const { id, publicationLatitude, publicationLongitude } = route.params;
+  const {
+    id,
+    petType,
+    publicationLatitude,
+    publicationLongitude
+  } = route.params;
   const {
     heatmapPublications,
     heatmapPublicationsRequestFailed,
@@ -37,28 +47,14 @@ const HeatmapPublicationsView = ({
   } = currentPublication;
 
   useEffect(() => {
-    getHeatmapPublications({ publicationId: id, offset });
+    let isMounted = true;
+    if (isMounted) {
+      getHeatmapPublications({ publicationId: id, offset });
+    }
+    return () => {
+      isMounted = false;
+    };
   }, [getHeatmapPublications, id]);
-
-  const getPolygonPoints = () => {
-    const rightTopCorner = {
-      latitude: publicationLatitude + offset,
-      longitude: publicationLongitude + offset
-    };
-    const rightBottomCorner = {
-      latitude: publicationLatitude + offset,
-      longitude: publicationLongitude - offset
-    };
-    const leftTopCorner = {
-      latitude: publicationLatitude - offset,
-      longitude: publicationLongitude + offset
-    };
-    const leftBottomCorner = {
-      latitude: publicationLatitude - offset,
-      longitude: publicationLongitude - offset
-    };
-    return [rightTopCorner, rightBottomCorner, leftBottomCorner, leftTopCorner];
-  };
 
   const getHeatPoints = () => {
     return heatmapPublications
@@ -69,51 +65,107 @@ const HeatmapPublicationsView = ({
       : [];
   };
 
+  const renderRequestFailedDialog = () => {
+    return (
+      <DialogSimple
+        open={heatmapPublicationsRequestFailed}
+        toggleDialog={() => NavigationService.goBack()}
+        onBackdropPress={() => NavigationService.goBack()}
+        onBackButtonPress={() => NavigationService.goBack()}
+      >
+        <View style={styles.contentContainer}>
+          <View style={[styles.iconContainer, styles.iconBorderFail]}>
+            <IconAnt
+              name={'exclamation'}
+              size={50}
+              color={variables.colors.backgroundRed}
+            />
+          </View>
+          <Text style={styles.dialogText}>{LABELS.requestFailed}</Text>
+        </View>
+      </DialogSimple>
+    );
+  };
+
+  const renderNoInformationDialog = () => {
+    return (
+      <DialogSimple
+        open={heatmapPublications.length === 0}
+        toggleDialog={() => NavigationService.goBack()}
+        onBackdropPress={() => NavigationService.goBack()}
+        onBackButtonPress={() => NavigationService.goBack()}
+      >
+        <View style={styles.contentContainer}>
+          <View style={[styles.iconContainer, styles.iconBorderWarning]}>
+            <IconAnt
+              name={'frowno'}
+              size={50}
+              color={variables.colors.backgroundOrange}
+            />
+          </View>
+          <Text style={styles.dialogText}>{LABELS.noInformation}</Text>
+        </View>
+      </DialogSimple>
+    );
+  };
+
   const renderContent = () => {
     if (heatmapPublicationsRequestInProgress) {
       return <LoadingView />;
     }
     const heatPoints = getHeatPoints();
     const hasHeatPoints = heatPoints.length > 0;
-    if (heatmapPublicationsRequestFailed) {
-      return (
-        <View>
-          <Text> Message fail</Text>
+    return !heatmapPublicationsRequestFailed && hasHeatPoints ? (
+      <>
+        <View style={styles.introductionContainer}>
+          <View style={styles.introductionIconContainer}>
+            <MaterialCommunityIcons
+              name={'lightbulb-on-outline'}
+              size={35}
+              color={variables.colors.backgroundOrange}
+            />
+          </View>
+          <Text style={styles.introductionText}>
+            {LABELS.introductionText(petType)}
+          </Text>
         </View>
-      );
-    }
-    if (!hasHeatPoints) {
-      return (
-        <View>
-          <Text>Message</Text>
-        </View>
-      );
-    }
-    return (
-      <View style={styles.mapContainer}>
-        <MapView
-          customMapStyle={mapStylesJson}
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          showsUserLocation={true}
-          initialRegion={{
-            latitude: publicationLatitude,
-            longitude: publicationLongitude,
-            latitudeDelta: mapDelta,
-            longitudeDelta: mapDelta
-          }}
-        >
-          <Heatmap radius={50} points={heatPoints} />
-          <Polygon coordinates={getPolygonPoints()} />
-          <Marker
-            coordinate={{
+        <View style={styles.mapContainer}>
+          <MapView
+            customMapStyle={mapStylesJson}
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            showsUserLocation={true}
+            initialRegion={{
               latitude: publicationLatitude,
-              longitude: publicationLongitude
+              longitude: publicationLongitude,
+              latitudeDelta: mapDelta,
+              longitudeDelta: mapDelta
             }}
-          />
-        </MapView>
-      </View>
-    );
+          >
+            <Heatmap
+              radius={heatmapProperties.radius}
+              points={heatPoints}
+              gradient={heatmapProperties.gradientOptions}
+            />
+            <Circle
+              center={{
+                latitude: publicationLatitude,
+                longitude: publicationLongitude
+              }}
+              fillColor={circleProperties.fillColor}
+              strokeColor={variables.colors.backgroundDarkOrange}
+              radius={circleProperties.radius}
+            />
+            <Marker
+              coordinate={{
+                latitude: publicationLatitude,
+                longitude: publicationLongitude
+              }}
+            />
+          </MapView>
+        </View>
+      </>
+    ) : null;
   };
 
   return (
@@ -138,6 +190,8 @@ const HeatmapPublicationsView = ({
         </View>
         <Divider />
         {renderContent()}
+        {heatmapPublications ? renderNoInformationDialog() : null}
+        {heatmapPublicationsRequestFailed ? renderRequestFailedDialog() : null}
       </ImageBackground>
     </View>
   );

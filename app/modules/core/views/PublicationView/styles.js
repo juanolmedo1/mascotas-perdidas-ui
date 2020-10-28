@@ -36,7 +36,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   headerIconContainer: {
-    marginRight: variables.spacings.M
+    padding: variables.spacings.M
   },
   iconsContainer: {
     flexDirection: 'row',
