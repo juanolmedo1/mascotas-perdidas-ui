@@ -46,6 +46,18 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  ubicationTextContainer: {
+    marginHorizontal: variables.spacings.L,
+    marginBottom: variables.spacings.S,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ubicationText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.XS,
+    color: variables.colors.textBlack,
+    textAlign: 'center'
+  },
   iconsContainer: {
     width: 70,
     flexDirection: 'row',

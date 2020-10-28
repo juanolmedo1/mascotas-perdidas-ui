@@ -169,6 +169,15 @@ const HomeView = ({
     );
   };
 
+  const publicationListIsEmpty = Boolean(!data.length);
+  let ubicationText;
+  if (!publicationListIsEmpty) {
+    const country = data[0].ubication.country;
+    const adminArea1 = data[0].ubication.administrativeAreaLevel1;
+    const locality = data[0].ubication.locality;
+    ubicationText = `${locality} | ${adminArea1} | ${country}`;
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -190,7 +199,13 @@ const HomeView = ({
             </TouchableOpacity>
           </View>
         </View>
+
         {!mapView && <Divider />}
+        {!publicationListIsEmpty && (
+          <View style={styles.ubicationTextContainer}>
+            <Text style={styles.ubicationText}>{ubicationText}</Text>
+          </View>
+        )}
         <HomeViewToggler
           mapViewActive={mapView}
           onListViewSelected={() => setMapView(false)}
