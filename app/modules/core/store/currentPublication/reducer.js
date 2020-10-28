@@ -20,13 +20,20 @@ export default function(state = initialState, { type, payload }) {
     case types.CLEAR_CURRENT_PUBLICATION:
       return {
         ...state,
+        deletedPublication: false,
+        deleteRequestInProgress: false,
+        deleteRequestFailed: false,
+        reportedPublication: false,
+        reportRequestInProgress: false,
+        reportRequestFailed: false,
         data: null
       };
     case types.DELETE_PUBLICATION_FAILURE:
       return {
         ...state,
         deleteRequestFailed: true,
-        deleteRequestInProgress: false
+        deleteRequestInProgress: false,
+        deletedPublication: true
       };
     case types.DELETE_PUBLICATION_REQUEST:
       return {
@@ -84,7 +91,8 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         reportRequestFailed: true,
-        reportRequestInProgress: false
+        reportRequestInProgress: false,
+        reportedPublication: true
       };
     case types.REPORT_PUBLICATION_REQUEST:
       return {

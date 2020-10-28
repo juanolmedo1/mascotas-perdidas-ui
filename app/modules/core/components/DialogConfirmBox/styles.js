@@ -4,38 +4,37 @@ import variables from '@styles/variables';
 
 export default StyleSheet.create({
   modal: {
-    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContainer: {
+    height: 250,
+    width: '90%',
+    borderRadius: 8,
+    backgroundColor: variables.colors.backgroundWhite,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
   mainText: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.L,
+    fontSize: fonts.sizes.M,
+    marginTop: variables.spacings.L,
     textAlign: 'center'
   },
   content: {
     flex: 2,
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: variables.spacings.L,
     alignItems: 'center',
     paddingHorizontal: variables.spacings.S
   },
-  modalContainer: {
-    width: 300,
-    height: 200,
-    padding: 5,
-    borderRadius: 8,
-    elevation: 10,
-    backgroundColor: variables.colors.backgroundWhite
-  },
-  modalScreen: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: variables.colors.backgroundLightGrey,
-    opacity: 0.95
+  title: {
+    width: '100%',
+    ...fonts.weights.bold,
+    fontSize: fonts.sizes.L,
+    textAlign: 'center'
   },
   confirmOption: {
     width: 110,
