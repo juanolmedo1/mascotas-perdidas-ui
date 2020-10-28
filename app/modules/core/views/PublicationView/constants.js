@@ -2,11 +2,6 @@ export const LABELS = {
   title: 'Publicación',
   additionalInformation: 'Información adicional',
   ubication: 'Ubicación',
-  similarPublications: {
-    buttons: {
-      searchSimilarPublications: 'Buscar posibles coincidencias'
-    }
-  },
   modal: {
     cancel: 'Cancelar',
     delete: 'Eliminar',

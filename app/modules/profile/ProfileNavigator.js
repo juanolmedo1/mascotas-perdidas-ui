@@ -4,6 +4,7 @@ import {
 } from '@react-navigation/stack';
 import React from 'react';
 
+import HeatmapPublicationsView from '@core/views/HeatmapPublicationsView';
 import ProfileView from '@profile/views/ProfileView';
 import PublicationView from '@core/views/PublicationView';
 import SimilarPublicationsView from '@core/views/SimilarPublicationsView';
@@ -35,6 +36,13 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="SimilarPublications"
         component={SimilarPublicationsView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="HeatmapPublications"
+        component={HeatmapPublicationsView}
         options={{
           headerShown: false
         }}

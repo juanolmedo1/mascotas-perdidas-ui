@@ -26,7 +26,6 @@ import {
   setHasToRefreshHome,
   setHasToRefreshProfile
 } from '@core/store/refreshments/actions';
-import Button from '@core/components/Button';
 import DateUtils from '@core/utils/date';
 import DialogConfirmBox from '@core/components/DialogConfirmBox';
 import DialogSimple from '@core/components/DialogSimple';
@@ -171,26 +170,29 @@ const PublicationView = ({
     refreshFavorites(true);
   };
 
-  const renderSimilarPublicationButton = () => {
-    const publicationType = data.type;
-    const isAdoptionPublication =
-      publicationType === PUBLICATION_ENTITY.types.adoption;
-    return isPublicationOwner && !isAdoptionPublication ? (
-      <View style={styles.similarPublicationsContainer}>
-        <View style={styles.buttonContainer}>
-          <Button
-            text={LABELS.similarPublications.buttons.searchSimilarPublications}
-            onPress={() =>
-              NavigationService.navigate('SimilarPublicationsNavigator', {
-                screen: 'SimilarPublications',
-                params: { id: id }
-              })
-            }
-            type="primary"
-          />
-        </View>
-      </View>
-    ) : null;
+  const onPressDeleteHandler = () => {
+    toggleModal();
+    toggleDeleteConfirmDialog(true);
+  };
+
+  const onPressSimilarPublicationsHandler = () => {
+    toggleModal();
+    NavigationService.navigate('SimilarPublicationsNavigator', {
+      screen: 'SimilarPublications',
+      params: { id: id }
+    });
+  };
+
+  const onPressHeatmapHandler = () => {
+    toggleModal();
+    const { type } = data.pet;
+    const { firstLatitude, firstLongitude } = data.ubication;
+    NavigationService.navigate('HeatmapPublications', {
+      id: id,
+      publicationLatitude: firstLatitude,
+      publicationLongitude: firstLongitude,
+      petType: type
+    });
   };
 
   const renderOwnerActions = () => {
@@ -223,10 +225,7 @@ const PublicationView = ({
             <TouchableOpacity
               style={styles.modalButtonContainer}
               activeOpacity={0.9}
-              onPress={() => {
-                toggleDeleteConfirmDialog(true);
-                toggleModal();
-              }}
+              onPress={onPressDeleteHandler}
             >
               <Text style={styles.modalDeleteText}>{LABELS.modal.delete}</Text>
             </TouchableOpacity>
@@ -236,7 +235,7 @@ const PublicationView = ({
                 <TouchableOpacity
                   style={styles.modalButtonContainer}
                   activeOpacity={0.9}
-                  onPress={toggleModal}
+                  onPress={onPressSimilarPublicationsHandler}
                 >
                   <Text style={styles.modalText}>
                     {LABELS.modal.similarPublications}
@@ -250,7 +249,7 @@ const PublicationView = ({
                 <TouchableOpacity
                   style={styles.modalButtonContainer}
                   activeOpacity={0.9}
-                  onPress={toggleModal}
+                  onPress={onPressHeatmapHandler}
                 >
                   <Text style={styles.modalText}>{LABELS.modal.heatMap}</Text>
                 </TouchableOpacity>
@@ -335,7 +334,6 @@ const PublicationView = ({
               />
             ))}
           </ScrollView>
-          {renderSimilarPublicationButton()}
           <Divider />
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
