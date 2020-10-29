@@ -11,7 +11,7 @@ export default StyleSheet.create({
     paddingHorizontal: variables.spacings.L,
     paddingTop: variables.spacings.M,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   iconContainer: {
@@ -23,6 +23,15 @@ export default StyleSheet.create({
     borderColor: variables.colors.borderGreen,
     borderRadius: 45,
     marginBottom: variables.spacings.S
+  },
+  backContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    left: 0,
+    bottom: 0
   },
   title: {
     fontSize: fonts.sizes.L,

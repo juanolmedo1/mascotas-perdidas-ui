@@ -30,7 +30,7 @@ export default StyleSheet.create({
     borderRadius: 45
   },
   header: {
-    height: 50,
+    height: 60,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-start'

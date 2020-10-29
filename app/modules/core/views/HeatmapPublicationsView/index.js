@@ -96,10 +96,10 @@ const HeatmapPublicationsView = ({
         onBackButtonPress={() => NavigationService.goBack()}
       >
         <View style={styles.contentContainer}>
-          <View style={[styles.iconContainer, styles.iconBorderWarning]}>
+          <View style={styles.iconContainer}>
             <IconAnt
               name={'frowno'}
-              size={50}
+              size={60}
               color={variables.colors.backgroundOrange}
             />
           </View>
@@ -121,7 +121,7 @@ const HeatmapPublicationsView = ({
           <View style={styles.introductionIconContainer}>
             <MaterialCommunityIcons
               name={'lightbulb-on-outline'}
-              size={35}
+              size={30}
               color={variables.colors.backgroundOrange}
             />
           </View>

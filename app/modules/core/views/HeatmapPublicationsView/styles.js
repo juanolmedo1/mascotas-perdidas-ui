@@ -18,23 +18,29 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   iconBorderFail: {
+    borderWidth: 2,
     borderColor: variables.colors.borderRed
-  },
-  iconBorderWarning: {
-    borderColor: variables.colors.borderOrange
   },
   header: {
     paddingHorizontal: variables.spacings.L,
     paddingTop: variables.spacings.M,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center'
+  },
+  backContainer: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: 60
   },
   iconContainer: {
     height: 80,
     width: 80,
     borderRadius: 40,
-    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: variables.spacings.L
@@ -46,9 +52,9 @@ export default StyleSheet.create({
   },
   introductionText: {
     flex: 5,
-    ...fonts.weights.semibold,
+    ...fonts.weights.regular,
     fontSize: fonts.sizes.S,
-    textAlign: 'center'
+    textAlign: 'left'
   },
   introductionContainer: {
     paddingHorizontal: variables.spacings.M,
