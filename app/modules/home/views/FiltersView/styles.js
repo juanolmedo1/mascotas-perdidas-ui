@@ -6,7 +6,7 @@ const { height, width } = Dimensions.get('screen');
 
 export default StyleSheet.create({
   header: {
-    height: 50,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'

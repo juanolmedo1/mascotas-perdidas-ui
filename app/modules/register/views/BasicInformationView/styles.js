@@ -15,7 +15,7 @@ export default StyleSheet.create({
     marginBottom: variables.spacings.S
   },
   header: {
-    height: 50,
+    height: 60,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-start'
