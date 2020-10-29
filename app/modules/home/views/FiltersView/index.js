@@ -63,12 +63,12 @@ const FiltersView = ({
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <ImageBackground
-        imageStyle={imageStyles}
-        source={patternBackground}
-        style={backgroundStyles}
-      >
+    <ImageBackground
+      imageStyle={imageStyles}
+      source={patternBackground}
+      style={backgroundStyles}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.icon}
@@ -160,8 +160,8 @@ const FiltersView = ({
             removeSize={removeSize}
           />
         </View>
-      </ImageBackground>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
