@@ -1,18 +1,30 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import HomeNavigator from '@home/HomeNavigator';
 import LikesNavigator from '@likes/LikesNavigator';
-import NotificationsView from '@notifications/views/NotificationsView';
+import NotificationNavigator from '@notifications/NotificationNavigator';
 import ProfileNavigator from '@profile/ProfileNavigator';
 import UploadNavigator from '@upload/UploadNavigator';
 import variables from '@styles/variables';
+import styles from '@core/components/BottomNavigator/styles';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
+import messaging from '@react-native-firebase/messaging';
+import NavigationService from '@core/utils/navigation';
 
 const Tab = createBottomTabNavigator();
 
-const BottomNavigator = () => {
+const BottomNavigator = ({ newNotification }) => {
+  useEffect(() => {
+    const message = messaging().onNotificationOpenedApp(() => {
+      NavigationService.navigate('NotificationNavigator');
+    });
+    return message;
+  }, []);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -85,19 +97,22 @@ const BottomNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={NotificationsView}
+        name="NotificationNavigator"
+        component={NotificationNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
-            <IconFeather
-              name="bell"
-              size={30}
-              color={
-                focused
-                  ? variables.colors.textOrange
-                  : variables.colors.textDarkGrey
-              }
-            />
+            <View style={styles.iconContainer}>
+              <IconFeather
+                name="bell"
+                size={30}
+                color={
+                  focused
+                    ? variables.colors.textOrange
+                    : variables.colors.textDarkGrey
+                }
+              />
+              {newNotification && <View style={styles.iconPoint} />}
+            </View>
           )
         }}
       />
@@ -122,4 +137,8 @@ const BottomNavigator = () => {
   );
 };
 
-export default BottomNavigator;
+const mapStateToProps = state => ({
+  newNotification: state.notifications.newNotification
+});
+
+export default connect(mapStateToProps)(BottomNavigator);

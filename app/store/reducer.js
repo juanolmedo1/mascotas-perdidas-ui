@@ -8,6 +8,7 @@ import refreshments from '@core/store/refreshments/reducer';
 import registration from '@register/store/reducer';
 import session from '@login/store/reducer';
 import ubications from '@core/store/ubication/reducer';
+import notifications from '@notifications/store/reducer';
 
 export default combineReducers({
   currentPublication,
@@ -17,5 +18,6 @@ export default combineReducers({
   registration,
   refreshments,
   session,
-  ubications
+  ubications,
+  notifications
 });

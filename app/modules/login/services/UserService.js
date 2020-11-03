@@ -23,6 +23,21 @@ const login = async payload => {
   return response.login;
 };
 
+const SAVE_NOTIFICATION_TOKEN = `mutation addNotificationToken($id: String!, $token: String!){
+  addNotificationToken(input: {
+    id: $id,
+    token: $token
+  })
+}`;
+
+const saveNotificationToken = async payload => {
+  const response = await GraphQLClient.request(
+    SAVE_NOTIFICATION_TOKEN,
+    payload
+  );
+  return response.addNotificationToken;
+};
+
 const GET_USER_PUBLICATIONS_QUERY = `query getUserPublications($id: String!){
     getUserPublications(userId: $id){
       id
@@ -80,5 +95,6 @@ const registerUser = async payload => {
 export default {
   login,
   getUserPublications,
-  registerUser
+  registerUser,
+  saveNotificationToken
 };

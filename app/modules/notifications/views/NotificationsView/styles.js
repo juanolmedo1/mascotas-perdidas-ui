@@ -19,12 +19,22 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: '100%'
+  },
+  emptyList: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  noNotifications: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.L
   },
   contentText: {
     fontSize: fonts.sizes.L,
     ...fonts.weights.regular
+  },
+  list: {
+    width: '100%'
   }
 });
