@@ -1,0 +1,9 @@
+const types = {
+  POSSIBLE_MATCHING: 'POSSIBLE_MATCHING',
+  CONFIRM_PET_FOUND: 'CONFIRM_PET_FOUND',
+  NEW_PUBLICATION: 'NEW_PUBLICATION'
+};
+
+export default {
+  types
+};

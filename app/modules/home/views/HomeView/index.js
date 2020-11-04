@@ -32,6 +32,10 @@ import PublicationsList from '@core/components/PublicationsList';
 import Octicons from 'react-native-vector-icons/Octicons';
 import variables from '@app/styles/variables';
 import styles from '@home/views/HomeView/styles';
+import messaging from '@react-native-firebase/messaging';
+import { saveNotificationToken } from '@login/store/actions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setNewPublicationState } from '@app/modules/notifications/store/actions';
 
 const HomeView = ({
   getPublications,
@@ -40,9 +44,13 @@ const HomeView = ({
   refreshHome,
   setUbication,
   setUbicationFail,
-  ubications
+  saveToken,
+  ubications,
+  session,
+  setNewPublication
 }) => {
   const [mapView, setMapView] = useState(false);
+  const { id } = session.profileInfo;
 
   async function requestPermissions() {
     if (Platform.OS === 'ios') {
@@ -60,6 +68,26 @@ const HomeView = ({
     }
   }
 
+  const getToken = async () => {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+
+    if (!fcmToken) {
+      fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+      }
+    }
+    return fcmToken;
+  };
+
+  useEffect(() => {
+    async function saveUserToken() {
+      const token = await getToken();
+      saveToken({ id, token });
+    }
+    saveUserToken();
+  }, [id, saveToken]);
+
   useEffect(() => {
     requestPermissions();
     Geolocation.getCurrentPosition(
@@ -70,26 +98,34 @@ const HomeView = ({
           longitude
         });
         getPublications();
+        setNewPublication(false);
       },
       error => {
         setUbicationFail({ error });
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
-  }, [getPublications, setUbication, setUbicationFail]);
+  }, [getPublications, setNewPublication, setUbication, setUbicationFail]);
 
   useFocusEffect(
     React.useCallback(() => {
       if (refreshments.hasToRefreshHome) {
         setMapView(false);
         getPublications();
+        setNewPublication(false);
         refreshHome(false);
       }
-    }, [getPublications, refreshHome, refreshments.hasToRefreshHome])
+    }, [
+      getPublications,
+      refreshHome,
+      refreshments.hasToRefreshHome,
+      setNewPublication
+    ])
   );
 
   const refresh = () => {
     getPublications();
+    setNewPublication(false);
   };
 
   const { requestFailed, requestInProgress, data } = publications;
@@ -230,13 +266,16 @@ const mapDispatchToProps = {
   getPublications: fetchPublications,
   setUbication: setUbicationSuccess,
   setUbicationFail: setUbicationFailure,
-  refreshHome: refreshValue => setHasToRefreshHome(refreshValue)
+  refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
+  saveToken: saveNotificationToken,
+  setNewPublication: setNewPublicationState
 };
 
 const mapStateToProps = state => ({
   ubications: state.ubications,
   publications: state.publications,
-  refreshments: state.refreshments
+  refreshments: state.refreshments,
+  session: state.session
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
