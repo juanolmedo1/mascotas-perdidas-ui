@@ -3,7 +3,8 @@ import {
   ImageBackground,
   View,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
@@ -17,12 +18,14 @@ import ProfileHeader from '@profile/components/ProfileHeader';
 import ProfilePublications from '@profile/components/ProfilePublications';
 import LoadingView from '@core/views/LoadingView';
 import styles from '@profile/views/ProfileView/styles';
+import { getFavorites } from '@app/modules/likes/store/selectors';
 
 const ProfileView = ({
   session,
   getUserPublications,
   refreshments,
-  refreshProfile
+  refreshProfile,
+  favorites
 }) => {
   const { profileInfo, requestPublicationsInProgress } = session;
 
@@ -56,6 +59,7 @@ const ProfileView = ({
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}
         refreshControl={
           <RefreshControl
             refreshing={requestPublicationsInProgress}
@@ -64,9 +68,15 @@ const ProfileView = ({
         }
       >
         <View style={styles.container}>
-          <ProfileHeader profile={profileInfo} />
+          <ProfileHeader profile={profileInfo} favCount={favorites.length} />
           {requestPublicationsInProgress ? (
             <LoadingView />
+          ) : !profileInfo.publications || !profileInfo.publications.length ? (
+            <View style={styles.noPublicationsContainer}>
+              <Text style={styles.noPublicationsText}>
+                No tiene ninguna publicación
+              </Text>
+            </View>
           ) : (
             <ProfilePublications publications={profileInfo.publications} />
           )}
@@ -94,7 +104,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   session: state.session,
-  refreshments: state.refreshments
+  refreshments: state.refreshments,
+  favorites: getFavorites(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);
