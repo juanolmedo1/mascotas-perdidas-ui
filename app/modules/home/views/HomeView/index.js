@@ -35,6 +35,7 @@ import styles from '@home/views/HomeView/styles';
 import messaging from '@react-native-firebase/messaging';
 import { saveNotificationToken } from '@login/store/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setNewPublicationState } from '@app/modules/notifications/store/actions';
 
 const HomeView = ({
   getPublications,
@@ -45,7 +46,8 @@ const HomeView = ({
   setUbicationFail,
   saveToken,
   ubications,
-  session
+  session,
+  setNewPublication
 }) => {
   const [mapView, setMapView] = useState(false);
   const { id } = session.profileInfo;
@@ -72,7 +74,6 @@ const HomeView = ({
     if (!fcmToken) {
       fcmToken = await messaging().getToken();
       if (fcmToken) {
-        console.log('guarde en async storage');
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }
     }
@@ -97,26 +98,34 @@ const HomeView = ({
           longitude
         });
         getPublications();
+        setNewPublication(false);
       },
       error => {
         setUbicationFail({ error });
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
-  }, [getPublications, setUbication, setUbicationFail]);
+  }, [getPublications, setNewPublication, setUbication, setUbicationFail]);
 
   useFocusEffect(
     React.useCallback(() => {
       if (refreshments.hasToRefreshHome) {
         setMapView(false);
         getPublications();
+        setNewPublication(false);
         refreshHome(false);
       }
-    }, [getPublications, refreshHome, refreshments.hasToRefreshHome])
+    }, [
+      getPublications,
+      refreshHome,
+      refreshments.hasToRefreshHome,
+      setNewPublication
+    ])
   );
 
   const refresh = () => {
     getPublications();
+    setNewPublication(false);
   };
 
   const { requestFailed, requestInProgress, data } = publications;
@@ -258,7 +267,8 @@ const mapDispatchToProps = {
   setUbication: setUbicationSuccess,
   setUbicationFail: setUbicationFailure,
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
-  saveToken: saveNotificationToken
+  saveToken: saveNotificationToken,
+  setNewPublication: setNewPublicationState
 };
 
 const mapStateToProps = state => ({

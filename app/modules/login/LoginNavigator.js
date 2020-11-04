@@ -8,18 +8,27 @@ import BottomNavigator from '@core/components/BottomNavigator';
 import RegisterNavigator from '@register/RegisterNavigator';
 import messaging from '@react-native-firebase/messaging';
 import { connect } from 'react-redux';
-import { setNewNotificationState } from '@notifications/store/actions';
+import {
+  setNewNotificationState,
+  setNewPublicationState
+} from '@notifications/store/actions';
+import NOTIFICATION_ENTITY from '@entities/Notification';
 
 const Stack = createStackNavigator();
 
-const LoginNavigator = ({ session, setNewNotification }) => {
+const LoginNavigator = ({ session, setNewNotification, setNewPublication }) => {
   const [initialRoute, setInitialRoute] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    messaging().onMessage(() => {
+    messaging().onMessage(remoteMessage => {
       console.log('Notification in FOREGROUND');
-      setNewNotification(true);
+      const messageType = remoteMessage.data.type;
+      if (messageType === NOTIFICATION_ENTITY.types.NEW_PUBLICATION) {
+        setNewPublication(true);
+      } else {
+        setNewNotification(true);
+      }
     });
 
     messaging()
@@ -37,7 +46,12 @@ const LoginNavigator = ({ session, setNewNotification }) => {
         }
         setLoading(false);
       });
-  }, [initialRoute, session.profileInfo, setNewNotification]);
+  }, [
+    initialRoute,
+    session.profileInfo,
+    setNewNotification,
+    setNewPublication
+  ]);
 
   if (loading) {
     return null;
@@ -59,7 +73,8 @@ const LoginNavigator = ({ session, setNewNotification }) => {
 };
 
 const mapDispatchToProps = {
-  setNewNotification: setNewNotificationState
+  setNewNotification: setNewNotificationState,
+  setNewPublication: setNewPublicationState
 };
 
 const mapStateToProps = state => ({

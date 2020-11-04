@@ -4,6 +4,7 @@ const initialState = {
   requestNotificationsInProgress: false,
   requestNotificationsFailed: false,
   newNotification: false,
+  newPublication: false,
   userNotifications: []
 };
 
@@ -32,6 +33,11 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         newNotification: payload
+      };
+    case types.SET_NEW_PUBLICATION_STATE:
+      return {
+        ...state,
+        newPublication: payload
       };
     default:
       return state;

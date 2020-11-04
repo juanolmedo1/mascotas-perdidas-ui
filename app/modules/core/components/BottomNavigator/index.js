@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import HomeNavigator from '@home/HomeNavigator';
 import LikesNavigator from '@likes/LikesNavigator';
@@ -17,9 +17,10 @@ import NavigationService from '@core/utils/navigation';
 
 const Tab = createBottomTabNavigator();
 
-const BottomNavigator = ({ newNotification }) => {
+const BottomNavigator = ({ newNotification, newPublication }) => {
   useEffect(() => {
     const message = messaging().onNotificationOpenedApp(() => {
+      console.log('NOTIFICATION OPENED APP');
       NavigationService.navigate('NotificationNavigator');
     });
     return message;
@@ -48,15 +49,18 @@ const BottomNavigator = ({ newNotification }) => {
           return {
             tabBarVisible: stackScreenName !== 'Filters',
             tabBarIcon: ({ focused }) => (
-              <IconAnt
-                name="home"
-                size={30}
-                color={
-                  focused
-                    ? variables.colors.textOrange
-                    : variables.colors.textDarkGrey
-                }
-              />
+              <View style={styles.iconContainer}>
+                <IconAnt
+                  name="home"
+                  size={30}
+                  color={
+                    focused
+                      ? variables.colors.textOrange
+                      : variables.colors.textDarkGrey
+                  }
+                />
+                {newPublication && <View style={styles.iconPoint} />}
+              </View>
             )
           };
         }}
@@ -138,7 +142,8 @@ const BottomNavigator = ({ newNotification }) => {
 };
 
 const mapStateToProps = state => ({
-  newNotification: state.notifications.newNotification
+  newNotification: state.notifications.newNotification,
+  newPublication: state.notifications.newPublication
 });
 
 export default connect(mapStateToProps)(BottomNavigator);
