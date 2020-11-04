@@ -14,12 +14,11 @@ const NotificationItem = ({
 }) => {
   const posibleTitles = {
     POSSIBLE_MATCHING: '¡Posible Coincidencia!',
-    CONFIRM_PET_FOUND: 'Confirmación requerida'
+    DOBLE_CONFIRMATION: 'Confirmación requerida'
   };
   const posibleDescriptions = {
     POSSIBLE_MATCHING: `@${username} creó una publicación que puede coincidir con una tuya. Échale un vistazo!`,
-    CONFIRM_PET_FOUND:
-      'Alguien encontró su mascota y puede ser por una publicación tuya.'
+    DOBLE_CONFIRMATION: `@${username} indicó que sus publicaciones se corresponden. Por favor, confirme si esto es así.`
   };
   const title = posibleTitles[type];
   const description = posibleDescriptions[type];
