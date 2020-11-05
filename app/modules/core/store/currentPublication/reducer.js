@@ -15,6 +15,9 @@ const initialState = {
   similarPublications: null,
   similarPublicationsRequestInProgress: false,
   similarPublicationsRequestFailed: false,
+  updatedPublication: false,
+  updatePublicationInProgress: false,
+  updatePublicationFailed: false,
   data: null
 };
 
@@ -111,7 +114,7 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         reportRequestFailed: true,
         reportRequestInProgress: false,
-        reportedPublication: true
+        reportedPublication: false
       };
     case types.REPORT_PUBLICATION_REQUEST:
       return {
@@ -125,6 +128,27 @@ export default function(state = initialState, { type, payload }) {
         reportRequestFailed: false,
         reportRequestInProgress: false,
         reportedPublication: true
+      };
+    case types.UPDATE_PUBLICATION_FAILURE:
+      return {
+        ...state,
+        updatePublicationFailed: true,
+        updatePublicationInProgress: false,
+        updatedPublication: false
+      };
+    case types.UPDATE_PUBLICATION_REQUEST:
+      return {
+        ...state,
+        updatePublicationFailed: false,
+        updatePublicationInProgress: true,
+        updatedPublication: false
+      };
+    case types.UPDATE_PUBLICATION_SUCCESS:
+      return {
+        ...state,
+        updatePublicationFailed: false,
+        updatePublicationInProgress: false,
+        updatedPublication: true
       };
     default:
       return state;

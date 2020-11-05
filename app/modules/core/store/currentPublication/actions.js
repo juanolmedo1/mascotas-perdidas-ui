@@ -14,7 +14,10 @@ export const types = {
   GET_SIMILAR_PUBLICATIONS_SUCCESS: 'GET_SIMILAR_PUBLICATIONS_SUCCESS',
   REPORT_PUBLICATION_FAILURE: 'REPORT_PUBLICATION_FAILURE',
   REPORT_PUBLICATION_REQUEST: 'REPORT_PUBLICATION_REQUEST',
-  REPORT_PUBLICATION_SUCCESS: 'REPORT_PUBLICATION_SUCCESS'
+  REPORT_PUBLICATION_SUCCESS: 'REPORT_PUBLICATION_SUCCESS',
+  UPDATE_PUBLICATION_FAILURE: 'UPDATE_PUBLICATION_FAILURE',
+  UPDATE_PUBLICATION_REQUEST: 'UPDATE_PUBLICATION_REQUEST',
+  UPDATE_PUBLICATION_SUCCESS: 'UPDATE_PUBLICATION_SUCCESS'
 };
 
 export const clearCurrentPublication = () => ({
@@ -92,4 +95,18 @@ export const reportPublicationFailure = error => ({
 
 export const reportPublicationSuccess = () => ({
   type: types.REPORT_PUBLICATION_SUCCESS
+});
+
+export const updatePublication = ({ id, lastLatitude, lastLongitude }) => ({
+  payload: { id, lastLatitude, lastLongitude },
+  type: types.UPDATE_PUBLICATION_REQUEST
+});
+
+export const updatePublicationFailure = error => ({
+  payload: error,
+  type: types.UPDATE_PUBLICATION_FAILURE
+});
+
+export const updatePublicationSuccess = () => ({
+  type: types.UPDATE_PUBLICATION_SUCCESS
 });

@@ -195,9 +195,19 @@ const PublicationView = ({
     });
   };
 
+  const onPressResolvePublicationHandler = () => {
+    toggleModal();
+    const { type } = data;
+    NavigationService.navigate('PublicationResolvedNavigator', {
+      screen: 'PublicationResolved',
+      params: { id: id, publicationType: type }
+    });
+  };
+
   const renderOwnerActions = () => {
-    const renderHeatMapOption = data.type === PUBLICATION_ENTITY.types.lost;
-    const renderSimilarPublicationOption =
+    const isLostPublication = data.type === PUBLICATION_ENTITY.types.lost;
+    const isFoundedPublication = data.type === PUBLICATION_ENTITY.types.found;
+    const isNotAdoptionPublication =
       data.type !== PUBLICATION_ENTITY.types.adoption;
     return (
       <View style={styles.extraActionContainer}>
@@ -229,7 +239,7 @@ const PublicationView = ({
             >
               <Text style={styles.modalDeleteText}>{LABELS.modal.delete}</Text>
             </TouchableOpacity>
-            {renderSimilarPublicationOption && (
+            {isNotAdoptionPublication && (
               <>
                 <View style={styles.modalDivider} />
                 <TouchableOpacity
@@ -243,7 +253,7 @@ const PublicationView = ({
                 </TouchableOpacity>
               </>
             )}
-            {renderHeatMapOption && (
+            {isLostPublication && (
               <>
                 <View style={styles.modalDivider} />
                 <TouchableOpacity
@@ -252,6 +262,34 @@ const PublicationView = ({
                   onPress={onPressHeatmapHandler}
                 >
                   <Text style={styles.modalText}>{LABELS.modal.heatMap}</Text>
+                </TouchableOpacity>
+              </>
+            )}
+            {isLostPublication && (
+              <>
+                <View style={styles.modalDivider} />
+                <TouchableOpacity
+                  style={styles.modalButtonContainer}
+                  activeOpacity={0.9}
+                  onPress={onPressResolvePublicationHandler}
+                >
+                  <Text style={styles.modalText}>
+                    {LABELS.modal.foundedPet}
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+            {isFoundedPublication && (
+              <>
+                <View style={styles.modalDivider} />
+                <TouchableOpacity
+                  style={styles.modalButtonContainer}
+                  activeOpacity={0.9}
+                  onPress={onPressResolvePublicationHandler}
+                >
+                  <Text style={styles.modalText}>
+                    {LABELS.modal.foundedOwner}
+                  </Text>
                 </TouchableOpacity>
               </>
             )}

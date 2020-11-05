@@ -6,7 +6,9 @@ export const LABELS = {
     cancel: 'Cancelar',
     delete: 'Eliminar',
     similarPublications: 'Búsqueda inteligente',
-    heatMap: 'Mapa de calor'
+    heatMap: 'Mapa de calor',
+    foundedPet: '¡Encontré mi mascota!',
+    foundedOwner: '¡Encontré al dueño!'
   },
   dialogs: {
     delete: {

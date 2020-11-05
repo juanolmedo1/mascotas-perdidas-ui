@@ -8,6 +8,8 @@ import FiltersView from '@home/views/FiltersView';
 import HeatmapPublicationsView from '@core/views/HeatmapPublicationsView';
 import HomeView from '@home/views/HomeView';
 import PublicationView from '@core/views/PublicationView';
+import PublicationResolvedMapView from '@core/views/PublicationResolvedView/MapView';
+import PublicationResolvedView from '@core/views/PublicationResolvedView';
 import SimilarPublicationsView from '@core/views/SimilarPublicationsView';
 
 const Stack = createStackNavigator();
@@ -49,6 +51,13 @@ const HomeNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="PublicationResolvedNavigator"
+        component={PublicationResolvedNavigator}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
         name="Filters"
         component={FiltersView}
         options={{
@@ -77,6 +86,39 @@ const SimilarPublicationsNavigator = () => {
       <Stack.Screen
         name="Publication"
         component={PublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const PublicationResolvedNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="PublicationResolved"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}
+    >
+      <Stack.Screen
+        name="PublicationResolved"
+        component={PublicationResolvedView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="Publication"
+        component={PublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="PublicationResolved_Map"
+        component={PublicationResolvedMapView}
         options={{
           headerShown: false
         }}

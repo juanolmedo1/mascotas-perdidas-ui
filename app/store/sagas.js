@@ -3,7 +3,8 @@ import {
   fetchPublicationSaga,
   getHeatMapPublicationsSaga,
   getSimilarPublicationsSaga,
-  reportPublicationSaga
+  reportPublicationSaga,
+  updatePublicationSaga
 } from '@core/store/currentPublication/sagas';
 import { fetchLoginSaga, fetchUserPublicationsSaga } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
@@ -26,15 +27,16 @@ export default {
   fetchLoginSaga,
   fetchPublicationSaga,
   fetchPublicationsSaga,
+  fetchUserFavoritesSaga,
   fetchUserPublicationsSaga,
   getCommonBreedAttributesSaga,
   getHeatMapPublicationsSaga,
   getSimilarPublicationsSaga,
+  onFavPublicationSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
+  onUnfavPublicationSaga,
   reportPublicationSaga,
   registerUserSaga,
-  fetchUserFavoritesSaga,
-  onFavPublicationSaga,
-  onUnfavPublicationSaga
+  updatePublicationSaga
 };

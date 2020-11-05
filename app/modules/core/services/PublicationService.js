@@ -164,6 +164,21 @@ const GET_HEATMAP_PUBLICATIONS_QUERY = `query getHeatMapPublications($publicatio
   }
 }`;
 
+const UPDATE_PUBLICATION_MUTATION = `mutation updatePublication($id: String!, $lastLatitude: Float, $lastLongitude: Float){
+  updatePublication(id:$id, input: {
+    ubicationData {
+      lastLatitude: $lastLatitude
+      lastLongitude: $lastLongitude
+    }
+  }){
+    id
+    ubication {
+      lastLatitude
+      lastLongitude
+    }
+  }
+}`;
+
 const getPublication = async payload => {
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
   return response.getPublication;
@@ -203,11 +218,20 @@ const getHeatMapPublications = async payload => {
   return response.getHeatMapPublications;
 };
 
+const updatePublication = async payload => {
+  const response = await GraphQLClient.request(
+    UPDATE_PUBLICATION_MUTATION,
+    payload
+  );
+  return response.updatePublication;
+};
+
 export default {
   deletePublication,
   getHeatMapPublications,
   getMatchingPublications,
   getPublications,
   getPublication,
-  reportPublication
+  reportPublication,
+  updatePublication
 };

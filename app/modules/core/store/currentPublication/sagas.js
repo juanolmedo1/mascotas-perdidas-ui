@@ -9,7 +9,9 @@ import {
   getSimilarPublicationsFailure,
   getSimilarPublicationsSuccess,
   reportPublicationFailure,
-  reportPublicationSuccess
+  reportPublicationSuccess,
+  updatePublicationFailure,
+  updatePublicationSuccess
 } from '@core/store/currentPublication/actions';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import PublicationService from '@core/services/PublicationService';
@@ -70,6 +72,19 @@ export function* getHeatmapPublications(action) {
   }
 }
 
+export function* updatePublication(action) {
+  const { payload } = action;
+  console.log(payload);
+  try {
+    yield call(PublicationService.updatePublication, payload);
+    yield put(updatePublicationSuccess());
+    console.log('success');
+  } catch (error) {
+    console.log(error);
+    yield put(updatePublicationFailure(error));
+  }
+}
+
 export function* fetchPublicationSaga() {
   yield takeLatest(types.FETCH_PUBLICATION__REQUEST, fetchPublication);
 }
@@ -94,4 +109,8 @@ export function* getHeatMapPublicationsSaga() {
     types.GET_HEATMAP_PUBLICATIONS_REQUEST,
     getHeatmapPublications
   );
+}
+
+export function* updatePublicationSaga() {
+  yield takeLatest(types.UPDATE_PUBLICATION_REQUEST, updatePublication);
 }
