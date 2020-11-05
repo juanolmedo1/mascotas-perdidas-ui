@@ -2,6 +2,7 @@ export const LABELS = {
   title: 'Publicación',
   additionalInformation: 'Información adicional',
   ubication: 'Ubicación',
+  inactive: 'Publicación Inactiva',
   modal: {
     cancel: 'Cancelar',
     delete: 'Eliminar',
