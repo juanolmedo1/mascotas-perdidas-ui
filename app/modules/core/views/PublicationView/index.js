@@ -134,7 +134,7 @@ const PublicationView = ({
 
   const onReportPublication = () => {
     toggleReportConfirmDialog(false);
-    reportPublication(id);
+    reportPublication({ id, userId: loggedUserId });
   };
 
   const toggleDeleteConfirmDialog = toggle => {
@@ -285,16 +285,20 @@ const PublicationView = ({
             color={variables.colors.backgroundOrange}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.headerIconContainer}
-          onPress={() => toggleReportConfirmDialog(true)}
-        >
-          <IconSimple
-            name={'exclamation'}
-            size={23}
-            color={variables.colors.backgroundDarkGrey}
-          />
-        </TouchableOpacity>
+        {data &&
+          ((data.complaints && !data.complaints.includes(loggedUserId)) ||
+            !data.complaints) && (
+            <TouchableOpacity
+              style={styles.headerIconContainer}
+              onPress={() => toggleReportConfirmDialog(true)}
+            >
+              <IconSimple
+                name={'exclamation'}
+                size={23}
+                color={variables.colors.backgroundDarkGrey}
+              />
+            </TouchableOpacity>
+          )}
       </View>
     );
   };
@@ -543,7 +547,7 @@ const mapDispatchToProps = {
   favPublication: ({ userId, publicationId }) =>
     addFavoritePublication({ userId, publicationId }),
   getPublication: currentPublicationActions.fetchPublication,
-  reportPublication: id => currentPublicationActions.reportPublication(id),
+  reportPublication: data => currentPublicationActions.reportPublication(data),
   refreshFavorites: refreshValue => setHasToRefreshFavorites(refreshValue),
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
   refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue),

@@ -97,10 +97,8 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
   }
 }`;
 
-const REPORT_PUBLICATION_MUTATION = `mutation addComplaint($id: String!){
-  addComplaint(id: $id) {
-    id
-  }
+const REPORT_PUBLICATION_MUTATION = `mutation addComplaint($id: String!, $userId: String!){
+  addComplaint(id: $id, userId: $userId)
 }`;
 
 const DELETE_PUBLICATION_MUTATION = `mutation deletePublication($id: String!){

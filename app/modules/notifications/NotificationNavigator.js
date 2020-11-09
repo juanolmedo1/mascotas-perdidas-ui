@@ -6,6 +6,7 @@ import React from 'react';
 
 import NotificationsView from '@notifications/views/NotificationsView';
 import PublicationView from '@core/views/PublicationView';
+import DeletedPublicationView from '@notifications/views/DeletedPublication';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,13 @@ const NotificationNavigator = () => {
       <Stack.Screen
         name="Publication"
         component={PublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="DeletedPublication"
+        component={DeletedPublicationView}
         options={{
           headerShown: false
         }}

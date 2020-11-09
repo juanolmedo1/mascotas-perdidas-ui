@@ -1,6 +1,5 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import NavigationService from '@core/utils/navigation';
 import styles from '@notifications/components/NotificationItem/styles';
 import DateUtils from '@core/utils/date';
 
@@ -10,28 +9,32 @@ const NotificationItem = ({
   photo,
   username,
   userPhoto,
-  createdAt
+  createdAt,
+  onPress
 }) => {
   const posibleTitles = {
     POSSIBLE_MATCHING: '¡Posible Coincidencia!',
-    DOBLE_CONFIRMATION: 'Confirmación requerida'
+    DOBLE_CONFIRMATION: 'Confirmación requerida',
+    DELETED_FOR_COMPLAINTS: 'Publicación eliminada'
   };
   const posibleDescriptions = {
     POSSIBLE_MATCHING: `@${username} creó una publicación que puede coincidir con una tuya. Échale un vistazo!`,
-    DOBLE_CONFIRMATION: `@${username} indicó que sus publicaciones se corresponden. Por favor, confirme si esto es así.`
+    DOBLE_CONFIRMATION: `@${username} indicó que sus publicaciones se corresponden. Por favor, confirme si esto es así.`,
+    DELETED_FOR_COMPLAINTS:
+      'Varios usuarios reportaron la publicación y, por lo tanto, fue eliminada.'
   };
   const title = posibleTitles[type];
   const description = posibleDescriptions[type];
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() =>
-        NavigationService.navigate('Publication', { id: publicationId })
-      }
+      onPress={onPress}
       activeOpacity={0.8}
     >
       <View style={styles.userImageContainer}>
-        <Image style={styles.userImage} source={{ uri: userPhoto }} />
+        {userPhoto && (
+          <Image style={styles.userImage} source={{ uri: userPhoto }} />
+        )}
       </View>
       <View style={styles.informationContainer}>
         <View style={styles.titleContainer}>
