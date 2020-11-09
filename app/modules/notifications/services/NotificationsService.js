@@ -4,7 +4,7 @@ const GET_NOTIFICATIONS_QUERY = `query getUserNotifications($userId: String!){
   getUserNotifications(userId: $userId){
     id
     type
-    photo
+    photos
     publicationId
     createdAt
     userCreator {

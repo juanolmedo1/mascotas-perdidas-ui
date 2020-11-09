@@ -20,6 +20,8 @@ import {
 } from '@notifications/store/actions';
 import LoadingView from '@app/modules/core/views/LoadingView';
 import NotificationItem from '@notifications/components/NotificationItem';
+import NOTIFICATION_ENITITY from '@entities/Notification';
+import NavigationService from '@core/utils/navigation';
 
 const NotificationsView = ({
   notifications,
@@ -41,6 +43,14 @@ const NotificationsView = ({
       setNewNotification(false);
     }, [getNotifications, id, setNewNotification])
   );
+
+  const selectOnPressHandler = (type, publicationId, photos) => {
+    if (type === NOTIFICATION_ENITITY.types.DELETED_FOR_COMPLAINTS) {
+      return () => NavigationService.navigate('DeletedPublication', { photos });
+    }
+    return () =>
+      NavigationService.navigate('Publication', { id: publicationId });
+  };
 
   return (
     <ImageBackground
@@ -76,11 +86,18 @@ const NotificationsView = ({
               }
               renderItem={({ item }) => (
                 <NotificationItem
-                  photo={item.photo}
+                  photo={item.photos[0]}
                   publicationId={item.publicationId}
                   type={item.type}
-                  username={item.userCreator.username}
-                  userPhoto={item.userCreator.profilePicture.data}
+                  username={item.userCreator && item.userCreator.username}
+                  userPhoto={
+                    item.userCreator && item.userCreator.profilePicture.data
+                  }
+                  onPress={selectOnPressHandler(
+                    item.type,
+                    item.publicationId,
+                    item.photos
+                  )}
                   createdAt={item.createdAt}
                 />
               )}

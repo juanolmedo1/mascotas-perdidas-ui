@@ -29,9 +29,8 @@ const BreedsView = ({
   const renderBreedsList = () => (
     <View style={styles.contentContainer}>
       {newPublication.petPrediction.breed.map(item => (
-        <>
+        <View key={item.label}>
           <TouchableOpacity
-            key={item.label}
             activeOpacity={0.8}
             onPress={() => confirmBreed(item.label)}
           >
@@ -50,7 +49,7 @@ const BreedsView = ({
             </View>
           </TouchableOpacity>
           <Divider />
-        </>
+        </View>
       ))}
       <TouchableOpacity
         key={LABELS.breed.other}
