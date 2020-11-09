@@ -7,7 +7,7 @@ import variables from '@app/styles/variables';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import NavigationService from '@core/utils/navigation';
 import { LABELS } from '@notifications/views/DeletedPublication/constants';
-import ImageSlider from 'react-native-image-slider';
+import ImageSlider from '@core/components/ImageSlider';
 import Button from '@app/modules/core/components/Button';
 
 const DeletedPublication = ({ route }) => {
@@ -34,23 +34,7 @@ const DeletedPublication = ({ route }) => {
         </View>
         <View style={styles.content}>
           <View style={styles.imagesContainer}>
-            <ImageSlider
-              images={photos}
-              style={styles.imageSlider}
-              customButtons={(position, move) =>
-                photos.length > 1 && (
-                  <View style={styles.photoButtomsContainer}>
-                    {photos.map((image, index) => {
-                      const imageSelected = position === index;
-                      const imageStyle = imageSelected
-                        ? styles.photoButtomSelected
-                        : styles.photoButtonNotSelected;
-                      return <View style={imageStyle} key={index} />;
-                    })}
-                  </View>
-                )
-              }
-            />
+            <ImageSlider photos={photos} />
           </View>
           <View style={styles.informationContainer}>
             <Text style={styles.subtitle}>{LABELS.subtitle}</Text>
