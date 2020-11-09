@@ -44,7 +44,7 @@ import variables from '@app/styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
 import UbicationMarker from '@core/components/UbicationMarker';
-import ImageSlider from 'react-native-image-slider';
+import ImageSlider from '@core/components/ImageSlider';
 
 const PublicationView = ({
   clearPublication,
@@ -340,23 +340,7 @@ const PublicationView = ({
             profileImage={profilePicture}
             username={username}
           />
-          <ImageSlider
-            images={photosData}
-            style={styles.imageSlider}
-            customButtons={(position, move) =>
-              photosData.length > 1 && (
-                <View style={styles.photoButtomsContainer}>
-                  {photosData.map((image, index) => {
-                    const imageSelected = position === index;
-                    const imageStyle = imageSelected
-                      ? styles.photoButtomSelected
-                      : styles.photoButtonNotSelected;
-                    return <View style={imageStyle} key={index} />;
-                  })}
-                </View>
-              )
-            }
-          />
+          <ImageSlider photos={photosData} />
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
               <IconSimple
