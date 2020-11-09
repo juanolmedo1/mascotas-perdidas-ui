@@ -1,5 +1,7 @@
 import {
   types,
+  saveNotificationTokenFailure,
+  saveNotificationTokenSuccess,
   fetchLoginFailure,
   fetchLoginSuccess,
   fetchUserPublicationsSuccess,
@@ -27,6 +29,23 @@ export function* fetchLogin(action) {
 
 export function* fetchLoginSaga() {
   yield takeLatest(types.FETCH_LOGIN__REQUEST, fetchLogin);
+}
+
+export function* saveNotificationToken(action) {
+  const { payload } = action;
+  try {
+    const token = yield call(UserService.saveNotificationToken, payload);
+    yield put(saveNotificationTokenSuccess(token));
+  } catch (error) {
+    yield put(saveNotificationTokenFailure(error));
+  }
+}
+
+export function* saveNotificationTokenSaga() {
+  yield takeLatest(
+    types.SAVE_NOTIFICATION_TOKEN__REQUEST,
+    saveNotificationToken
+  );
 }
 
 export function* fetchUserPublications(action) {

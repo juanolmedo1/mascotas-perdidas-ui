@@ -6,7 +6,11 @@ import {
   reportPublicationSaga,
   updatePublicationSaga
 } from '@core/store/currentPublication/sagas';
-import { fetchLoginSaga, fetchUserPublicationsSaga } from '@login/store/sagas';
+import {
+  fetchLoginSaga,
+  fetchUserPublicationsSaga,
+  saveNotificationTokenSaga
+} from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
 import {
   detectTypeAndBreedSaga,
@@ -15,6 +19,7 @@ import {
   onSelectedImagesSaga
 } from '@upload/store/sagas';
 import { registerUserSaga } from '@register/store/sagas';
+import { fetchUserNotificationsSaga } from '@notifications/store/sagas';
 import {
   fetchUserFavoritesSaga,
   onFavPublicationSaga,
@@ -25,6 +30,7 @@ export default {
   deletePublicationSaga,
   detectTypeAndBreedSaga,
   fetchLoginSaga,
+  fetchUserNotificationsSaga,
   fetchPublicationSaga,
   fetchPublicationsSaga,
   fetchUserFavoritesSaga,
@@ -38,5 +44,6 @@ export default {
   onUnfavPublicationSaga,
   reportPublicationSaga,
   registerUserSaga,
-  updatePublicationSaga
+  updatePublicationSaga,
+  saveNotificationTokenSaga
 };

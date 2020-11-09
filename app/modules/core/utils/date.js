@@ -22,6 +22,66 @@ const transformToDate = date => {
   return new Date(year, month - 1, day);
 };
 
+const differenceResumed = creationDate => {
+  const secondsDifference = differenceInSeconds(
+    new Date(Date.now()),
+    new Date(creationDate)
+  );
+  if (secondsDifference < 60) {
+    return `${secondsDifference}s`;
+  } else {
+    const minutesDifference = differenceInMinutes(
+      new Date(Date.now()),
+      new Date(creationDate)
+    );
+    if (minutesDifference < 60) {
+      return `${minutesDifference}m`;
+    } else {
+      const hoursDifference = differenceInHours(
+        new Date(Date.now()),
+        new Date(creationDate)
+      );
+      if (hoursDifference < 24) {
+        if (hoursDifference === 1) {
+          return `${hoursDifference}h`;
+        }
+        return `${hoursDifference}h`;
+      } else {
+        const daysDifference = differenceInDays(
+          new Date(Date.now()),
+          new Date(creationDate)
+        );
+        if (daysDifference < 30) {
+          if (daysDifference === 1) {
+            return `${daysDifference}d`;
+          }
+          return `${daysDifference}d`;
+        } else {
+          const monthsDifference = differenceInMonths(
+            new Date(Date.now()),
+            new Date(creationDate)
+          );
+          if (monthsDifference < 12) {
+            if (monthsDifference === 1) {
+              return `${monthsDifference}M`;
+            }
+            return `${monthsDifference}M`;
+          } else {
+            const yearsDifference = differenceInYears(
+              new Date(Date.now()),
+              new Date(creationDate)
+            );
+            if (yearsDifference === 1) {
+              return `${yearsDifference}a`;
+            }
+            return `${yearsDifference}a`;
+          }
+        }
+      }
+    }
+  }
+};
+
 const difference = creationDate => {
   const secondsDifference = differenceInSeconds(
     new Date(Date.now()),
@@ -84,6 +144,7 @@ const difference = creationDate => {
 
 export default {
   difference,
+  differenceResumed,
   formatDate,
   formatBirthDate,
   transformToDate

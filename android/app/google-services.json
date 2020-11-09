@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "855924041493",
+    "firebase_url": "https://mascotas-perdidas-free.firebaseio.com",
+    "project_id": "mascotas-perdidas-free",
+    "storage_bucket": "mascotas-perdidas-free.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855924041493:android:39b50dca8702f4c3bceb1c",
+        "android_client_info": {
+          "package_name": "com.mascotasperdidas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855924041493-3l6k4a5hp83l759p2cg7li0oq4g8rt2i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD42pwkFIp3PLbOp96NYYU-UYeKqD2Zflc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855924041493-3l6k4a5hp83l759p2cg7li0oq4g8rt2i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

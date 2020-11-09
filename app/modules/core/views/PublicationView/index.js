@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import {
-  Image,
   ImageBackground,
   ScrollView,
   Text,
@@ -45,6 +44,7 @@ import variables from '@app/styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
 import UbicationMarker from '@core/components/UbicationMarker';
+import ImageSlider from 'react-native-image-slider';
 
 const PublicationView = ({
   clearPublication,
@@ -347,32 +347,50 @@ const PublicationView = ({
     content = <LoadingView />;
   } else {
     if (data) {
-      const { reward, type, additionalInfo, createdAt, phoneNumber } = data;
+      const {
+        reward,
+        type,
+        isActive,
+        additionalInfo,
+        createdAt,
+        phoneNumber
+      } = data;
       const { collar, photos, size, gender } = data.pet;
       const { username, profilePicture } = data.creator;
 
+      const photosData = photos.map(photo => photo.data);
+
       content = (
         <View>
+          {!isActive && (
+            <View style={styles.inactivePublicationContainer}>
+              <Text style={styles.inactivePublicationText}>
+                {LABELS.inactive}
+              </Text>
+            </View>
+          )}
           <PublicationHeader
             type={type}
             profileImage={profilePicture}
             username={username}
           />
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            contentContainerStyle={styles.carousel}
-          >
-            {photos.map(photo => (
-              <Image
-                key={photo.data}
-                style={styles.image}
-                source={{ uri: photo.data }}
-                resizeMode="contain"
-              />
-            ))}
-          </ScrollView>
-          <Divider />
+          <ImageSlider
+            images={photosData}
+            style={styles.imageSlider}
+            customButtons={(position, move) =>
+              photosData.length > 1 && (
+                <View style={styles.photoButtomsContainer}>
+                  {photosData.map((image, index) => {
+                    const imageSelected = position === index;
+                    const imageStyle = imageSelected
+                      ? styles.photoButtomSelected
+                      : styles.photoButtonNotSelected;
+                    return <View style={imageStyle} key={index} />;
+                  })}
+                </View>
+              )
+            }
+          />
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
               <IconSimple
@@ -425,6 +443,10 @@ const PublicationView = ({
       );
     }
   }
+  let publicationActive = true;
+  if (data) {
+    publicationActive = data.isActive;
+  }
 
   return (
     <ImageBackground
@@ -445,7 +467,9 @@ const PublicationView = ({
             />
           </TouchableOpacity>
           <Text style={styles.title}>{LABELS.title}</Text>
-          {requestInProgress ? null : renderPublicationActions()}
+          {requestInProgress || !publicationActive
+            ? null
+            : renderPublicationActions()}
         </View>
         {content}
         <DialogConfirmBox

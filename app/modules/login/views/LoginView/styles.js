@@ -13,7 +13,8 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: variables.spacings.L
   },
   leftPaw: {
     transform: [

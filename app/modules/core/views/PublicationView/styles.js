@@ -3,6 +3,13 @@ import variables from '@styles/variables';
 import fonts from '@styles/fonts';
 
 const { width } = Dimensions.get('window');
+const photoButtonBase = {
+  backgroundColor: variables.colors.backgroundWhite,
+  height: 8,
+  width: 8,
+  borderRadius: 4,
+  marginHorizontal: 3
+};
 
 export default StyleSheet.create({
   additionalInfoContainer: {
@@ -24,7 +31,24 @@ export default StyleSheet.create({
   },
   block: {
     flexDirection: 'row',
+    marginTop: variables.spacings.M,
     marginHorizontal: variables.spacings.M
+  },
+  inactivePublicationContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: variables.spacings.S
+  },
+  inactivePublicationText: {
+    paddingHorizontal: variables.spacings.L,
+    paddingVertical: variables.spacings.S,
+    borderRadius: 4,
+    borderColor: variables.colors.borderRed,
+    borderWidth: 1,
+    color: variables.colors.textRed
+  },
+  imageSlider: {
+    height: 250
   },
   carousel: {
     height: 300
@@ -43,6 +67,24 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: variables.spacings.S
+  },
+  photoButtomsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 30
+  },
+  photoButtomSelected: {
+    ...photoButtonBase,
+    opacity: 1
+  },
+  photoButtonNotSelected: {
+    ...photoButtonBase,
+    opacity: 0.4
   },
   image: {
     width,

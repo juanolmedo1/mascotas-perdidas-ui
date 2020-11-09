@@ -5,11 +5,12 @@ const { width } = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 3
+    width: '100%'
   },
   publicationsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    paddingLeft: 3
   },
   image: {
     height: width / 3 - 4,

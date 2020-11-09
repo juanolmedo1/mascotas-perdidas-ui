@@ -55,6 +55,7 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
     reward
     additionalInfo
     complaints
+    isActive
     createdAt
     ubication {
       firstLatitude
