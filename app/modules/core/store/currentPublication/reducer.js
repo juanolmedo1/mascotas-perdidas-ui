@@ -12,6 +12,9 @@ const initialState = {
   reportedPublication: false,
   reportRequestInProgress: false,
   reportRequestFailed: false,
+  resolvedCandidates: null,
+  resolvedCandidatesRequestInProgress: false,
+  resolvedCandidatesRequestFailed: false,
   similarPublications: null,
   similarPublicationsRequestInProgress: false,
   similarPublicationsRequestFailed: false,
@@ -23,8 +26,23 @@ const initialState = {
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
+    case types.CLEAR_CANDIDATES:
+      return {
+        ...state,
+        resolvedCandidates: null,
+        resolvedCandidatesRequestInProgress: false,
+        resolvedCandidatesRequestFailed: false
+      };
     case types.CLEAR_CURRENT_PUBLICATION: {
-      const { similarPublications, ...initialStateRest } = initialState;
+      const {
+        resolvedCandidates,
+        resolvedCandidatesRequestInProgress,
+        resolvedCandidatesRequestFailed,
+        similarPublications,
+        similarPublicationsRequestInProgress,
+        similarPublicationsRequestFailed,
+        ...initialStateRest
+      } = initialState;
       return {
         ...state,
         ...initialStateRest
@@ -89,6 +107,27 @@ export default function(state = initialState, { type, payload }) {
         heatmapPublicationsRequestFailed: false,
         heatmapPublications: payload.heatmapPublications
       };
+    case types.GET_RESOLVED_CANDIDATES_FAILURE:
+      return {
+        ...state,
+        resolvedCandidatesRequestInProgress: false,
+        resolvedCandidatesRequestFailed: true,
+        resolvedCandidates: null
+      };
+    case types.GET_RESOLVED_CANDIDATES_REQUEST:
+      return {
+        ...state,
+        resolvedCandidates: null,
+        resolvedCandidatesRequestInProgress: true,
+        resolvedCandidatesRequestFailed: false
+      };
+    case types.GET_RESOLVED_CANDIDATES_SUCCESS:
+      return {
+        ...state,
+        resolvedCandidatesRequestInProgress: false,
+        resolvedCandidatesRequestFailed: false,
+        resolvedCandidates: payload.candidates
+      };
     case types.GET_SIMILAR_PUBLICATIONS_FAILURE:
       return {
         ...state,
@@ -99,6 +138,7 @@ export default function(state = initialState, { type, payload }) {
     case types.GET_SIMILAR_PUBLICATIONS_REQUEST:
       return {
         ...state,
+        similarPublications: null,
         similarPublicationsRequestInProgress: true,
         similarPublicationsRequestFailed: false
       };
@@ -129,6 +169,7 @@ export default function(state = initialState, { type, payload }) {
         reportRequestInProgress: false,
         reportedPublication: true
       };
+    case types.DEACTIVATE_PUBLICATION_FAILURE:
     case types.UPDATE_PUBLICATION_FAILURE:
       return {
         ...state,
@@ -137,12 +178,14 @@ export default function(state = initialState, { type, payload }) {
         updatedPublication: false
       };
     case types.UPDATE_PUBLICATION_REQUEST:
+    case types.DEACTIVATE_PUBLICATION_REQUEST:
       return {
         ...state,
         updatePublicationFailed: false,
         updatePublicationInProgress: true,
         updatedPublication: false
       };
+    case types.DEACTIVATE_PUBLICATION_SUCCESS:
     case types.UPDATE_PUBLICATION_SUCCESS:
       return {
         ...state,

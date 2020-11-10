@@ -1,5 +1,9 @@
 export const types = {
+  CLEAR_CANDIDATES: 'CLEAR_CANDIDATES',
   CLEAR_CURRENT_PUBLICATION: 'CLEAR_CURRENT_PUBLICATION',
+  DEACTIVATE_PUBLICATION_FAILURE: 'DEACTIVATE_PUBLICATION_FAILURE',
+  DEACTIVATE_PUBLICATION_REQUEST: 'DEACTIVATE_PUBLICATION_REQUEST',
+  DEACTIVATE_PUBLICATION_SUCCESS: 'DEACTIVATE_PUBLICATION_SUCCESS',
   DELETE_PUBLICATION_FAILURE: 'DELETE_PUBLICATION_FAILURE',
   DELETE_PUBLICATION_REQUEST: 'DELETE_PUBLICATION_REQUEST',
   DELETE_PUBLICATION_SUCCESS: 'DELETE_PUBLICATION_SUCCESS',
@@ -9,6 +13,9 @@ export const types = {
   GET_HEATMAP_PUBLICATIONS_FAILURE: 'GET_HEATMAP_PUBLICATIONS_FAILURE',
   GET_HEATMAP_PUBLICATIONS_REQUEST: 'GET_HEATMAP_PUBLICATIONS_REQUEST',
   GET_HEATMAP_PUBLICATIONS_SUCCESS: 'GET_HEATMAP_PUBLICATIONS_SUCCESS',
+  GET_RESOLVED_CANDIDATES_FAILURE: 'GET_RESOLVED_CANDIDATES_FAILURE',
+  GET_RESOLVED_CANDIDATES_REQUEST: 'GET_RESOLVED_CANDIDATES_REQUEST',
+  GET_RESOLVED_CANDIDATES_SUCCESS: 'GET_RESOLVED_CANDIDATES_SUCCESS',
   GET_SIMILAR_PUBLICATIONS_FAILURE: 'GET_SIMILAR_PUBLICATIONS_FAILURE',
   GET_SIMILAR_PUBLICATIONS_REQUEST: 'GET_SIMILAR_PUBLICATIONS_REQUEST',
   GET_SIMILAR_PUBLICATIONS_SUCCESS: 'GET_SIMILAR_PUBLICATIONS_SUCCESS',
@@ -20,8 +27,29 @@ export const types = {
   UPDATE_PUBLICATION_SUCCESS: 'UPDATE_PUBLICATION_SUCCESS'
 };
 
+export const clearCandidates = () => ({
+  type: types.CLEAR_CANDIDATES
+});
+
 export const clearCurrentPublication = () => ({
   type: types.CLEAR_CURRENT_PUBLICATION
+});
+
+export const deactivatePublication = ({
+  notifyPublicationId,
+  publicationId
+}) => ({
+  payload: { notifyPublicationId, publicationId },
+  type: types.DEACTIVATE_PUBLICATION_REQUEST
+});
+
+export const deactivatePublicationFailure = error => ({
+  payload: error,
+  type: types.DEACTIVATE_PUBLICATION_FAILURE
+});
+
+export const deactivatePublicationSuccess = () => ({
+  type: types.DEACTIVATE_PUBLICATION_SUCCESS
 });
 
 export const deletePublication = id => ({
@@ -68,6 +96,21 @@ export const getHeatmapPublicationsSuccess = heatmapPublications => ({
   type: types.GET_HEATMAP_PUBLICATIONS_SUCCESS
 });
 
+export const getResolvedCandidatesFailure = error => ({
+  payload: error,
+  type: types.GET_RESOLVED_CANDIDATES_FAILURE
+});
+
+export const getResolvedCandidates = id => ({
+  payload: { id },
+  type: types.GET_RESOLVED_CANDIDATES_REQUEST
+});
+
+export const getResolvedCandidatesSuccess = candidates => ({
+  payload: { candidates },
+  type: types.GET_RESOLVED_CANDIDATES_SUCCESS
+});
+
 export const getSimilarPublicationsFailure = error => ({
   payload: error,
   type: types.GET_SIMILAR_PUBLICATIONS_FAILURE
@@ -97,8 +140,13 @@ export const reportPublicationSuccess = () => ({
   type: types.REPORT_PUBLICATION_SUCCESS
 });
 
-export const updatePublication = ({ id, lastLatitude, lastLongitude }) => ({
-  payload: { id, lastLatitude, lastLongitude },
+export const updatePublication = ({
+  id,
+  lastLatitude,
+  lastLongitude,
+  isActive
+}) => ({
+  payload: { id, lastLatitude, lastLongitude, isActive },
   type: types.UPDATE_PUBLICATION_REQUEST
 });
 

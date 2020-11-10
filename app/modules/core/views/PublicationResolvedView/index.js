@@ -7,62 +7,26 @@ import {
   View
 } from 'react-native';
 import IconIon from 'react-native-vector-icons/Ionicons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import * as currentPublicationActions from '@core/store/currentPublication/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@core/views/PublicationResolvedView/constants';
 import Button from '@core/components/Button';
-import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PublicationCandidateCard from '@core/components/PublicationCandidateCard';
-import PublicationsList from '@core/components/PublicationsList';
 import styles from '@core/views/PublicationResolvedView/styles';
 import variables from '@app/styles/variables';
 
-const PublicationResolvedView = ({
-  currentPublication,
-  getSimilarPublications,
-  route
-}) => {
+const PublicationResolvedView = ({ currentPublication, route }) => {
   const { id, publicationType } = route.params;
-  const {
-    similarPublications,
-    similarPublicationsRequestFailed,
-    similarPublicationsRequestInProgress
-  } = currentPublication;
+  const { resolvedCandidates } = currentPublication;
   const { publicationsViewed, publicationsNotViewed } =
-    similarPublications || {};
+    resolvedCandidates || {};
+  const isLostPublication = publicationType === PUBLICATION_ENTITY.types.lost;
 
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-
-  useEffect(() => {
-    getSimilarPublications(id);
-  }, [getSimilarPublications, id]);
-
-  useEffect(() => {
-    const hasPublicationsToShow =
-      (publicationsViewed && publicationsViewed.length > 0) ||
-      (publicationsNotViewed && publicationsNotViewed.length > 0);
-    if (
-      !similarPublicationsRequestFailed &&
-      !similarPublicationsRequestInProgress &&
-      !hasPublicationsToShow
-    ) {
-      NavigationService.navigate('PublicationResolved_Map', {
-        id: id
-      });
-    }
-  }, [
-    similarPublicationsRequestInProgress,
-    similarPublicationsRequestFailed,
-    similarPublications,
-    publicationsViewed,
-    publicationsNotViewed,
-    id
-  ]);
 
   const onSelectedCandidateHandler = (selectedCandidateId, checkValue) => {
     if (checkValue) {
@@ -73,38 +37,29 @@ const PublicationResolvedView = ({
   };
 
   const onContinueHandler = () => {
-    const isLostPublication = publicationType === PUBLICATION_ENTITY.types.lost;
     const hasSelectedCandidate = selectedCandidate !== null;
     if (hasSelectedCandidate) {
-      console.log(
-        'desactivar publicación y enviar notificación al dueño de la publicación'
-      );
+      NavigationService.navigate('PublicationResolved_Response', {
+        id: id,
+        notifyPublicationId: selectedCandidate
+      });
     } else {
       if (isLostPublication) {
         NavigationService.navigate('PublicationResolved_Map', { id: id });
       } else {
-        console.log('desactivar publicación');
+        NavigationService.navigate('PublicationResolved_Response', {
+          id: id
+        });
       }
     }
   };
 
   const renderContent = () => {
-    const hasPublicationsToShow =
-      (publicationsViewed && publicationsViewed.length > 0) ||
-      (publicationsNotViewed && publicationsNotViewed.length > 0);
-    if (similarPublicationsRequestInProgress) {
-      return <LoadingView />;
-    }
-    if (!hasPublicationsToShow || similarPublicationsRequestFailed) {
-      return <PublicationsList data={[]} />;
-    }
-    const totalSimilarPublications = publicationsNotViewed
-      ? [...publicationsNotViewed, ...publicationsViewed]
-      : [...publicationsViewed];
+    const totalCandidates = [...publicationsNotViewed, ...publicationsViewed];
     return (
       <>
         <ScrollView>
-          {totalSimilarPublications.map(item => (
+          {totalCandidates.map(item => (
             <PublicationCandidateCard
               key={item.id}
               id={item.id}
@@ -161,16 +116,8 @@ const PublicationResolvedView = ({
   );
 };
 
-const mapDispatchToProps = {
-  getSimilarPublications: id =>
-    currentPublicationActions.getSimilarPublications(id)
-};
-
 const mapStateToProps = state => ({
   currentPublication: state.currentPublication
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PublicationResolvedView);
+export default connect(mapStateToProps)(PublicationResolvedView);

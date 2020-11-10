@@ -1,7 +1,9 @@
 import {
+  deactivatePublicationSaga,
   deletePublicationSaga,
   fetchPublicationSaga,
   getHeatMapPublicationsSaga,
+  getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
   reportPublicationSaga,
   updatePublicationSaga
@@ -27,6 +29,7 @@ import {
 } from '@likes/store/sagas';
 
 export default {
+  deactivatePublicationSaga,
   deletePublicationSaga,
   detectTypeAndBreedSaga,
   fetchLoginSaga,
@@ -37,6 +40,7 @@ export default {
   fetchUserPublicationsSaga,
   getCommonBreedAttributesSaga,
   getHeatMapPublicationsSaga,
+  getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
   onFavPublicationSaga,
   onPublicationCreatedSaga,

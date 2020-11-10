@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@core/views/PublicationResolvedView/MapView/constants';
-import { updatePublication } from '@core/store/currentPublication/actions';
 import Divider from '@app/modules/core/components/Divider';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import NavigationService from '@core/utils/navigation';
@@ -14,12 +13,12 @@ import styles from '@core/views/PublicationResolvedView/MapView/styles';
 import UbicationSelector from '@core/components/UbicationSelector';
 import variables from '@app/styles/variables';
 
-const MapView = ({ route, ubications, updatePublication }) => {
+const MapView = ({ route, ubications }) => {
   const { id } = route.params;
   const { latitude: userLatitude, longitude: userLongitude } = ubications;
 
   const onConfirmUbicationHandler = ubication => {
-    updatePublication({
+    NavigationService.navigate('PublicationResolved_Response', {
       id: id,
       lastLatitude: ubication.latitude,
       lastLongitude: ubication.longitude
@@ -35,10 +34,7 @@ const MapView = ({ route, ubications, updatePublication }) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backContainer}
-          onPress={() => {
-            NavigationService.goBack();
-            NavigationService.goBack();
-          }}
+          onPress={() => NavigationService.goBack()}
         >
           <IconIon
             name="md-arrow-back"
@@ -74,12 +70,8 @@ const MapView = ({ route, ubications, updatePublication }) => {
   );
 };
 
-const mapDispatchToProps = {
-  updatePublication: updatePublication
-};
-
 const mapStateToProps = state => ({
   ubications: state.ubications
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapView);
+export default connect(mapStateToProps, null)(MapView);

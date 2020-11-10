@@ -15,7 +15,7 @@ export default StyleSheet.create({
   buttonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: variables.spacings.S
+    marginVertical: variables.spacings.M
   },
   candidatePublicationContainer: {
     marginHorizontal: variables.spacings.M

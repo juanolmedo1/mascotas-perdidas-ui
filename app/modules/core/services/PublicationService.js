@@ -165,12 +165,13 @@ const GET_HEATMAP_PUBLICATIONS_QUERY = `query getHeatMapPublications($publicatio
   }
 }`;
 
-const UPDATE_PUBLICATION_MUTATION = `mutation updatePublication($id: String!, $lastLatitude: Float, $lastLongitude: Float){
+const UPDATE_PUBLICATION_MUTATION = `mutation updatePublication($id: String!, $lastLatitude: Float, $lastLongitude: Float, $isActive: Boolean){
   updatePublication(id:$id, input: {
-    ubicationData {
+    ubicationData: {
       lastLatitude: $lastLatitude
       lastLongitude: $lastLongitude
-    }
+    },
+    isActive: $isActive
   }){
     id
     ubication {
@@ -179,6 +180,13 @@ const UPDATE_PUBLICATION_MUTATION = `mutation updatePublication($id: String!, $l
     }
   }
 }`;
+
+const DEACTIVATE_PUBLICATION_MUTATION = `mutation deactivatePublication($notifyPublicationId: String!, $publicationId: String!){
+  deactivatePublication(notifyPublicationId: $notifyPublicationId, publicationId: $publicationId){
+    id
+  }
+}
+`;
 
 const getPublication = async payload => {
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
@@ -196,6 +204,14 @@ const reportPublication = async payload => {
     payload
   );
   return response.reportPublication;
+};
+
+const deactivatePublication = async payload => {
+  const response = await GraphQLClient.request(
+    DEACTIVATE_PUBLICATION_MUTATION,
+    payload
+  );
+  return response.deletePublication;
 };
 
 const deletePublication = async payload => {
@@ -228,6 +244,7 @@ const updatePublication = async payload => {
 };
 
 export default {
+  deactivatePublication,
   deletePublication,
   getHeatMapPublications,
   getMatchingPublications,

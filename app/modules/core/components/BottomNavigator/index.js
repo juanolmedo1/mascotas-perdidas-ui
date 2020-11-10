@@ -47,7 +47,9 @@ const BottomNavigator = ({ newNotification, newPublication }) => {
             ? route.state.routes[route.state.index].name
             : null;
           return {
-            tabBarVisible: stackScreenName !== 'Filters',
+            tabBarVisible:
+              stackScreenName !== 'Filters' &&
+              stackScreenName !== 'PublicationResolvedNavigator',
             tabBarIcon: ({ focused }) => (
               <View style={styles.iconContainer}>
                 <IconAnt

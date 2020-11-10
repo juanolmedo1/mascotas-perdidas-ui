@@ -9,6 +9,7 @@ import ProfileView from '@profile/views/ProfileView';
 import PublicationView from '@core/views/PublicationView';
 import PublicationResolvedMapView from '@core/views/PublicationResolvedView/MapView';
 import PublicationResolvedView from '@core/views/PublicationResolvedView';
+import PublicationResolvedResponseView from '@core/views/PublicationResolvedView/ResponseView';
 import SimilarPublicationsView from '@core/views/SimilarPublicationsView';
 
 const Stack = createStackNavigator();
@@ -111,6 +112,13 @@ const PublicationResolvedNavigator = () => {
       <Stack.Screen
         name="PublicationResolved_Map"
         component={PublicationResolvedMapView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="PublicationResolved_Response"
+        component={PublicationResolvedResponseView}
         options={{
           headerShown: false
         }}

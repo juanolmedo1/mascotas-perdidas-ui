@@ -47,11 +47,13 @@ import UbicationMarker from '@core/components/UbicationMarker';
 import ImageSlider from 'react-native-image-slider';
 
 const PublicationView = ({
+  clearCandidates,
   clearPublication,
   currentPublication,
   deletePublication,
   favPublication,
   favorites,
+  getCandidates,
   getPublication,
   reportPublication,
   refreshFavorites,
@@ -69,16 +71,36 @@ const PublicationView = ({
     requestInProgress,
     reportedPublication,
     reportRequestFailed,
+    resolvedCandidates,
+    resolvedCandidatesRequestInProgress,
+    resolvedCandidatesRequestFailed,
     data
   } = currentPublication;
 
-  const { favoritesPublications, requestFavoritesInProgress } = favorites;
+  const { favoritesPublications } = favorites;
 
   const publicationCreatorId = data && data.creator ? data.creator.id : null;
   const loggedUserId = session.profileInfo.id;
   const isPublicationOwner = publicationCreatorId === loggedUserId;
 
+  const checkUserFavorite = () => {
+    return favoritesPublications.findIndex(favorite => favorite.id === id) > -1;
+  };
+
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isUserFavorite, setIsUserFavorite] = useState(checkUserFavorite());
+  const [
+    resolvePublicationButtonPressed,
+    setResolvePublicationButtonPressed
+  ] = useState(false);
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [showReportConfirmDialog, setShowReportConfirmDialog] = useState(false);
+  const [showDeletedDialog, setShowDeletedDialog] = useState(
+    deletedPublication
+  );
+  const [showReportedDialog, setShowReportedDialog] = useState(
+    reportedPublication
+  );
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -87,9 +109,13 @@ const PublicationView = ({
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
+      setModalVisible(false);
+      setResolvePublicationButtonPressed(false);
       getPublication(id);
     }
     return () => {
+      setModalVisible(false);
+      setResolvePublicationButtonPressed(false);
       clearPublication();
       isMounted = false;
     };
@@ -97,6 +123,8 @@ const PublicationView = ({
 
   useFocusEffect(
     React.useCallback(() => {
+      setModalVisible(false);
+      setResolvePublicationButtonPressed(false);
       clearPublication();
       getPublication(id);
     }, [clearPublication, getPublication, id])
@@ -113,19 +141,52 @@ const PublicationView = ({
     };
   }, [deletedPublication, reportedPublication]);
 
-  const checkUserFavorite = () => {
-    return favoritesPublications.findIndex(favorite => favorite.id === id) > -1;
-  };
-  const [isUserFavorite, setIsUserFavorite] = useState(checkUserFavorite());
-
-  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
-  const [showReportConfirmDialog, setShowReportConfirmDialog] = useState(false);
-  const [showDeletedDialog, setShowDeletedDialog] = useState(
-    deletedPublication
-  );
-  const [showReportedDialog, setShowReportedDialog] = useState(
-    reportedPublication
-  );
+  useEffect(() => {
+    const { publicationsViewed, publicationsNotViewed } =
+      resolvedCandidates || {};
+    const hasCandidatesToShow =
+      (publicationsViewed && publicationsViewed.length > 0) ||
+      (publicationsNotViewed && publicationsNotViewed.length > 0);
+    //El usuario presionó el botón que encontró a su mascota/encontró a su dueño y terminó la consulta
+    if (
+      resolvePublicationButtonPressed &&
+      !resolvedCandidatesRequestInProgress &&
+      !resolvedCandidatesRequestFailed
+    ) {
+      setModalVisible(false);
+      const { type } = data;
+      //Si hay candidatos para mostrar, lo llevamos a la vista donde puede seleccionar alguna publicación similar
+      if (hasCandidatesToShow) {
+        NavigationService.navigate('PublicationResolvedNavigator', {
+          screen: 'PublicationResolved',
+          params: { id: id, publicationType: type }
+        });
+      } else {
+        //No tiene candidatos para mostrar, entonces hay que diferenciar si es publicación de mascota perdida o encontrada
+        const isLostPublication = data.type === PUBLICATION_ENTITY.types.lost;
+        if (isLostPublication) {
+          //Si es de mascota perdida, al no tener candidatos para mostrar, lo llevamos a la vista de mapa
+          NavigationService.navigate('PublicationResolvedNavigator', {
+            screen: 'PublicationResolved_Map',
+            params: { id: id }
+          });
+        } else {
+          //Si es de mascota encontrada, al no tener candidatos para mostrar, directamente actualizamos y vamos a la vista de respuesta
+          NavigationService.navigate('PublicationResolvedNavigator', {
+            screen: 'PublicationResolved_Response',
+            params: { id: id }
+          });
+        }
+      }
+    }
+  }, [
+    data,
+    id,
+    resolvePublicationButtonPressed,
+    resolvedCandidates,
+    resolvedCandidatesRequestFailed,
+    resolvedCandidatesRequestInProgress
+  ]);
 
   const onDeletePublication = () => {
     toggleDeleteConfirmDialog(false);
@@ -196,12 +257,9 @@ const PublicationView = ({
   };
 
   const onPressResolvePublicationHandler = () => {
-    toggleModal();
-    const { type } = data;
-    NavigationService.navigate('PublicationResolvedNavigator', {
-      screen: 'PublicationResolved',
-      params: { id: id, publicationType: type }
-    });
+    clearCandidates();
+    getCandidates(id);
+    setResolvePublicationButtonPressed(true);
   };
 
   const renderOwnerActions = () => {
@@ -265,7 +323,7 @@ const PublicationView = ({
                 </TouchableOpacity>
               </>
             )}
-            {isLostPublication && (
+            {isLostPublication ? (
               <>
                 <View style={styles.modalDivider} />
                 <TouchableOpacity
@@ -273,13 +331,17 @@ const PublicationView = ({
                   activeOpacity={0.9}
                   onPress={onPressResolvePublicationHandler}
                 >
-                  <Text style={styles.modalText}>
-                    {LABELS.modal.foundedPet}
-                  </Text>
+                  {resolvePublicationButtonPressed ? (
+                    <LoadingView contain={true} />
+                  ) : (
+                    <Text style={styles.modalText}>
+                      {LABELS.modal.foundedPet}
+                    </Text>
+                  )}
                 </TouchableOpacity>
               </>
-            )}
-            {isFoundedPublication && (
+            ) : null}
+            {isFoundedPublication ? (
               <>
                 <View style={styles.modalDivider} />
                 <TouchableOpacity
@@ -287,12 +349,16 @@ const PublicationView = ({
                   activeOpacity={0.9}
                   onPress={onPressResolvePublicationHandler}
                 >
-                  <Text style={styles.modalText}>
-                    {LABELS.modal.foundedOwner}
-                  </Text>
+                  {resolvedCandidates ? (
+                    <LoadingView contain={true} />
+                  ) : (
+                    <Text style={styles.modalText}>
+                      {LABELS.modal.foundedOwner}
+                    </Text>
+                  )}
                 </TouchableOpacity>
               </>
-            )}
+            ) : null}
           </View>
           <TouchableOpacity
             style={styles.modalCancelButton}
@@ -576,10 +642,12 @@ PublicationView.propTypes = {
 };
 
 const mapDispatchToProps = {
+  clearCandidates: currentPublicationActions.clearCandidates,
   clearPublication: currentPublicationActions.clearCurrentPublication,
   deletePublication: id => currentPublicationActions.deletePublication(id),
   favPublication: ({ userId, publicationId }) =>
     addFavoritePublication({ userId, publicationId }),
+  getCandidates: currentPublicationActions.getResolvedCandidates,
   getPublication: currentPublicationActions.fetchPublication,
   reportPublication: id => currentPublicationActions.reportPublication(id),
   refreshFavorites: refreshValue => setHasToRefreshFavorites(refreshValue),
