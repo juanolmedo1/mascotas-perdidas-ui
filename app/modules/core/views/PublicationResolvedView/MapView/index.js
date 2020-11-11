@@ -14,14 +14,16 @@ import UbicationSelector from '@core/components/UbicationSelector';
 import variables from '@app/styles/variables';
 
 const MapView = ({ route, ubications }) => {
-  const { id } = route.params;
+  const { id, publicationType, publicationPhoto } = route.params;
   const { latitude: userLatitude, longitude: userLongitude } = ubications;
 
   const onConfirmUbicationHandler = ubication => {
     NavigationService.navigate('PublicationResolved_Response', {
       id: id,
       lastLatitude: ubication.latitude,
-      lastLongitude: ubication.longitude
+      lastLongitude: ubication.longitude,
+      publicationType: publicationType,
+      publicationPhoto: publicationPhoto
     });
   };
 

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import {
   BackHandler,
+  Image,
   ImageBackground,
   Text,
   TouchableOpacity,
@@ -20,6 +21,7 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
+import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@core/views/PublicationResolvedView/ResponseView/styles';
 import variables from '@app/styles/variables';
 
@@ -36,7 +38,14 @@ const ResponseView = ({
     updatePublicationInProgress,
     updatePublicationFailed
   } = currentPublication;
-  const { id, lastLatitude, lastLongitude, notifyPublicationId } = route.params;
+  const {
+    id,
+    lastLatitude,
+    lastLongitude,
+    notifyPublicationId,
+    publicationType,
+    publicationPhoto
+  } = route.params;
 
   useEffect(() => {
     if (notifyPublicationId) {
@@ -108,7 +117,12 @@ const ResponseView = ({
         color={variables.colors.backgroundRed}
       />
     );
-    const responseText = successUpdate ? LABELS.successText : LABELS.errorText;
+    const isLostPublication = publicationType === PUBLICATION_ENTITY.types.lost;
+    const responseText = !successUpdate
+      ? LABELS.errorText
+      : isLostPublication
+      ? LABELS.successLostText
+      : LABELS.successFoundText;
     return (
       <View style={styles.responseContainer}>
         <View style={styles.close}>
@@ -124,8 +138,12 @@ const ResponseView = ({
           </TouchableOpacity>
         </View>
         <View style={styles.response}>
+          <View styles={styles.imageContainer}>
+            <Image style={styles.image} source={{ uri: publicationPhoto }} />
+          </View>
           <View style={iconContainerStyle}>{icon}</View>
-          <Text style={styles.title}>{responseText}</Text>
+          <Text style={styles.responseText}>{responseText}</Text>
+          <Text style={styles.responseText}>{LABELS.thanksText}</Text>
         </View>
       </View>
     );

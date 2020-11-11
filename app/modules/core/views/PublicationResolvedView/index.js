@@ -20,7 +20,7 @@ import styles from '@core/views/PublicationResolvedView/styles';
 import variables from '@app/styles/variables';
 
 const PublicationResolvedView = ({ currentPublication, route }) => {
-  const { id, publicationType } = route.params;
+  const { id, publicationType, publicationPhoto } = route.params;
   const { resolvedCandidates } = currentPublication;
   const { publicationsViewed, publicationsNotViewed } =
     resolvedCandidates || {};
@@ -38,18 +38,24 @@ const PublicationResolvedView = ({ currentPublication, route }) => {
 
   const onContinueHandler = () => {
     const hasSelectedCandidate = selectedCandidate !== null;
+    const navigateParams = {
+      id: id,
+      publicationType: publicationType,
+      publicationPhoto: publicationPhoto
+    };
     if (hasSelectedCandidate) {
       NavigationService.navigate('PublicationResolved_Response', {
-        id: id,
+        ...navigateParams,
         notifyPublicationId: selectedCandidate
       });
     } else {
       if (isLostPublication) {
-        NavigationService.navigate('PublicationResolved_Map', { id: id });
+        NavigationService.navigate('PublicationResolved_Map', navigateParams);
       } else {
-        NavigationService.navigate('PublicationResolved_Response', {
-          id: id
-        });
+        NavigationService.navigate(
+          'PublicationResolved_Response',
+          navigateParams
+        );
       }
     }
   };

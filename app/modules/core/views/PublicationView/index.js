@@ -155,11 +155,16 @@ const PublicationView = ({
     ) {
       setModalVisible(false);
       const { type } = data;
+      const navigateParams = {
+        id: id,
+        publicationType: type,
+        publicationPhoto: data.pet.photos[0].data
+      };
       //Si hay candidatos para mostrar, lo llevamos a la vista donde puede seleccionar alguna publicación similar
       if (hasCandidatesToShow) {
         NavigationService.navigate('PublicationResolvedNavigator', {
           screen: 'PublicationResolved',
-          params: { id: id, publicationType: type }
+          params: navigateParams
         });
       } else {
         //No tiene candidatos para mostrar, entonces hay que diferenciar si es publicación de mascota perdida o encontrada
@@ -168,13 +173,13 @@ const PublicationView = ({
           //Si es de mascota perdida, al no tener candidatos para mostrar, lo llevamos a la vista de mapa
           NavigationService.navigate('PublicationResolvedNavigator', {
             screen: 'PublicationResolved_Map',
-            params: { id: id }
+            params: navigateParams
           });
         } else {
           //Si es de mascota encontrada, al no tener candidatos para mostrar, directamente actualizamos y vamos a la vista de respuesta
           NavigationService.navigate('PublicationResolvedNavigator', {
             screen: 'PublicationResolved_Response',
-            params: { id: id }
+            params: navigateParams
           });
         }
       }

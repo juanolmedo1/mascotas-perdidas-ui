@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import variables from '@styles/variables';
+import fonts from '@app/styles/fonts';
 
 export default StyleSheet.create({
   backContainer: {
@@ -22,7 +23,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderColor: variables.colors.borderGreen,
     borderRadius: 45,
-    marginBottom: variables.spacings.XL
+    margin: variables.spacings.M
   },
   errorContainer: {
     height: 90,
@@ -38,12 +39,25 @@ export default StyleSheet.create({
     marginTop: variables.spacings.S,
     marginRight: variables.spacings.M
   },
+  image: {
+    width: 200,
+    height: 200
+  },
+  imageContainer: {
+    margin: variables.spacings.M
+  },
   response: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: variables.spacings.L
   },
   responseContainer: {
     flex: 1
+  },
+  responseText: {
+    ...fonts.weights.bold,
+    fontSize: fonts.sizes.L,
+    textAlign: 'center'
   }
 });
