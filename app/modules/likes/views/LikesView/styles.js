@@ -19,9 +19,7 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    width: '100%',
-    paddingHorizontal: variables.spacings.L,
-    alignItems: 'center'
+    width: '100%'
   },
   contentText: {
     fontSize: fonts.sizes.M,

@@ -44,7 +44,7 @@ import variables from '@app/styles/variables';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
 import UbicationMarker from '@core/components/UbicationMarker';
-import ImageSlider from 'react-native-image-slider';
+import ImageSlider from '@core/components/ImageSlider';
 
 const PublicationView = ({
   clearCandidates,
@@ -195,7 +195,7 @@ const PublicationView = ({
 
   const onReportPublication = () => {
     toggleReportConfirmDialog(false);
-    reportPublication(id);
+    reportPublication({ id, userId: loggedUserId });
   };
 
   const toggleDeleteConfirmDialog = toggle => {
@@ -389,16 +389,20 @@ const PublicationView = ({
             color={variables.colors.backgroundOrange}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.headerIconContainer}
-          onPress={() => toggleReportConfirmDialog(true)}
-        >
-          <IconSimple
-            name={'exclamation'}
-            size={23}
-            color={variables.colors.backgroundDarkGrey}
-          />
-        </TouchableOpacity>
+        {data &&
+          ((data.complaints && !data.complaints.includes(loggedUserId)) ||
+            !data.complaints) && (
+            <TouchableOpacity
+              style={styles.headerIconContainer}
+              onPress={() => toggleReportConfirmDialog(true)}
+            >
+              <IconSimple
+                name={'exclamation'}
+                size={23}
+                color={variables.colors.backgroundDarkGrey}
+              />
+            </TouchableOpacity>
+          )}
       </View>
     );
   };
@@ -440,23 +444,7 @@ const PublicationView = ({
             profileImage={profilePicture}
             username={username}
           />
-          <ImageSlider
-            images={photosData}
-            style={styles.imageSlider}
-            customButtons={(position, move) =>
-              photosData.length > 1 && (
-                <View style={styles.photoButtomsContainer}>
-                  {photosData.map((image, index) => {
-                    const imageSelected = position === index;
-                    const imageStyle = imageSelected
-                      ? styles.photoButtomSelected
-                      : styles.photoButtonNotSelected;
-                    return <View style={imageStyle} key={index} />;
-                  })}
-                </View>
-              )
-            }
-          />
+          <ImageSlider photos={photosData} />
           <View style={styles.block}>
             <View style={styles.phoneNumberContainer}>
               <IconSimple
@@ -649,7 +637,7 @@ const mapDispatchToProps = {
     addFavoritePublication({ userId, publicationId }),
   getCandidates: currentPublicationActions.getResolvedCandidates,
   getPublication: currentPublicationActions.fetchPublication,
-  reportPublication: id => currentPublicationActions.reportPublication(id),
+  reportPublication: data => currentPublicationActions.reportPublication(data),
   refreshFavorites: refreshValue => setHasToRefreshFavorites(refreshValue),
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
   refreshProfile: refreshValue => setHasToRefreshProfile(refreshValue),

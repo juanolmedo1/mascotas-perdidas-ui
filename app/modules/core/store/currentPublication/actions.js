@@ -126,8 +126,8 @@ export const getSimilarPublicationsSuccess = similarPublications => ({
   type: types.GET_SIMILAR_PUBLICATIONS_SUCCESS
 });
 
-export const reportPublication = id => ({
-  payload: { id },
+export const reportPublication = data => ({
+  payload: data,
   type: types.REPORT_PUBLICATION_REQUEST
 });
 
