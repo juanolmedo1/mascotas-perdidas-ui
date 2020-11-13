@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { getAllSwatches } from 'react-native-palette';
 
 import * as actionTypes from '@upload/store/actionTypes';
@@ -10,11 +10,18 @@ import {
   getTypeAndBreedFailure,
   getTypeAndBreedSuccess,
   setExtractedColors,
-  setExtractingColors
+  setExtractingColors,
+  createTemporalPublicationFailure,
+  createTemporalPublicationSuccess
 } from '@upload/store/actions';
 import NewPublicationService from '@upload/services/NewPublicationService';
 import PhotoDetectionService from '@upload/services/PhotoDetectionService';
 import NavigationService from '@core/utils/navigation';
+import { getLoggedUserId } from '@login/store/selectors';
+import {
+  getLatitude,
+  getLongitude
+} from '@app/modules/core/store/ubication/selectors';
 
 export function* onPublicationCreated(action) {
   const { newPublication } = action.payload;
@@ -143,5 +150,39 @@ export function* getCommonBreedAttributesSaga() {
   yield takeLatest(
     actionTypes.GET_COMMON_BREED_ATTRIBUTES_REQUEST,
     getCommonBreedAttributes
+  );
+}
+
+export function* createTemporalPublication(action) {
+  const { payload } = action;
+  try {
+    const creatorId = yield select(getLoggedUserId);
+    const latitude = yield select(getLatitude);
+    const longitude = yield select(getLongitude);
+    const temporalPublicationInput = {
+      creatorId,
+      photoData: payload.image.data,
+      photoType: payload.image.type,
+      latitude,
+      longitude
+    };
+    const temporalPublication = yield call(
+      NewPublicationService.createTemporalPublication,
+      temporalPublicationInput
+    );
+
+    yield put(createTemporalPublicationSuccess(temporalPublication));
+    NavigationService.navigate('TemporalResponse');
+  } catch (error) {
+    console.log(error);
+    yield put(createTemporalPublicationFailure(error));
+    NavigationService.navigate('TemporalResponse');
+  }
+}
+
+export function* createTemporalPublicationSaga() {
+  yield takeLatest(
+    actionTypes.CREATE_TEMPORAL_PUBLICATION_REQUEST,
+    createTemporalPublication
   );
 }

@@ -2,8 +2,7 @@ export const types = {
   FETCH_USER_NOTIFICATIONS__FAILURE: 'FETCH_USER_NOTIFICATIONS__FAILURE',
   FETCH_USER_NOTIFICATIONS__REQUEST: 'FETCH_USER_NOTIFICATIONS__REQUEST',
   FETCH_USER_NOTIFICATIONS__SUCCESS: 'FETCH_USER_NOTIFICATIONS__SUCCESS',
-  SET_NEW_NOTIFICATION_STATE: 'SET_NEW_NOTIFICATION_STATE',
-  SET_NEW_PUBLICATION_STATE: 'SET_NEW_PUBLICATION_STATE'
+  SET_NEW_NOTIFICATION_STATE: 'SET_NEW_NOTIFICATION_STATE'
 };
 
 export const fetchNotifications = userId => ({
@@ -24,9 +23,4 @@ export const fetchNotificationsSuccess = notifications => ({
 export const setNewNotificationState = state => ({
   payload: state,
   type: types.SET_NEW_NOTIFICATION_STATE
-});
-
-export const setNewPublicationState = state => ({
-  payload: state,
-  type: types.SET_NEW_PUBLICATION_STATE
 });

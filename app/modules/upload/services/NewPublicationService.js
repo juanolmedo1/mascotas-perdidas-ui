@@ -55,6 +55,38 @@ const createPublication = async payload => {
   return response.createPublication;
 };
 
+const CREATE_TEMPORAL_PUBLICATION = `mutation createTemporalPublication($creatorId: String!, $photoType: String!, $photoData: String!, $latitude: Float!, $longitude: Float!){
+  createTemporalPublication(input: {
+    creatorId: $creatorId
+    photo: {
+      type: $photoType
+      data: $photoData
+    }
+    ubicationData: {
+      latitude: $latitude
+      longitude: $longitude
+    }
+  }){
+    id
+    petPhoto
+    creator {
+      phoneNumber
+    }
+    ubication {
+      firstLatitude
+      firstLongitude
+    }
+  }
+}`;
+
+const createTemporalPublication = async payload => {
+  const response = await GraphQLClient.request(
+    CREATE_TEMPORAL_PUBLICATION,
+    payload
+  );
+  return response.createTemporalPublication;
+};
+
 const GET_COMMON_VALUES_QUERY = `query getCommonValues($breed: String!){
   getCommonValues(breed: $breed){
     gender
@@ -73,5 +105,6 @@ const getCommonValues = async payload => {
 
 export default {
   createPublication,
+  createTemporalPublication,
   getCommonValues
 };

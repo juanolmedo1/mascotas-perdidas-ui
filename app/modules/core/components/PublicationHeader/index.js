@@ -16,9 +16,11 @@ const PublicationHeader = ({ username, profileImage, type }) => {
         />
         <Text style={styles.username}>{username}</Text>
       </View>
-      <View style={styles.iconContainer}>
-        <PublicationIcon type={type} />
-      </View>
+      {type && (
+        <View style={styles.iconContainer}>
+          <PublicationIcon type={type} />
+        </View>
+      )}
     </View>
   );
 };
@@ -26,7 +28,7 @@ const PublicationHeader = ({ username, profileImage, type }) => {
 PublicationHeader.propTypes = {
   username: PropTypes.string.isRequired,
   profileImage: PropTypes.object.isRequired,
-  type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION']).isRequired
+  type: PropTypes.oneOf(['LOST', 'FOUND', 'ADOPTION'])
 };
 
 export default PublicationHeader;

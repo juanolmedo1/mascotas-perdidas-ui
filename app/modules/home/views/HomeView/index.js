@@ -35,7 +35,6 @@ import styles from '@home/views/HomeView/styles';
 import messaging from '@react-native-firebase/messaging';
 import { saveNotificationToken } from '@login/store/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setNewPublicationState } from '@app/modules/notifications/store/actions';
 
 const HomeView = ({
   getPublications,
@@ -98,7 +97,6 @@ const HomeView = ({
           longitude
         });
         getPublications();
-        setNewPublication(false);
       },
       error => {
         setUbicationFail({ error });
@@ -112,20 +110,13 @@ const HomeView = ({
       if (refreshments.hasToRefreshHome) {
         setMapView(false);
         getPublications();
-        setNewPublication(false);
         refreshHome(false);
       }
-    }, [
-      getPublications,
-      refreshHome,
-      refreshments.hasToRefreshHome,
-      setNewPublication
-    ])
+    }, [getPublications, refreshHome, refreshments.hasToRefreshHome])
   );
 
   const refresh = () => {
     getPublications();
-    setNewPublication(false);
   };
 
   const { requestFailed, requestInProgress, data } = publications;
@@ -267,8 +258,7 @@ const mapDispatchToProps = {
   setUbication: setUbicationSuccess,
   setUbicationFail: setUbicationFailure,
   refreshHome: refreshValue => setHasToRefreshHome(refreshValue),
-  saveToken: saveNotificationToken,
-  setNewPublication: setNewPublicationState
+  saveToken: saveNotificationToken
 };
 
 const mapStateToProps = state => ({

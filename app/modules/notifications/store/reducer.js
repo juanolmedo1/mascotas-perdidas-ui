@@ -34,11 +34,6 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         newNotification: payload
       };
-    case types.SET_NEW_PUBLICATION_STATE:
-      return {
-        ...state,
-        newPublication: payload
-      };
     default:
       return state;
   }
