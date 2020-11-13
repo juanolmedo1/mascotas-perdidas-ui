@@ -40,7 +40,7 @@ const ResponseView = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const closeWithSuccess = () => {
     clearPublicationValues();
-    NavigationService.reset(0, 'Upload');
+    NavigationService.reset(0, 'SelectPublication');
     refreshHome(true);
     refreshProfile(true);
     NavigationService.navigate('Home');

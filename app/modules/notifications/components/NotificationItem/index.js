@@ -4,7 +4,6 @@ import styles from '@notifications/components/NotificationItem/styles';
 import DateUtils from '@core/utils/date';
 
 const NotificationItem = ({
-  publicationId,
   type,
   photo,
   username,
@@ -15,13 +14,15 @@ const NotificationItem = ({
   const posibleTitles = {
     POSSIBLE_MATCHING: '¡Posible Coincidencia!',
     DOBLE_CONFIRMATION: 'Confirmación requerida',
-    DELETED_FOR_COMPLAINTS: 'Publicación eliminada'
+    DELETED_FOR_COMPLAINTS: 'Publicación eliminada',
+    TEMPORAL_PUBLICATION: 'Publicación temporal'
   };
   const posibleDescriptions = {
     POSSIBLE_MATCHING: `@${username} creó una publicación que puede coincidir con una tuya. Échale un vistazo!`,
     DOBLE_CONFIRMATION: `@${username} indicó que sus publicaciones se corresponden. Por favor, confirme si esto es así.`,
     DELETED_FOR_COMPLAINTS:
-      'Varios usuarios reportaron la publicación y, por lo tanto, fue eliminada.'
+      'Varios usuarios reportaron la publicación y, por lo tanto, fue eliminada.',
+    TEMPORAL_PUBLICATION: `@${username} vio una mascota que podría ser la tuya. Échale un vistazo!`
   };
   const title = posibleTitles[type];
   const description = posibleDescriptions[type];

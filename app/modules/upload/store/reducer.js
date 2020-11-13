@@ -28,6 +28,9 @@ const initialState = {
   requestPetPredictionInProgress: false,
   requestPetPredictionFail: false,
   similarPublications: [],
+  temporalPublicationInProgress: false,
+  temporalPublicationFailure: false,
+  temporalPublication: null,
   latitude: null,
   longitude: null,
   userId: null
@@ -228,6 +231,26 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         latitude: payload.latitude,
         longitude: payload.longitude
+      };
+    case actionTypes.CREATE_TEMPORAL_PUBLICATION_REQUEST:
+      return {
+        ...state,
+        temporalPublicationInProgress: true,
+        temporalPublicationFailure: false
+      };
+    case actionTypes.CREATE_TEMPORAL_PUBLICATION_FAILURE:
+      return {
+        ...state,
+        temporalPublicationInProgress: false,
+        temporalPublication: payload.error,
+        temporalPublicationFailure: true
+      };
+    case actionTypes.CREATE_TEMPORAL_PUBLICATION_SUCCESS:
+      return {
+        ...state,
+        temporalPublicationInProgress: false,
+        temporalPublication: payload,
+        temporalPublicationFailure: false
       };
     default:
       return state;

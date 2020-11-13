@@ -51,7 +51,7 @@ const UploadView = ({
   const confirmBack = () => {
     setShowConfirmBackModal(false);
     clearPublicationValues();
-    NavigationService.reset(0, 'Upload');
+    NavigationService.reset(0, 'SelectPublication');
     NavigationService.goBack();
   };
 

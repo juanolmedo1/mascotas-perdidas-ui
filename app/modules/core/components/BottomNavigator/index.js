@@ -17,7 +17,7 @@ import NavigationService from '@core/utils/navigation';
 
 const Tab = createBottomTabNavigator();
 
-const BottomNavigator = ({ newNotification, newPublication }) => {
+const BottomNavigator = ({ newNotification }) => {
   useEffect(() => {
     const message = messaging().onNotificationOpenedApp(() => {
       console.log('NOTIFICATION OPENED APP');
@@ -49,18 +49,15 @@ const BottomNavigator = ({ newNotification, newPublication }) => {
           return {
             tabBarVisible: stackScreenName !== 'Filters',
             tabBarIcon: ({ focused }) => (
-              <View style={styles.iconContainer}>
-                <IconAnt
-                  name="home"
-                  size={30}
-                  color={
-                    focused
-                      ? variables.colors.textOrange
-                      : variables.colors.textDarkGrey
-                  }
-                />
-                {newPublication && <View style={styles.iconPoint} />}
-              </View>
+              <IconAnt
+                name="home"
+                size={30}
+                color={
+                  focused
+                    ? variables.colors.textOrange
+                    : variables.colors.textDarkGrey
+                }
+              />
             )
           };
         }}
@@ -142,8 +139,7 @@ const BottomNavigator = ({ newNotification, newPublication }) => {
 };
 
 const mapStateToProps = state => ({
-  newNotification: state.notifications.newNotification,
-  newPublication: state.notifications.newPublication
+  newNotification: state.notifications.newNotification
 });
 
 export default connect(mapStateToProps)(BottomNavigator);

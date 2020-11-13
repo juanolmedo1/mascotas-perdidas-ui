@@ -9,6 +9,11 @@ import FiltersView from '@upload/views/FiltersView';
 import PublicationView from '@core/views/PublicationView';
 import ResponseView from '@upload/views/ResponseView';
 import UploadView from '@upload/views/UploadView';
+import SelectPublicationView from '@upload/views/SelectPublication';
+import CameraView from '@upload/views/CameraView';
+import TemporalPhotoView from '@upload/views/TemporalPhotoView';
+import TemporalResponseView from '@upload/views/TemporalResponseView';
+import TemporalPublicationView from '@core/views/TemporalPublicationView';
 
 const Stack = createStackNavigator();
 
@@ -18,8 +23,43 @@ const UploadNavigator = () => {
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
       }}
-      initialRouteName="Upload"
+      initialRouteName="SelectPublication"
     >
+      <Stack.Screen
+        name="SelectPublication"
+        component={SelectPublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="TemporalPhoto"
+        component={TemporalPhotoView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="TemporalResponse"
+        component={TemporalResponseView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="TemporalPublication"
+        component={TemporalPublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="CameraView"
+        component={CameraView}
+        options={{
+          headerShown: false
+        }}
+      />
       <Stack.Screen
         name="Upload"
         component={UploadView}

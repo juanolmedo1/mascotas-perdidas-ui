@@ -45,11 +45,19 @@ const NotificationsView = ({
   );
 
   const selectOnPressHandler = (type, publicationId, photos) => {
-    if (type === NOTIFICATION_ENITITY.types.DELETED_FOR_COMPLAINTS) {
-      return () => NavigationService.navigate('DeletedPublication', { photos });
+    switch (type) {
+      case NOTIFICATION_ENITITY.types.DELETED_FOR_COMPLAINTS:
+        return () =>
+          NavigationService.navigate('DeletedPublication', { photos });
+      case NOTIFICATION_ENITITY.types.TEMPORAL_PUBLICATION:
+        return () =>
+          NavigationService.navigate('TemporalPublication', {
+            id: publicationId[0]
+          });
+      default:
+        return () =>
+          NavigationService.navigate('Publication', { id: publicationId[0] });
     }
-    return () =>
-      NavigationService.navigate('Publication', { id: publicationId });
   };
 
   return (
@@ -87,7 +95,6 @@ const NotificationsView = ({
               renderItem={({ item }) => (
                 <NotificationItem
                   photo={item.photos[0]}
-                  publicationId={item.publicationId}
                   type={item.type}
                   username={item.userCreator && item.userCreator.username}
                   userPhoto={
