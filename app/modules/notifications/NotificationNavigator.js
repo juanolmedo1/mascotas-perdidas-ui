@@ -8,6 +8,7 @@ import DeletedPublicationView from '@notifications/views/DeletedPublication';
 import DobleConfirmationView from '@notifications/views/DobleConfirmation';
 import NotificationsView from '@notifications/views/NotificationsView';
 import PublicationView from '@core/views/PublicationView';
+import TemporalPublicationView from '@core/views/TemporalPublicationView';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,13 @@ const NotificationNavigator = () => {
       <Stack.Screen
         name="Publication"
         component={PublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="TemporalPublication"
+        component={TemporalPublicationView}
         options={{
           headerShown: false
         }}

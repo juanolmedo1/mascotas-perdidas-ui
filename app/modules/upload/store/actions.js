@@ -92,3 +92,15 @@ export const setUserId = userId =>
 
 export const setPublicationUbication = ubication =>
   createAction(actionTypes.SET_PUBLICATION_UBICATION, ubication);
+
+export const createTemporalPublicationFailure = error =>
+  createAction(actionTypes.CREATE_TEMPORAL_PUBLICATION_FAILURE, { error });
+
+export const createTemporalPublicationRequest = image =>
+  createAction(actionTypes.CREATE_TEMPORAL_PUBLICATION_REQUEST, { image });
+
+export const createTemporalPublicationSuccess = temporalPublication =>
+  createAction(
+    actionTypes.CREATE_TEMPORAL_PUBLICATION_SUCCESS,
+    temporalPublication
+  );

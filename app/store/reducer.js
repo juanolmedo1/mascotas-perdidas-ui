@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import currentPublication from '@core/store/currentPublication/reducer';
+import temporalPublication from '@core/store/temporalPublication/reducer';
 import favorites from '@likes/store/reducer';
 import newPublication from '@upload/store/reducer';
 import publications from '@home/store/reducer';
@@ -12,6 +13,7 @@ import notifications from '@notifications/store/reducer';
 
 export default combineReducers({
   currentPublication,
+  temporalPublication,
   favorites,
   newPublication,
   publications,

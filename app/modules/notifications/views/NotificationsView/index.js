@@ -65,6 +65,11 @@ const NotificationsView = ({
       case types.POSSIBLE_MATCHING:
         return () =>
           NavigationService.navigate('Publication', { id: publicationId[0] });
+      case types.TEMPORAL_PUBLICATION:
+        return () =>
+          NavigationService.navigate('TemporalPublication', {
+            id: publicationId[0]
+          });
     }
   };
 
@@ -103,7 +108,6 @@ const NotificationsView = ({
               renderItem={({ item }) => (
                 <NotificationItem
                   photo={item.photos[0]}
-                  publicationId={item.publicationId}
                   type={item.type}
                   username={item.userCreator && item.userCreator.username}
                   userPhoto={

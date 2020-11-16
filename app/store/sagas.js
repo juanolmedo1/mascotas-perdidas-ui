@@ -8,6 +8,7 @@ import {
   reportPublicationSaga,
   updatePublicationSaga
 } from '@core/store/currentPublication/sagas';
+import { getTemporalPublicationSaga } from '@core/store/temporalPublication/sagas';
 import {
   fetchLoginSaga,
   fetchUserPublicationsSaga,
@@ -18,7 +19,8 @@ import {
   detectTypeAndBreedSaga,
   getCommonBreedAttributesSaga,
   onPublicationCreatedSaga,
-  onSelectedImagesSaga
+  onSelectedImagesSaga,
+  createTemporalPublicationSaga
 } from '@upload/store/sagas';
 import { registerUserSaga } from '@register/store/sagas';
 import {
@@ -35,6 +37,7 @@ import {
 } from '@likes/store/sagas';
 
 export default {
+  createTemporalPublicationSaga,
   deactivatePublicationSaga,
   deleteNotificationSaga,
   deletePublicationSaga,
@@ -51,6 +54,7 @@ export default {
   getNotificationUserPublicationSaga,
   getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
+  getTemporalPublicationSaga,
   onFavPublicationSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
