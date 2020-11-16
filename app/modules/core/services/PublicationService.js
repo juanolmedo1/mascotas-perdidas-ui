@@ -64,6 +64,8 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
     creator {
       id
       username
+      firstName
+      lastName
       profilePicture {
         id
         type

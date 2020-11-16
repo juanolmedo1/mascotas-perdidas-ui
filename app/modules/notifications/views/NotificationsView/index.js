@@ -44,12 +44,28 @@ const NotificationsView = ({
     }, [getNotifications, id, setNewNotification])
   );
 
-  const selectOnPressHandler = (type, publicationId, photos) => {
-    if (type === NOTIFICATION_ENITITY.types.DELETED_FOR_COMPLAINTS) {
-      return () => NavigationService.navigate('DeletedPublication', { photos });
+  const selectOnPressHandler = (
+    notificationId,
+    notificationType,
+    publicationId,
+    photos
+  ) => {
+    const { types } = NOTIFICATION_ENITITY;
+    switch (notificationType) {
+      case types.DELETED_FOR_COMPLAINTS:
+        return () =>
+          NavigationService.navigate('DeletedPublication', { photos });
+      case types.DOBLE_CONFIRMATION:
+        return () =>
+          NavigationService.navigate('DobleConfirmation', {
+            confirmUserPublicationId: publicationId[0],
+            notificationUserPublicationId: publicationId[1],
+            notificationId: notificationId
+          });
+      case types.POSSIBLE_MATCHING:
+        return () =>
+          NavigationService.navigate('Publication', { id: publicationId[0] });
     }
-    return () =>
-      NavigationService.navigate('Publication', { id: publicationId });
   };
 
   return (
@@ -94,6 +110,7 @@ const NotificationsView = ({
                     item.userCreator && item.userCreator.profilePicture.data
                   }
                   onPress={selectOnPressHandler(
+                    item.id,
                     item.type,
                     item.publicationId,
                     item.photos

@@ -354,7 +354,7 @@ const PublicationView = ({
                   activeOpacity={0.9}
                   onPress={onPressResolvePublicationHandler}
                 >
-                  {resolvedCandidates ? (
+                  {resolvePublicationButtonPressed ? (
                     <LoadingView contain={true} />
                   ) : (
                     <Text style={styles.modalText}>

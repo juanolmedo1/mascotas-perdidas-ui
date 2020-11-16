@@ -4,9 +4,10 @@ import {
 } from '@react-navigation/stack';
 import React from 'react';
 
+import DeletedPublicationView from '@notifications/views/DeletedPublication';
+import DobleConfirmationView from '@notifications/views/DobleConfirmation';
 import NotificationsView from '@notifications/views/NotificationsView';
 import PublicationView from '@core/views/PublicationView';
-import DeletedPublicationView from '@notifications/views/DeletedPublication';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,13 @@ const NotificationNavigator = () => {
       <Stack.Screen
         name="DeletedPublication"
         component={DeletedPublicationView}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="DobleConfirmation"
+        component={DobleConfirmationView}
         options={{
           headerShown: false
         }}

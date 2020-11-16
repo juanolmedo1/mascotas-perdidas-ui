@@ -21,7 +21,13 @@ import {
   onSelectedImagesSaga
 } from '@upload/store/sagas';
 import { registerUserSaga } from '@register/store/sagas';
-import { fetchUserNotificationsSaga } from '@notifications/store/sagas';
+import {
+  deleteNotificationSaga,
+  fetchUserNotificationsSaga,
+  getConfirmUserPublicationSaga,
+  getNotificationUserPublicationSaga,
+  updatePublicationsSaga
+} from '@notifications/store/sagas';
 import {
   fetchUserFavoritesSaga,
   onFavPublicationSaga,
@@ -30,6 +36,7 @@ import {
 
 export default {
   deactivatePublicationSaga,
+  deleteNotificationSaga,
   deletePublicationSaga,
   detectTypeAndBreedSaga,
   fetchLoginSaga,
@@ -39,7 +46,9 @@ export default {
   fetchUserFavoritesSaga,
   fetchUserPublicationsSaga,
   getCommonBreedAttributesSaga,
+  getConfirmUserPublicationSaga,
   getHeatMapPublicationsSaga,
+  getNotificationUserPublicationSaga,
   getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
   onFavPublicationSaga,
@@ -48,6 +57,7 @@ export default {
   onUnfavPublicationSaga,
   reportPublicationSaga,
   registerUserSaga,
+  saveNotificationTokenSaga,
   updatePublicationSaga,
-  saveNotificationTokenSaga
+  updatePublicationsSaga
 };
