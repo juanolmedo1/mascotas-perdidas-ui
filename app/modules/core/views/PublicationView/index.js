@@ -267,11 +267,25 @@ const PublicationView = ({
     setResolvePublicationButtonPressed(true);
   };
 
+  const onPressResolveAdoptionPublicationHandler = () => {
+    setResolvePublicationButtonPressed(true);
+    setModalVisible(false);
+    const navigateParams = {
+      id: id,
+      publicationType: data.type,
+      publicationPhoto: data.pet.photos[0].data
+    };
+    NavigationService.navigate('PublicationResolvedNavigator', {
+      screen: 'PublicationResolved_Response',
+      params: navigateParams
+    });
+  };
+
   const renderOwnerActions = () => {
     const isLostPublication = data.type === PUBLICATION_ENTITY.types.lost;
     const isFoundedPublication = data.type === PUBLICATION_ENTITY.types.found;
-    const isNotAdoptionPublication =
-      data.type !== PUBLICATION_ENTITY.types.adoption;
+    const isAdoptionPublication =
+      data.type === PUBLICATION_ENTITY.types.adoption;
     return (
       <View style={styles.extraActionContainer}>
         <TouchableOpacity
@@ -302,7 +316,7 @@ const PublicationView = ({
             >
               <Text style={styles.modalDeleteText}>{LABELS.modal.delete}</Text>
             </TouchableOpacity>
-            {isNotAdoptionPublication && (
+            {!isAdoptionPublication && (
               <>
                 <View style={styles.modalDivider} />
                 <TouchableOpacity
@@ -359,6 +373,24 @@ const PublicationView = ({
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedOwner}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              </>
+            ) : null}
+            {isAdoptionPublication ? (
+              <>
+                <View style={styles.modalDivider} />
+                <TouchableOpacity
+                  style={styles.modalButtonContainer}
+                  activeOpacity={0.9}
+                  onPress={onPressResolveAdoptionPublicationHandler}
+                >
+                  {resolvePublicationButtonPressed ? (
+                    <LoadingView contain={true} />
+                  ) : (
+                    <Text style={styles.modalText}>
+                      {LABELS.modal.foundedHome}
                     </Text>
                   )}
                 </TouchableOpacity>

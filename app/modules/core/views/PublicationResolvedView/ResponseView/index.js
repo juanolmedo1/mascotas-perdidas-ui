@@ -118,10 +118,14 @@ const ResponseView = ({
       />
     );
     const isLostPublication = publicationType === PUBLICATION_ENTITY.types.lost;
+    const isAdoptionPublication =
+      publicationType === PUBLICATION_ENTITY.types.adoption;
     const responseText = !successUpdate
       ? LABELS.errorText
       : isLostPublication
       ? LABELS.successLostText
+      : isAdoptionPublication
+      ? LABELS.successAdoptionText
       : LABELS.successFoundText;
     return (
       <View style={styles.responseContainer}>
