@@ -3,9 +3,9 @@ import React from 'react';
 import styles from '@core/views/LoadingView/styles';
 import variables from '@styles/variables';
 
-const LoadingView = () => {
+const LoadingView = ({ contain = false }) => {
   return (
-    <View style={styles.container}>
+    <View style={contain ? styles.container : styles.containerFull}>
       <ActivityIndicator
         size="large"
         color={variables.colors.backgroundOrange}

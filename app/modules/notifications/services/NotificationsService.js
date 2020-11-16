@@ -16,6 +16,13 @@ const GET_NOTIFICATIONS_QUERY = `query getUserNotifications($userId: String!){
   }
 }`;
 
+const DELETE_NOTIFICATION_MUTATION = `mutation deleteNotification($id: String!){
+  deleteNotification(id: $id){
+    id
+    type
+  }
+}`;
+
 const getUserNotifications = async payload => {
   const response = await GraphQLClient.request(
     GET_NOTIFICATIONS_QUERY,
@@ -24,6 +31,15 @@ const getUserNotifications = async payload => {
   return response.getUserNotifications;
 };
 
+const deleteNotification = async payload => {
+  const response = await GraphQLClient.request(
+    DELETE_NOTIFICATION_MUTATION,
+    payload
+  );
+  return response.deleteNotification;
+};
+
 export default {
+  deleteNotification,
   getUserNotifications
 };

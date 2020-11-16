@@ -1,9 +1,12 @@
 import {
+  deactivatePublicationSaga,
   deletePublicationSaga,
   fetchPublicationSaga,
   getHeatMapPublicationsSaga,
+  getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
-  reportPublicationSaga
+  reportPublicationSaga,
+  updatePublicationSaga
 } from '@core/store/currentPublication/sagas';
 import { getTemporalPublicationSaga } from '@core/store/temporalPublication/sagas';
 import {
@@ -20,7 +23,13 @@ import {
   createTemporalPublicationSaga
 } from '@upload/store/sagas';
 import { registerUserSaga } from '@register/store/sagas';
-import { fetchUserNotificationsSaga } from '@notifications/store/sagas';
+import {
+  deleteNotificationSaga,
+  fetchUserNotificationsSaga,
+  getConfirmUserPublicationSaga,
+  getNotificationUserPublicationSaga,
+  updatePublicationsSaga
+} from '@notifications/store/sagas';
 import {
   fetchUserFavoritesSaga,
   onFavPublicationSaga,
@@ -29,23 +38,30 @@ import {
 
 export default {
   createTemporalPublicationSaga,
+  deactivatePublicationSaga,
+  deleteNotificationSaga,
   deletePublicationSaga,
   detectTypeAndBreedSaga,
   fetchLoginSaga,
+  fetchUserNotificationsSaga,
   fetchPublicationSaga,
   fetchPublicationsSaga,
+  fetchUserFavoritesSaga,
   fetchUserPublicationsSaga,
   getCommonBreedAttributesSaga,
+  getConfirmUserPublicationSaga,
   getHeatMapPublicationsSaga,
+  getNotificationUserPublicationSaga,
+  getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
+  getTemporalPublicationSaga,
+  onFavPublicationSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,
+  onUnfavPublicationSaga,
   reportPublicationSaga,
   registerUserSaga,
-  fetchUserFavoritesSaga,
-  onFavPublicationSaga,
-  onUnfavPublicationSaga,
   saveNotificationTokenSaga,
-  fetchUserNotificationsSaga,
-  getTemporalPublicationSaga
+  updatePublicationSaga,
+  updatePublicationsSaga
 };

@@ -1,15 +1,21 @@
 import {
   types,
+  deactivatePublicationFailure,
+  deactivatePublicationSuccess,
   deletePublicationFailure,
   deletePublicationSuccess,
   fetchPublicationSuccess,
   fetchPublicationFailure,
   getHeatmapPublicationsFailure,
   getHeatmapPublicationsSuccess,
+  getResolvedCandidatesFailure,
+  getResolvedCandidatesSuccess,
   getSimilarPublicationsFailure,
   getSimilarPublicationsSuccess,
   reportPublicationFailure,
-  reportPublicationSuccess
+  reportPublicationSuccess,
+  updatePublicationFailure,
+  updatePublicationSuccess
 } from '@core/store/currentPublication/actions';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import PublicationService from '@core/services/PublicationService';
@@ -44,6 +50,19 @@ export function* reportPublication(action) {
   }
 }
 
+export function* getResolvedCandidates(action) {
+  const { payload } = action;
+  try {
+    const candidates = yield call(
+      PublicationService.getMatchingPublications,
+      payload
+    );
+    yield put(getResolvedCandidatesSuccess(candidates));
+  } catch (error) {
+    yield put(getResolvedCandidatesFailure(error));
+  }
+}
+
 export function* getSimilarPublications(action) {
   const { payload } = action;
   try {
@@ -70,6 +89,26 @@ export function* getHeatmapPublications(action) {
   }
 }
 
+export function* updatePublication(action) {
+  const { payload } = action;
+  try {
+    yield call(PublicationService.updatePublication, payload);
+    yield put(updatePublicationSuccess());
+  } catch (error) {
+    yield put(updatePublicationFailure(error));
+  }
+}
+
+export function* deactivatePublication(action) {
+  const { payload } = action;
+  try {
+    yield call(PublicationService.deactivatePublication, payload);
+    yield put(deactivatePublicationSuccess());
+  } catch (error) {
+    yield put(deactivatePublicationFailure(error));
+  }
+}
+
 export function* fetchPublicationSaga() {
   yield takeLatest(types.FETCH_PUBLICATION__REQUEST, fetchPublication);
 }
@@ -80,6 +119,13 @@ export function* deletePublicationSaga() {
 
 export function* reportPublicationSaga() {
   yield takeLatest(types.REPORT_PUBLICATION_REQUEST, reportPublication);
+}
+
+export function* getResolvedCandidatesSaga() {
+  yield takeLatest(
+    types.GET_RESOLVED_CANDIDATES_REQUEST,
+    getResolvedCandidates
+  );
 }
 
 export function* getSimilarPublicationsSaga() {
@@ -94,4 +140,12 @@ export function* getHeatMapPublicationsSaga() {
     types.GET_HEATMAP_PUBLICATIONS_REQUEST,
     getHeatmapPublications
   );
+}
+
+export function* updatePublicationSaga() {
+  yield takeLatest(types.UPDATE_PUBLICATION_REQUEST, updatePublication);
+}
+
+export function* deactivatePublicationSaga() {
+  yield takeLatest(types.DEACTIVATE_PUBLICATION_REQUEST, deactivatePublication);
 }
