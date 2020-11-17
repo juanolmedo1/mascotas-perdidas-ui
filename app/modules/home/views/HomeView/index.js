@@ -35,6 +35,7 @@ import styles from '@home/views/HomeView/styles';
 import messaging from '@react-native-firebase/messaging';
 import { saveNotificationToken } from '@login/store/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HomeLoadingView from '@home/views/HomeLoadingView';
 
 const HomeView = ({
   getPublications,
@@ -125,7 +126,7 @@ const HomeView = ({
     return requestInProgress ||
       !ubications.latitude ||
       !ubications.longitude ? (
-      <LoadingView />
+      <HomeLoadingView />
     ) : (
       <PublicationsList
         data={data}

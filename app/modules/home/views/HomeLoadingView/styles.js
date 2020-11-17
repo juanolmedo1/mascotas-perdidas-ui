@@ -1,8 +1,13 @@
 import { StyleSheet } from 'react-native';
-import fonts from '@app/styles/fonts';
 import variables from '@app/styles/variables';
 
 export default StyleSheet.create({
+  content: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    zIndex: 0
+  },
   container: {
     height: 200,
     width: 150,
@@ -28,8 +33,9 @@ export default StyleSheet.create({
     marginLeft: variables.spacings.S
   },
   username: {
-    ...fonts.weights.regular,
-    fontSize: fonts.sizes.S,
+    width: 80,
+    height: 10,
+    borderRadius: 4,
     marginLeft: variables.spacings.XS
   },
   image: {
@@ -48,7 +54,13 @@ export default StyleSheet.create({
     backgroundColor: variables.colors.backgroundWhite
   },
   date: {
-    ...fonts.weights.regular,
-    fontSize: fonts.sizes.XS
+    height: 16,
+    width: 50,
+    borderRadius: 4
+  },
+  type: {
+    height: 24,
+    width: 24,
+    borderRadius: 4
   }
 });

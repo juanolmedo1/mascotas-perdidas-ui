@@ -12,6 +12,7 @@ import LoadingView from '@core/views/LoadingView';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PublicationsList from '@core/components/PublicationsList';
 import styles from '@likes/views/LikesView/styles';
+import LikesLoadingView from '@likes/views/LikesLoadingView';
 
 const LikesView = ({
   favorites,
@@ -54,7 +55,7 @@ const LikesView = ({
         <Divider />
         <View style={styles.content}>
           {requestFavoritesInProgress || !session ? (
-            <LoadingView />
+            <LikesLoadingView />
           ) : (
             <PublicationsList
               data={favoritesPublications}
