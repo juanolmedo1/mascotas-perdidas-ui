@@ -4,8 +4,7 @@ const initialState = {
   requestNotificationsInProgress: false,
   requestNotificationsFailed: false,
   newNotification: false,
-  newPublication: false,
-  userNotifications: []
+  userNotifications: null
 };
 
 export default function(state = initialState, { type, payload }) {

@@ -18,30 +18,28 @@ import {
   fetchNotifications,
   setNewNotificationState
 } from '@notifications/store/actions';
-import LoadingView from '@app/modules/core/views/LoadingView';
 import NotificationItem from '@notifications/components/NotificationItem';
 import NOTIFICATION_ENITITY from '@entities/Notification';
 import NavigationService from '@core/utils/navigation';
+import { getLoggedUserId } from '@app/modules/login/store/selectors';
+import NotificationsLoadingView from '../NotificationsLoadingView';
 
 const NotificationsView = ({
   notifications,
   getNotifications,
-  session,
+  userId,
   setNewNotification
 }) => {
-  const { id } = session.profileInfo;
-  const { userNotifications, requestNotificationsInProgress } = notifications;
-
   const onRefresh = () => {
-    getNotifications(id);
+    getNotifications(userId);
     setNewNotification(false);
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      getNotifications(id);
+      getNotifications(userId);
       setNewNotification(false);
-    }, [getNotifications, id, setNewNotification])
+    }, [getNotifications, userId, setNewNotification])
   );
 
   const selectOnPressHandler = (type, publicationId, photos) => {
@@ -60,6 +58,98 @@ const NotificationsView = ({
     }
   };
 
+  const renderNotificationsSkeletonView = () => <NotificationsLoadingView />;
+  const renderEmptyList = () => (
+    <View style={styles.emptyList}>
+      <Text style={styles.noNotifications}>{LABELS.no_notifications}</Text>
+    </View>
+  );
+  const renderNotificationsList = (data, inProgress) => (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      keyExtractor={item => item.id}
+      data={data}
+      contentContainerStyle={styles.list}
+      refreshControl={
+        <RefreshControl refreshing={inProgress} onRefresh={onRefresh} />
+      }
+      renderItem={({ item }) => (
+        <NotificationItem
+          photo={item.photos[0]}
+          type={item.type}
+          username={item.userCreator && item.userCreator.username}
+          userPhoto={item.userCreator && item.userCreator.profilePicture.data}
+          onPress={selectOnPressHandler(
+            item.type,
+            item.publicationId,
+            item.photos
+          )}
+          createdAt={item.createdAt}
+        />
+      )}
+    />
+  );
+
+  const renderContent = () => {
+    const { userNotifications, requestNotificationsInProgress } = notifications;
+    return !userNotifications
+      ? renderNotificationsSkeletonView()
+      : userNotifications.length
+      ? renderNotificationsList(
+          userNotifications,
+          requestNotificationsInProgress
+        )
+      : renderEmptyList();
+
+    // if (!userNotifications) {
+    //   // Primer pedido de notificaciones, mostrar Skeleton View
+    //   return <NotificationsLoadingView />;
+    // } else {
+    //   if (userNotifications.length) {
+    //     // El usuario tiene notificaciones para mostrar
+    //     return (
+    //       <FlatList
+    //         showsVerticalScrollIndicator={false}
+    //         keyExtractor={item => item.id}
+    //         data={userNotifications}
+    //         contentContainerStyle={styles.list}
+    //         refreshControl={
+    //           <RefreshControl
+    //             refreshing={requestNotificationsInProgress}
+    //             onRefresh={onRefresh}
+    //           />
+    //         }
+    //         renderItem={({ item }) => (
+    //           <NotificationItem
+    //             photo={item.photos[0]}
+    //             type={item.type}
+    //             username={item.userCreator && item.userCreator.username}
+    //             userPhoto={
+    //               item.userCreator && item.userCreator.profilePicture.data
+    //             }
+    //             onPress={selectOnPressHandler(
+    //               item.type,
+    //               item.publicationId,
+    //               item.photos
+    //             )}
+    //             createdAt={item.createdAt}
+    //           />
+    //         )}
+    //       />
+    //     );
+    //   } else {
+    //     // El usuario NO tiene notificaciones para mostrar
+    //     return (
+    //       <View style={styles.emptyList}>
+    //         <Text style={styles.noNotifications}>
+    //           {LABELS.no_notifications}
+    //         </Text>
+    //       </View>
+    //     );
+    //   }
+    // }
+  };
+
   return (
     <ImageBackground
       imageStyle={imageStyles}
@@ -71,46 +161,7 @@ const NotificationsView = ({
           <Text style={styles.title}>{LABELS.title}</Text>
         </View>
         <Divider />
-        <View style={styles.content}>
-          {requestNotificationsInProgress ? (
-            <LoadingView />
-          ) : !userNotifications.length ? (
-            <View style={styles.emptyList}>
-              <Text style={styles.noNotifications}>
-                {LABELS.no_notifications}
-              </Text>
-            </View>
-          ) : (
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              keyExtractor={item => item.id}
-              data={userNotifications}
-              contentContainerStyle={styles.list}
-              refreshControl={
-                <RefreshControl
-                  refreshing={requestNotificationsInProgress}
-                  onRefresh={onRefresh}
-                />
-              }
-              renderItem={({ item }) => (
-                <NotificationItem
-                  photo={item.photos[0]}
-                  type={item.type}
-                  username={item.userCreator && item.userCreator.username}
-                  userPhoto={
-                    item.userCreator && item.userCreator.profilePicture.data
-                  }
-                  onPress={selectOnPressHandler(
-                    item.type,
-                    item.publicationId,
-                    item.photos
-                  )}
-                  createdAt={item.createdAt}
-                />
-              )}
-            />
-          )}
-        </View>
+        <View style={styles.content}>{renderContent()}</View>
       </View>
     </ImageBackground>
   );
@@ -123,7 +174,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   notifications: state.notifications,
-  session: state.session
+  userId: getLoggedUserId(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationsView);

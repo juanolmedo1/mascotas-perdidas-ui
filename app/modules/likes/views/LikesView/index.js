@@ -13,16 +13,15 @@ import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PublicationsList from '@core/components/PublicationsList';
 import styles from '@likes/views/LikesView/styles';
 import LikesLoadingView from '@likes/views/LikesLoadingView';
+import { getLoggedUserId } from '@app/modules/login/store/selectors';
 
 const LikesView = ({
   favorites,
   getFavorites,
   refreshments,
   refreshFavorites,
-  session
+  userId
 }) => {
-  const { id: userId } = session.profileInfo;
-
   useEffect(() => {
     getFavorites(userId);
   }, [getFavorites, userId]);
@@ -54,17 +53,16 @@ const LikesView = ({
         </View>
         <Divider />
         <View style={styles.content}>
-          {requestFavoritesInProgress || !session ? (
+          {requestFavoritesInProgress && !favoritesPublications.length && (
             <LikesLoadingView />
-          ) : (
-            <PublicationsList
-              data={favoritesPublications}
-              refreshControlProps={{
-                refreshing: requestFavoritesInProgress,
-                onRefresh: () => getFavorites(userId)
-              }}
-            />
           )}
+          <PublicationsList
+            data={favoritesPublications}
+            refreshControlProps={{
+              refreshing: requestFavoritesInProgress,
+              onRefresh: () => getFavorites(userId)
+            }}
+          />
         </View>
       </View>
     </ImageBackground>
@@ -79,7 +77,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   favorites: state.favorites,
   refreshments: state.refreshments,
-  session: state.session
+  userId: getLoggedUserId(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LikesView);
