@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
     $latitude: Float!, 
@@ -189,16 +189,19 @@ const DEACTIVATE_PUBLICATION_MUTATION = `mutation deactivatePublication($notifyP
 `;
 
 const getPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
   return response.getPublication;
 };
 
 const getPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_PUBLICATIONS_QUERY, payload);
   return response.getFilteredPublications;
 };
 
 const reportPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     REPORT_PUBLICATION_MUTATION,
     payload
@@ -207,6 +210,7 @@ const reportPublication = async payload => {
 };
 
 const deactivatePublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     DEACTIVATE_PUBLICATION_MUTATION,
     payload
@@ -215,6 +219,7 @@ const deactivatePublication = async payload => {
 };
 
 const deletePublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     DELETE_PUBLICATION_MUTATION,
     payload
@@ -223,11 +228,13 @@ const deletePublication = async payload => {
 };
 
 const getMatchingPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_MATCHINGS_QUERY, payload);
   return response.getMatchingPublications;
 };
 
 const getHeatMapPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_HEATMAP_PUBLICATIONS_QUERY,
     payload
@@ -236,6 +243,7 @@ const getHeatMapPublications = async payload => {
 };
 
 const updatePublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     UPDATE_PUBLICATION_MUTATION,
     payload

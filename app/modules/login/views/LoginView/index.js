@@ -16,7 +16,11 @@ const LoginView = ({ fetchLoginFunc, session, addProfileError }) => {
   const [username, onChangeUsername] = useState();
   const [password, onChangePassword] = useState();
 
-  const { requestProfileInProgress, requestProfileError } = session;
+  const {
+    requestProfileInProgress,
+    requestProfileError,
+    requestLoggedUserInProgress
+  } = session;
 
   const handleLogin = () => {
     if (username && password) {
@@ -103,7 +107,7 @@ const LoginView = ({ fetchLoginFunc, session, addProfileError }) => {
         <View style={styles.loginButton}>
           <Button
             text="Ingresar"
-            loading={requestProfileInProgress}
+            loading={requestProfileInProgress || requestLoggedUserInProgress}
             type="secondary"
             onPress={handleLogin}
           />

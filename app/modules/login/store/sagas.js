@@ -5,18 +5,23 @@ import {
   fetchLoginFailure,
   fetchLoginSuccess,
   fetchUserPublicationsSuccess,
-  fetchUserPublicationsFailure
+  fetchUserPublicationsFailure,
+  getLoggedUserSuccess,
+  getLoggedUserFailure,
+  getLoggedUserAndNavigate
 } from '@login/store/actions';
 import { put, takeLatest, call } from 'redux-saga/effects';
-import NavigationService from '@core/utils/navigation';
 import UserService from '@login/services/UserService';
+import AuthService from '@login/services/AuthService';
+import NavigationService from '@core/utils/navigation';
 
 export function* fetchLogin(action) {
   const { payload } = action;
   try {
-    const user = yield call(UserService.login, payload);
-    yield put(fetchLoginSuccess(user));
-    NavigationService.navigate('BottomNavigator');
+    const data = yield call(UserService.login, payload);
+    yield put(fetchLoginSuccess());
+    yield call(AuthService.setAccessToken, data.accessToken);
+    yield put(getLoggedUserAndNavigate());
   } catch (error) {
     const arg = error.response.errors[0].extensions.exception.invalidArg;
     const message = error.response.errors[0].message;
@@ -29,6 +34,37 @@ export function* fetchLogin(action) {
 
 export function* fetchLoginSaga() {
   yield takeLatest(types.FETCH_LOGIN__REQUEST, fetchLogin);
+}
+
+export function* getLoggedUserAndNavigateFn() {
+  try {
+    const user = yield call(UserService.getLoggedUser);
+    yield put(getLoggedUserSuccess(user));
+    NavigationService.navigate('BottomNavigator');
+    NavigationService.reset(0, 'BottomNavigator');
+  } catch (error) {
+    yield put(getLoggedUserFailure(error));
+  }
+}
+
+export function* getLoggedUserAndNavigateSaga() {
+  yield takeLatest(
+    types.GET_LOGGED_USER_NAVIGATE__REQUEST,
+    getLoggedUserAndNavigateFn
+  );
+}
+
+export function* getLoggedUserFn() {
+  try {
+    const user = yield call(UserService.getLoggedUser);
+    yield put(getLoggedUserSuccess(user));
+  } catch (error) {
+    yield put(getLoggedUserFailure(error));
+  }
+}
+
+export function* getLoggedUserSaga() {
+  yield takeLatest(types.GET_LOGGED_USER__REQUEST, getLoggedUserFn);
 }
 
 export function* saveNotificationToken(action) {

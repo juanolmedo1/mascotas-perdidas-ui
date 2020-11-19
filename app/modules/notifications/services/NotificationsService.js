@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_NOTIFICATIONS_QUERY = `query getUserNotifications($userId: String!){
   getUserNotifications(userId: $userId){
@@ -24,6 +24,7 @@ const DELETE_NOTIFICATION_MUTATION = `mutation deleteNotification($id: String!){
 }`;
 
 const getUserNotifications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_NOTIFICATIONS_QUERY,
     payload
@@ -32,6 +33,7 @@ const getUserNotifications = async payload => {
 };
 
 const deleteNotification = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     DELETE_NOTIFICATION_MUTATION,
     payload

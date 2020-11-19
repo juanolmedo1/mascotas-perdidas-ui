@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const NEW_PUBLICATION_MUTATION = `mutation createPublication(
     $additionalInformation: String,
@@ -48,6 +48,7 @@ const NEW_PUBLICATION_MUTATION = `mutation createPublication(
 }`;
 
 const createPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     NEW_PUBLICATION_MUTATION,
     payload
@@ -80,6 +81,7 @@ const CREATE_TEMPORAL_PUBLICATION = `mutation createTemporalPublication($creator
 }`;
 
 const createTemporalPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     CREATE_TEMPORAL_PUBLICATION,
     payload
@@ -96,6 +98,7 @@ const GET_COMMON_VALUES_QUERY = `query getCommonValues($breed: String!){
 }`;
 
 const getCommonValues = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_COMMON_VALUES_QUERY,
     payload
