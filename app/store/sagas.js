@@ -12,7 +12,10 @@ import { getTemporalPublicationSaga } from '@core/store/temporalPublication/saga
 import {
   fetchLoginSaga,
   fetchUserPublicationsSaga,
-  saveNotificationTokenSaga
+  saveNotificationTokenSaga,
+  getLoggedUserSaga,
+  getLoggedUserAndNavigateSaga,
+  logoutSaga
 } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
 import {
@@ -48,6 +51,8 @@ export default {
   fetchPublicationsSaga,
   fetchUserFavoritesSaga,
   fetchUserPublicationsSaga,
+  getLoggedUserSaga,
+  getLoggedUserAndNavigateSaga,
   getCommonBreedAttributesSaga,
   getConfirmUserPublicationSaga,
   getHeatMapPublicationsSaga,
@@ -55,6 +60,7 @@ export default {
   getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
   getTemporalPublicationSaga,
+  logoutSaga,
   onFavPublicationSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,

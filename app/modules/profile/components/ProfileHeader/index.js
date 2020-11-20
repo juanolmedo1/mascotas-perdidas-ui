@@ -5,8 +5,10 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import variables from '@styles/variables';
+import { connect } from 'react-redux';
+import { logout } from '@login/store/actions';
 
-const ProfileHeader = ({ profile, favCount }) => {
+const ProfileHeader = ({ profile, favCount, userLogout }) => {
   const { firstName, lastName, profilePicture, publications } = profile;
   const publicationsCount = (publications && publications.length) || 0;
   return (
@@ -50,7 +52,11 @@ const ProfileHeader = ({ profile, favCount }) => {
             color={variables.colors.backgroundDarkGrey}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.logoutIcon} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.logoutIcon}
+          onPress={() => userLogout()}
+          activeOpacity={0.8}
+        >
           <IconSimple
             name="logout"
             size={24}
@@ -63,4 +69,8 @@ const ProfileHeader = ({ profile, favCount }) => {
   );
 };
 
-export default ProfileHeader;
+const mapDispatchToProps = {
+  userLogout: logout
+};
+
+export default connect(null, mapDispatchToProps)(ProfileHeader);

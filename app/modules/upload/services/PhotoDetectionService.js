@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_TYPE_AND_BREED_QUERY = `query getTypeAndBreed($image: String!){
     getTypeAndBreed(image: $image) {
@@ -13,6 +13,7 @@ const GET_TYPE_AND_BREED_QUERY = `query getTypeAndBreed($image: String!){
 }`;
 
 const getTypeAndBreed = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_TYPE_AND_BREED_QUERY,
     payload

@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_TEMPORAL_PUBLICATION_QUERY = `query getTemporalPublication($id: String!){
   getTemporalPublication(id: $id){
@@ -19,6 +19,7 @@ const GET_TEMPORAL_PUBLICATION_QUERY = `query getTemporalPublication($id: String
   }
 }`;
 const getTemporalPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_TEMPORAL_PUBLICATION_QUERY,
     payload

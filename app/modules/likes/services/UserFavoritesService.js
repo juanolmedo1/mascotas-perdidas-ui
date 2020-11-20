@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_FAVORITES_QUERY = `query getUserFavoritePublications($userId: String!){
   getUserFavoritePublications(userId: $userId){
@@ -81,11 +81,13 @@ const UNFAV_PUBLICATION_MUTATION = `mutation removeUserFavoritePublication($user
 }`;
 
 const getFavoritesPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_FAVORITES_QUERY, payload);
   return response.getUserFavoritePublications;
 };
 
 const favPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     FAV_PUBLICATION_MUTATION,
     payload
@@ -94,6 +96,7 @@ const favPublication = async payload => {
 };
 
 const unfavPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     UNFAV_PUBLICATION_MUTATION,
     payload

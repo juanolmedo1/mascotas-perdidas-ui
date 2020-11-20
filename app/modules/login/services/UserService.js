@@ -1,24 +1,16 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const USER_LOGIN_QUERY = `query login($username: String!, $password: String!){
   login(options: {
     username: $username,
     password: $password
   }){
-    id
-    firstName
-    lastName
-    phoneNumber
-    dateOfBirth
-    email
-    username
-    profilePicture {
-      data
-    }
+    accessToken
   }
 }`;
 
 const login = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(USER_LOGIN_QUERY, payload);
   return response.login;
 };
@@ -31,6 +23,7 @@ const SAVE_NOTIFICATION_TOKEN = `mutation addNotificationToken($id: String!, $to
 }`;
 
 const saveNotificationToken = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     SAVE_NOTIFICATION_TOKEN,
     payload
@@ -52,6 +45,7 @@ const GET_USER_PUBLICATIONS_QUERY = `query getUserPublications($id: String!){
   }`;
 
 const getUserPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_USER_PUBLICATIONS_QUERY,
     payload
@@ -88,13 +82,36 @@ const REGISTER_USER_MUTATION = `mutation createUser(
 }`;
 
 const registerUser = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(REGISTER_USER_MUTATION, payload);
   return response.createUser;
+};
+
+const GET_LOGGED_USER_REQUEST = `query me {
+  me {
+    id
+    firstName
+    lastName
+    phoneNumber
+    dateOfBirth
+    email
+    username
+    profilePicture {
+      data
+    }
+  }
+}`;
+
+const getLoggedUser = async () => {
+  const GraphQLClient = await createGraphQLClient();
+  const response = await GraphQLClient.request(GET_LOGGED_USER_REQUEST);
+  return response.me;
 };
 
 export default {
   login,
   getUserPublications,
   registerUser,
-  saveNotificationToken
+  saveNotificationToken,
+  getLoggedUser
 };

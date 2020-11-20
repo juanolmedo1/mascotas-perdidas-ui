@@ -6,7 +6,6 @@ import {
   RefreshControl,
   Text
 } from 'react-native';
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 
 import { backgroundStyles, imageStyles } from '@styles/background';
@@ -84,17 +83,6 @@ const ProfileView = ({
       </ScrollView>
     </ImageBackground>
   );
-};
-
-ProfileView.propTypes = {
-  getUserPublications: PropTypes.func.isRequired,
-  session: PropTypes.shape({
-    requestInProgress: PropTypes.bool,
-    requestFailed: PropTypes.bool,
-    requestPublicationsInProgress: PropTypes.bool,
-    requestPublicationsFailed: PropTypes.bool,
-    profileInfo: PropTypes.object
-  }).isRequired
 };
 
 const mapDispatchToProps = {
