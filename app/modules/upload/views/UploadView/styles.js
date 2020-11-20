@@ -32,6 +32,24 @@ export default StyleSheet.create({
     fontSize: fonts.sizes.S,
     color: variables.colors.textBlack
   },
+  introductionIconContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  introductionText: {
+    flex: 5,
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S,
+    textAlign: 'left'
+  },
+  introductionContainer: {
+    paddingHorizontal: variables.spacings.M,
+    paddingVertical: variables.spacings.S,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   titleContainer: {
     height: 60,
     width: 200,

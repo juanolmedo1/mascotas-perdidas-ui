@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
@@ -21,6 +22,7 @@ import PET_ENTITY from '@entities/Pet';
 import PUBLICATION_ENTITY from '@entities/Publication';
 import styles from '@upload/views/UploadView/styles';
 import UbicationSelector from '@core/components/UbicationSelector';
+import variables from '@styles/variables';
 
 const UploadView = ({
   clearPublicationValues,
@@ -150,7 +152,18 @@ const UploadView = ({
             images={newPublication.photosArray}
             openPicker={openImagePicker}
           />
-          <Text style={styles.text}>{LABELS.ubicationInstructions}</Text>
+          <View style={styles.introductionContainer}>
+            <View style={styles.introductionIconContainer}>
+              <MaterialCommunityIcons
+                name={'lightbulb-on-outline'}
+                size={30}
+                color={variables.colors.backgroundOrange}
+              />
+            </View>
+            <Text style={styles.introductionText}>
+              {LABELS.ubicationInstructions}
+            </Text>
+          </View>
           <UbicationSelector
             startLatitude={publicationLatitude || userLatitude}
             startLongitude={publicationLongitude || userLongitude}

@@ -1,4 +1,4 @@
-import GraphQLClient from '@core/utils/GraphQLClient';
+import createGraphQLClient from '@core/utils/GraphQLClient';
 
 const GET_PUBLICATIONS_QUERY = `query getFilteredPublications(
     $latitude: Float!, 
@@ -64,6 +64,8 @@ const GET_PUBLICATION_QUERY = `query getPublication($id: String!) {
     creator {
       id
       username
+      firstName
+      lastName
       profilePicture {
         id
         type
@@ -163,17 +165,43 @@ const GET_HEATMAP_PUBLICATIONS_QUERY = `query getHeatMapPublications($publicatio
   }
 }`;
 
+const UPDATE_PUBLICATION_MUTATION = `mutation updatePublication($id: String!, $lastLatitude: Float, $lastLongitude: Float, $isActive: Boolean){
+  updatePublication(id:$id, input: {
+    ubicationData: {
+      lastLatitude: $lastLatitude
+      lastLongitude: $lastLongitude
+    },
+    isActive: $isActive
+  }){
+    id
+    ubication {
+      lastLatitude
+      lastLongitude
+    }
+  }
+}`;
+
+const DEACTIVATE_PUBLICATION_MUTATION = `mutation deactivatePublication($notifyPublicationId: String!, $publicationId: String!){
+  deactivatePublication(notifyPublicationId: $notifyPublicationId, publicationId: $publicationId){
+    id
+  }
+}
+`;
+
 const getPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_PUBLICATION_QUERY, payload);
   return response.getPublication;
 };
 
 const getPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_PUBLICATIONS_QUERY, payload);
   return response.getFilteredPublications;
 };
 
 const reportPublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     REPORT_PUBLICATION_MUTATION,
     payload
@@ -181,7 +209,17 @@ const reportPublication = async payload => {
   return response.reportPublication;
 };
 
+const deactivatePublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
+  const response = await GraphQLClient.request(
+    DEACTIVATE_PUBLICATION_MUTATION,
+    payload
+  );
+  return response.deletePublication;
+};
+
 const deletePublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     DELETE_PUBLICATION_MUTATION,
     payload
@@ -190,11 +228,13 @@ const deletePublication = async payload => {
 };
 
 const getMatchingPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(GET_MATCHINGS_QUERY, payload);
   return response.getMatchingPublications;
 };
 
 const getHeatMapPublications = async payload => {
+  const GraphQLClient = await createGraphQLClient();
   const response = await GraphQLClient.request(
     GET_HEATMAP_PUBLICATIONS_QUERY,
     payload
@@ -202,11 +242,22 @@ const getHeatMapPublications = async payload => {
   return response.getHeatMapPublications;
 };
 
+const updatePublication = async payload => {
+  const GraphQLClient = await createGraphQLClient();
+  const response = await GraphQLClient.request(
+    UPDATE_PUBLICATION_MUTATION,
+    payload
+  );
+  return response.updatePublication;
+};
+
 export default {
+  deactivatePublication,
   deletePublication,
   getHeatMapPublications,
   getMatchingPublications,
   getPublications,
   getPublication,
-  reportPublication
+  reportPublication,
+  updatePublication
 };

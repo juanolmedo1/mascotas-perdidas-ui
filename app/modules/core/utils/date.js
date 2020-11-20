@@ -115,7 +115,7 @@ const difference = creationDate => {
           if (daysDifference === 1) {
             return `Hace ${daysDifference} día`;
           }
-          return `Hace ${daysDifference} dias`;
+          return `Hace ${daysDifference} días`;
         } else {
           const monthsDifference = differenceInMonths(
             new Date(Date.now()),

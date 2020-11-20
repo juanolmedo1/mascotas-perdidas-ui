@@ -60,7 +60,8 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   headerIconContainer: {
-    padding: variables.spacings.M
+    paddingVertical: variables.spacings.M,
+    paddingRight: variables.spacings.M
   },
   iconsContainer: {
     flexDirection: 'row',

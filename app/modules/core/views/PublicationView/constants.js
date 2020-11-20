@@ -7,7 +7,10 @@ export const LABELS = {
     cancel: 'Cancelar',
     delete: 'Eliminar',
     similarPublications: 'Búsqueda inteligente',
-    heatMap: 'Mapa de calor'
+    heatMap: 'Mapa de calor',
+    foundedHome: '¡Le encontré un hogar!',
+    foundedPet: '¡Encontré mi mascota!',
+    foundedOwner: '¡Encontré al dueño!'
   },
   dialogs: {
     delete: {

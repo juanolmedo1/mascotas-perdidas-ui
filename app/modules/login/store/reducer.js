@@ -9,7 +9,9 @@ const initialState = {
   saveNotificationTokenInProgress: false,
   saveNotificationTokenFailed: false,
   notificationToken: null,
-  profileInfo: {}
+  requestLoggedUserInProgress: false,
+  requestLogguedUserFailed: false,
+  profileInfo: null
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -32,6 +34,28 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         requestProfileFailed: false,
         requestProfileInProgress: false,
+        requestLoggedUserInProgress: true
+      };
+
+    case (types.GET_LOGGED_USER__REQUEST,
+    types.GET_LOGGED_USER_NAVIGATE__REQUEST):
+      return {
+        ...state,
+        requestLoggedUserInProgress: true,
+        requestLogguedUserFailed: false
+      };
+    case types.GET_LOGGED_USER__FAILURE:
+      return {
+        ...state,
+        requestLoggedUserInProgress: false,
+        requestLogguedUserFailed: true,
+        profileInfo: payload
+      };
+    case types.GET_LOGGED_USER__SUCCESS:
+      return {
+        ...state,
+        requestLoggedUserInProgress: false,
+        requestLogguedUserFailed: false,
         profileInfo: payload
       };
 

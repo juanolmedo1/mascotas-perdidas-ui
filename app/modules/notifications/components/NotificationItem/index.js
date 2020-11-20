@@ -1,7 +1,8 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import styles from '@notifications/components/NotificationItem/styles';
+
 import DateUtils from '@core/utils/date';
+import styles from '@notifications/components/NotificationItem/styles';
 
 const NotificationItem = ({
   type,
@@ -18,7 +19,7 @@ const NotificationItem = ({
     TEMPORAL_PUBLICATION: 'Publicación temporal'
   };
   const posibleDescriptions = {
-    POSSIBLE_MATCHING: `@${username} creó una publicación que puede coincidir con una tuya. Échale un vistazo!`,
+    POSSIBLE_MATCHING: `@${username} creó una publicación que puede coincidir con una tuya. ¡Échale un vistazo!`,
     DOBLE_CONFIRMATION: `@${username} indicó que sus publicaciones se corresponden. Por favor, confirme si esto es así.`,
     DELETED_FOR_COMPLAINTS:
       'Varios usuarios reportaron la publicación y, por lo tanto, fue eliminada.',

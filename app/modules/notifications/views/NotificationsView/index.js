@@ -42,19 +42,32 @@ const NotificationsView = ({
     }, [getNotifications, userId, setNewNotification])
   );
 
-  const selectOnPressHandler = (type, publicationId, photos) => {
-    switch (type) {
-      case NOTIFICATION_ENITITY.types.DELETED_FOR_COMPLAINTS:
+  const selectOnPressHandler = (
+    notificationId,
+    notificationType,
+    publicationId,
+    photos
+  ) => {
+    const { types } = NOTIFICATION_ENITITY;
+    switch (notificationType) {
+      case types.DELETED_FOR_COMPLAINTS:
         return () =>
           NavigationService.navigate('DeletedPublication', { photos });
-      case NOTIFICATION_ENITITY.types.TEMPORAL_PUBLICATION:
+      case types.DOBLE_CONFIRMATION:
+        return () =>
+          NavigationService.navigate('DobleConfirmation', {
+            confirmUserPublicationId: publicationId[0],
+            notificationUserPublicationId: publicationId[1],
+            notificationId: notificationId
+          });
+      case types.POSSIBLE_MATCHING:
+        return () =>
+          NavigationService.navigate('Publication', { id: publicationId[0] });
+      case types.TEMPORAL_PUBLICATION:
         return () =>
           NavigationService.navigate('TemporalPublication', {
             id: publicationId[0]
           });
-      default:
-        return () =>
-          NavigationService.navigate('Publication', { id: publicationId[0] });
     }
   };
 
@@ -100,54 +113,6 @@ const NotificationsView = ({
           requestNotificationsInProgress
         )
       : renderEmptyList();
-
-    // if (!userNotifications) {
-    //   // Primer pedido de notificaciones, mostrar Skeleton View
-    //   return <NotificationsLoadingView />;
-    // } else {
-    //   if (userNotifications.length) {
-    //     // El usuario tiene notificaciones para mostrar
-    //     return (
-    //       <FlatList
-    //         showsVerticalScrollIndicator={false}
-    //         keyExtractor={item => item.id}
-    //         data={userNotifications}
-    //         contentContainerStyle={styles.list}
-    //         refreshControl={
-    //           <RefreshControl
-    //             refreshing={requestNotificationsInProgress}
-    //             onRefresh={onRefresh}
-    //           />
-    //         }
-    //         renderItem={({ item }) => (
-    //           <NotificationItem
-    //             photo={item.photos[0]}
-    //             type={item.type}
-    //             username={item.userCreator && item.userCreator.username}
-    //             userPhoto={
-    //               item.userCreator && item.userCreator.profilePicture.data
-    //             }
-    //             onPress={selectOnPressHandler(
-    //               item.type,
-    //               item.publicationId,
-    //               item.photos
-    //             )}
-    //             createdAt={item.createdAt}
-    //           />
-    //         )}
-    //       />
-    //     );
-    //   } else {
-    //     // El usuario NO tiene notificaciones para mostrar
-    //     return (
-    //       <View style={styles.emptyList}>
-    //         <Text style={styles.noNotifications}>
-    //           {LABELS.no_notifications}
-    //         </Text>
-    //       </View>
-    //     );
-    //   }
-    // }
   };
 
   return (

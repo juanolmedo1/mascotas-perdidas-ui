@@ -15,5 +15,5 @@ export const LABELS = {
   },
   photosInstructions: 'Por favor, seleccione al menos una foto y como máximo 3',
   ubicationInstructions:
-    'Presione el marcador unos segundos para poder arrastrarlo y seleccionar la ubicación deseada'
+    'Presione el marcador unos segundos y arrástrelo o toque sobre el mapa para establecer la ubicación de la mascota'
 };
