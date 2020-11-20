@@ -8,7 +8,8 @@ import {
   fetchUserPublicationsFailure,
   getLoggedUserSuccess,
   getLoggedUserFailure,
-  getLoggedUserAndNavigate
+  getLoggedUserAndNavigate,
+  clearLoginStore
 } from '@login/store/actions';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import UserService from '@login/services/UserService';
@@ -34,6 +35,16 @@ export function* fetchLogin(action) {
 
 export function* fetchLoginSaga() {
   yield takeLatest(types.FETCH_LOGIN__REQUEST, fetchLogin);
+}
+
+export function* logout() {
+  NavigationService.navigate('LoginNavigator');
+  NavigationService.reset(0, 'LoginNavigator');
+  yield call(AuthService.removeAccessToken);
+}
+
+export function* logoutSaga() {
+  yield takeLatest(types.LOGOUT, logout);
 }
 
 export function* getLoggedUserAndNavigateFn() {

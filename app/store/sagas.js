@@ -14,7 +14,8 @@ import {
   fetchUserPublicationsSaga,
   saveNotificationTokenSaga,
   getLoggedUserSaga,
-  getLoggedUserAndNavigateSaga
+  getLoggedUserAndNavigateSaga,
+  logoutSaga
 } from '@login/store/sagas';
 import { fetchPublicationsSaga } from '@home/store/sagas';
 import {
@@ -59,6 +60,7 @@ export default {
   getResolvedCandidatesSaga,
   getSimilarPublicationsSaga,
   getTemporalPublicationSaga,
+  logoutSaga,
   onFavPublicationSaga,
   onPublicationCreatedSaga,
   onSelectedImagesSaga,

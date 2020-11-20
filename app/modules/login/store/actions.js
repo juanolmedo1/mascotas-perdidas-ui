@@ -1,4 +1,5 @@
 export const types = {
+  LOGOUT: 'LOGOUT',
   FETCH_LOGIN__FAILURE: 'FETCH_LOGIN__FAILURE',
   FETCH_LOGIN__REQUEST: 'FETCH_LOGIN__REQUEST',
   FETCH_LOGIN__SUCCESS: 'FETCH_LOGIN__SUCCESS',
@@ -66,4 +67,8 @@ export const fetchUserPublicationsFailure = error => ({
 export const fetchUserPublicationsSuccess = publications => ({
   payload: publications,
   type: types.FETCH_USER_PUBLICATIONS__SUCCESS
+});
+
+export const logout = () => ({
+  type: types.LOGOUT
 });
