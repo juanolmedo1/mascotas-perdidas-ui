@@ -31,6 +31,7 @@ import SingleSelectSize from '@upload/components/SingleSelectSize';
 import styles from '@upload/views/FiltersView/styles';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import variables from '@styles/variables';
+import FiltersLoadingView from '@upload/views/FiltersLoadingView';
 
 const FiltersView = ({
   createPublication,
@@ -107,7 +108,7 @@ const FiltersView = ({
         </View>
         {newPublication.extractingColors ||
         newPublication.requestCommonBreedValuesInProgress ? (
-          <LoadingView />
+          <FiltersLoadingView />
         ) : (
           <View>
             {preloadedAttributes ? (
