@@ -159,6 +159,7 @@ const PublicationView = ({
     ) {
       setModalVisible(false);
       setResolvePublicationButtonPressed(false);
+      clearPublication();
       const { type } = data;
       const navigateParams = {
         id: id,
@@ -190,6 +191,7 @@ const PublicationView = ({
       }
     }
   }, [
+    clearPublication,
     data,
     id,
     resolvePublicationButtonPressed,
@@ -248,6 +250,7 @@ const PublicationView = ({
 
   const onPressSimilarPublicationsHandler = () => {
     toggleModal();
+    clearPublication();
     NavigationService.navigate('SimilarPublicationsNavigator', {
       screen: 'SimilarPublications',
       params: { id: id }
@@ -256,6 +259,7 @@ const PublicationView = ({
 
   const onPressHeatmapHandler = () => {
     toggleModal();
+    clearPublication();
     const { type } = data.pet;
     const { firstLatitude, firstLongitude } = data.ubication;
     NavigationService.navigate('HeatmapPublications', {
@@ -356,7 +360,7 @@ const PublicationView = ({
                   onPress={onPressResolvePublicationHandler}
                 >
                   {resolvePublicationButtonPressed ? (
-                    <LoadingView contain={true} />
+                    <LoadingView contain={true} size="small" />
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedPet}
@@ -374,7 +378,7 @@ const PublicationView = ({
                   onPress={onPressResolvePublicationHandler}
                 >
                   {resolvePublicationButtonPressed ? (
-                    <LoadingView contain={true} />
+                    <LoadingView contain={true} size="small" />
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedOwner}
@@ -392,7 +396,7 @@ const PublicationView = ({
                   onPress={onPressResolveAdoptionPublicationHandler}
                 >
                   {resolvePublicationButtonPressed ? (
-                    <LoadingView contain={true} />
+                    <LoadingView contain={true} size="small" />
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedHome}

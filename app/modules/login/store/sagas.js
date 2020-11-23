@@ -8,8 +8,7 @@ import {
   fetchUserPublicationsFailure,
   getLoggedUserSuccess,
   getLoggedUserFailure,
-  getLoggedUserAndNavigate,
-  clearLoginStore
+  getLoggedUserAndNavigate
 } from '@login/store/actions';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import UserService from '@login/services/UserService';

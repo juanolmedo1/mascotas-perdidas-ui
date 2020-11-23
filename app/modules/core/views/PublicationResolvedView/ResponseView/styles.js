@@ -40,24 +40,32 @@ export default StyleSheet.create({
     marginRight: variables.spacings.M
   },
   image: {
-    width: 200,
-    height: 200
+    width: '100%',
+    height: 250
   },
   imageContainer: {
-    margin: variables.spacings.M
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   response: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: variables.spacings.L
+    alignItems: 'center'
   },
   responseContainer: {
     flex: 1
   },
-  responseText: {
-    ...fonts.weights.bold,
+  title: {
+    ...fonts.weights.semibold,
     fontSize: fonts.sizes.L,
+    marginBottom: variables.spacings.M
+  },
+  responseText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.L,
+    marginTop: variables.spacings.S,
+    paddingHorizontal: variables.spacings.L,
     textAlign: 'center'
   }
 });

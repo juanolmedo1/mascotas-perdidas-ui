@@ -146,7 +146,7 @@ const DobleConfirmation = ({
               <Button
                 text={LABELS.buttons.reject}
                 onPress={onRejectHandler}
-                type="primary"
+                type="tertiary"
               />
             </View>
           </View>

@@ -37,7 +37,7 @@ export default StyleSheet.create({
     marginHorizontal: variables.spacings.S
   },
   confirmationText: {
-    ...fonts.weights.bold,
+    ...fonts.weights.regular,
     fontSize: fonts.sizes.SM,
     textAlign: 'center'
   },

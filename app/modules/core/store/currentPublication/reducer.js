@@ -149,6 +149,13 @@ export default function(state = initialState, { type, payload }) {
         similarPublicationsRequestFailed: false,
         similarPublications: payload.similarPublications
       };
+    case types.CLEAR_SIMILAR_PUBLICATIONS:
+      return {
+        ...state,
+        similarPublicationsRequestInProgress: false,
+        similarPublicationsRequestFailed: false,
+        similarPublications: null
+      };
     case types.REPORT_PUBLICATION_FAILURE:
       return {
         ...state,

@@ -142,7 +142,8 @@ const ResponseView = ({
           </TouchableOpacity>
         </View>
         <View style={styles.response}>
-          <View styles={styles.imageContainer}>
+          {successUpdate && <Text style={styles.title}>{LABELS.title}</Text>}
+          <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: publicationPhoto }} />
           </View>
           <View style={iconContainerStyle}>{icon}</View>
