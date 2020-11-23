@@ -6,15 +6,18 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import React from 'react';
 
 import * as newPublicationActions from '@upload/store/actions';
 import { backgroundStyles, imageStyles } from '@styles/background';
-import { LABELS } from '@upload/views/BreedsView/constants';
+import {
+  LABELS,
+  INAPPROPRIATE_IMAGE_CONSTANT
+} from '@upload/views/BreedsView/constants';
 import Button from '@core/components/Button';
-import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import styles from '@upload/views/BreedsView/styles';
@@ -117,6 +120,24 @@ const BreedsView = ({
     );
   };
 
+  const renderInappropriateContent = () => {
+    return (
+      <View style={styles.inappropriateContainer}>
+        <Text style={styles.inappropriateTitle}>
+          {LABELS.inappropriateTitle}
+        </Text>
+        <View style={styles.errorContainer}>
+          <IconAnt
+            name="exclamation"
+            size={100}
+            color={variables.colors.backgroundRed}
+          />
+        </View>
+        <Text style={styles.inappropriateText}>{LABELS.inappropriateText}</Text>
+      </View>
+    );
+  };
+
   return (
     <ImageBackground
       imageStyle={imageStyles}
@@ -137,6 +158,8 @@ const BreedsView = ({
       </View>
       {!newPublication.petPrediction ? (
         <BreedsLoadingView />
+      ) : newPublication.petPrediction.type === INAPPROPRIATE_IMAGE_CONSTANT ? (
+        renderInappropriateContent()
       ) : newPublication.petPrediction.breed.length === 0 ? (
         renderNotDetectedTypeContent()
       ) : (

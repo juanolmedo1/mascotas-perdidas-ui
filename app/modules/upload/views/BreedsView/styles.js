@@ -20,6 +20,16 @@ export default StyleSheet.create({
   contentContainer: {
     marginTop: variables.spacings.S
   },
+  errorContainer: {
+    height: 120,
+    width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: variables.colors.borderRed,
+    borderRadius: 60,
+    marginVertical: variables.spacings.XL
+  },
   breedElement: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -60,6 +70,22 @@ export default StyleSheet.create({
   breedProb: {
     ...fonts.weights.bold,
     marginHorizontal: variables.spacings.S
+  },
+  inappropriateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: variables.spacings.M
+  },
+  inappropriateText: {
+    ...fonts.weights.semibold,
+    fontSize: fonts.sizes.L,
+    textAlign: 'center'
+  },
+  inappropriateTitle: {
+    ...fonts.weights.bold,
+    fontSize: fonts.sizes.L,
+    textAlign: 'center'
   },
   introductionContainer: {
     marginHorizontal: variables.spacings.L
