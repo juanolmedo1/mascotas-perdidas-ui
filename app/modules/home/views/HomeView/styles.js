@@ -38,6 +38,15 @@ export default StyleSheet.create({
     height: 200,
     marginBottom: 10
   },
+  emptyList: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  noPublications: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.L
+  },
   header: {
     paddingHorizontal: variables.spacings.L,
     paddingTop: variables.spacings.M,

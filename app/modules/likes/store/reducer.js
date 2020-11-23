@@ -5,7 +5,7 @@ const initialState = {
   requestFavoritesFailed: false,
   requestFavoriteStatusChangeInProgress: false,
   requestFavoriteStatusChangeFailed: false,
-  favoritesPublications: []
+  favoritesPublications: null
 };
 
 const addFavoritePublication = (state, payload) => {

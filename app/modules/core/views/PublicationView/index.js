@@ -45,6 +45,7 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
 import UbicationMarker from '@core/components/UbicationMarker';
 import ImageSlider from '@core/components/ImageSlider';
+import PublicationLoadingView from '@core/views/PublicationLoadingView';
 
 const PublicationView = ({
   clearCandidates,
@@ -84,7 +85,10 @@ const PublicationView = ({
   const isPublicationOwner = publicationCreatorId === loggedUserId;
 
   const checkUserFavorite = () => {
-    return favoritesPublications.findIndex(favorite => favorite.id === id) > -1;
+    return (
+      favoritesPublications &&
+      favoritesPublications.findIndex(favorite => favorite.id === id) > -1
+    );
   };
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -154,6 +158,8 @@ const PublicationView = ({
       !resolvedCandidatesRequestFailed
     ) {
       setModalVisible(false);
+      setResolvePublicationButtonPressed(false);
+      clearPublication();
       const { type } = data;
       const navigateParams = {
         id: id,
@@ -185,6 +191,7 @@ const PublicationView = ({
       }
     }
   }, [
+    clearPublication,
     data,
     id,
     resolvePublicationButtonPressed,
@@ -243,6 +250,7 @@ const PublicationView = ({
 
   const onPressSimilarPublicationsHandler = () => {
     toggleModal();
+    clearPublication();
     NavigationService.navigate('SimilarPublicationsNavigator', {
       screen: 'SimilarPublications',
       params: { id: id }
@@ -251,6 +259,7 @@ const PublicationView = ({
 
   const onPressHeatmapHandler = () => {
     toggleModal();
+    clearPublication();
     const { type } = data.pet;
     const { firstLatitude, firstLongitude } = data.ubication;
     NavigationService.navigate('HeatmapPublications', {
@@ -351,7 +360,7 @@ const PublicationView = ({
                   onPress={onPressResolvePublicationHandler}
                 >
                   {resolvePublicationButtonPressed ? (
-                    <LoadingView contain={true} />
+                    <LoadingView contain={true} size="small" />
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedPet}
@@ -369,7 +378,7 @@ const PublicationView = ({
                   onPress={onPressResolvePublicationHandler}
                 >
                   {resolvePublicationButtonPressed ? (
-                    <LoadingView contain={true} />
+                    <LoadingView contain={true} size="small" />
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedOwner}
@@ -387,7 +396,7 @@ const PublicationView = ({
                   onPress={onPressResolveAdoptionPublicationHandler}
                 >
                   {resolvePublicationButtonPressed ? (
-                    <LoadingView contain={true} />
+                    <LoadingView contain={true} size="small" />
                   ) : (
                     <Text style={styles.modalText}>
                       {LABELS.modal.foundedHome}
@@ -451,7 +460,7 @@ const PublicationView = ({
   let content = null;
 
   if (requestInProgress || !data) {
-    content = <LoadingView />;
+    content = <PublicationLoadingView />;
   } else {
     if (data) {
       const {

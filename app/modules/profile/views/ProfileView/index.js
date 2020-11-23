@@ -1,11 +1,5 @@
 import { connect } from 'react-redux';
-import {
-  ImageBackground,
-  View,
-  ScrollView,
-  RefreshControl,
-  Text
-} from 'react-native';
+import { ImageBackground, View, ScrollView, Text } from 'react-native';
 import React, { useEffect } from 'react';
 
 import { backgroundStyles, imageStyles } from '@styles/background';
@@ -15,9 +9,10 @@ import { setHasToRefreshProfile } from '@core/store/refreshments/actions';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import ProfileHeader from '@profile/components/ProfileHeader';
 import ProfilePublications from '@profile/components/ProfilePublications';
-import LoadingView from '@core/views/LoadingView';
 import styles from '@profile/views/ProfileView/styles';
 import { getFavorites } from '@app/modules/likes/store/selectors';
+import { LABELS } from '@profile/views/ProfileView/constants';
+import ProfileLoadingView from '@profile/views/ProfileLoadingView';
 
 const ProfileView = ({
   session,
@@ -46,8 +41,24 @@ const ProfileView = ({
     ])
   );
 
-  const refresh = () => {
-    getUserPublications({ id: profileInfo.id });
+  const favCount = (favorites && favorites.length) || 0;
+
+  const renderProfileSkeletonView = () => <ProfileLoadingView />;
+  const renderEmptyList = () => (
+    <View style={styles.noPublicationsContainer}>
+      <Text style={styles.noPublicationsText}>{LABELS.no_publications}</Text>
+    </View>
+  );
+  const renderUserPublications = () => (
+    <ProfilePublications publications={profileInfo.publications} />
+  );
+
+  const renderContent = () => {
+    return !profileInfo.publications
+      ? renderProfileSkeletonView()
+      : profileInfo.publications.length
+      ? renderUserPublications()
+      : renderEmptyList();
   };
 
   return (
@@ -59,26 +70,10 @@ const ProfileView = ({
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
-        refreshControl={
-          <RefreshControl
-            refreshing={requestPublicationsInProgress}
-            onRefresh={refresh}
-          />
-        }
       >
         <View style={styles.container}>
-          <ProfileHeader profile={profileInfo} favCount={favorites.length} />
-          {requestPublicationsInProgress ? (
-            <LoadingView />
-          ) : !profileInfo.publications || !profileInfo.publications.length ? (
-            <View style={styles.noPublicationsContainer}>
-              <Text style={styles.noPublicationsText}>
-                No tiene ninguna publicación
-              </Text>
-            </View>
-          ) : (
-            <ProfilePublications publications={profileInfo.publications} />
-          )}
+          <ProfileHeader profile={profileInfo} favCount={favCount} />
+          {renderContent()}
         </View>
       </ScrollView>
     </ImageBackground>

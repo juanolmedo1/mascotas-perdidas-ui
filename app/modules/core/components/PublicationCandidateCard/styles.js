@@ -25,7 +25,9 @@ export default StyleSheet.create({
   image: {
     flex: 6,
     width: 150,
-    height: 130
+    height: 130,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8
   },
   userContainer: {
     flex: 4,

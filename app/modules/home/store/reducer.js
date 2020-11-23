@@ -10,7 +10,7 @@ const initialState = {
     petGender: [],
     petSize: []
   },
-  data: []
+  data: null
 };
 
 const add = (array, value) => {

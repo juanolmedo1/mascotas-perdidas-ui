@@ -3,13 +3,13 @@ import {
   CardStyleInterpolators
 } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
-import LoginNavigator from '@login/LoginNavigator';
 import BottomNavigator from '@core/components/BottomNavigator';
 import { connect } from 'react-redux';
 import { getLoggedUser } from '@login/store/actions';
 import AuthService from '@login/services/AuthService';
 import RNBootSplash from 'react-native-bootsplash';
-import { getProfile } from './modules/login/store/selectors';
+import { getProfile } from '@login/store/selectors';
+import LoginNavigator from '@login/LoginNavigator';
 
 const Stack = createStackNavigator();
 

@@ -17,7 +17,7 @@ const initialState = {
   updatedPublications: false,
   updatePublicationsInProgress: false,
   updatePublicationsFailed: false,
-  userNotifications: []
+  userNotifications: null
 };
 
 export default function(state = initialState, { type, payload }) {

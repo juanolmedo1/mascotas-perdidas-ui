@@ -18,12 +18,12 @@ import {
   INAPPROPRIATE_IMAGE_CONSTANT
 } from '@upload/views/BreedsView/constants';
 import Button from '@core/components/Button';
-import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import styles from '@upload/views/BreedsView/styles';
 import variables from '@styles/variables';
 import Divider from '@app/modules/core/components/Divider';
+import BreedsLoadingView from '@upload/views/BreedsLoadingView';
 
 const BreedsView = ({
   newPublication,
@@ -157,7 +157,7 @@ const BreedsView = ({
         </TouchableOpacity>
       </View>
       {!newPublication.petPrediction ? (
-        <LoadingView />
+        <BreedsLoadingView />
       ) : newPublication.petPrediction.type === INAPPROPRIATE_IMAGE_CONSTANT ? (
         renderInappropriateContent()
       ) : newPublication.petPrediction.breed.length === 0 ? (

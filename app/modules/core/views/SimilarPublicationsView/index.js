@@ -14,15 +14,16 @@ import * as currentPublicationActions from '@core/store/currentPublication/actio
 import { backgroundStyles, imageStyles } from '@styles/background';
 import { LABELS } from '@core/views/SimilarPublicationsView/constants';
 import Divider from '@core/components/Divider';
-import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PublicationsList from '@core/components/PublicationsList';
 import styles from '@core/views/SimilarPublicationsView/styles';
 import variables from '@app/styles/variables';
+import SimilarPublicationsLoadingView from '@core/views/SimilarPublicationsLoadingView';
 
 const SimilarPublicationsView = ({
   currentPublication,
+  clearSimilarPublications,
   getSimilarPublications,
   route
 }) => {
@@ -37,14 +38,15 @@ const SimilarPublicationsView = ({
 
   useEffect(() => {
     getSimilarPublications(id);
-  }, [getSimilarPublications, id]);
+    return () => clearSimilarPublications();
+  }, [clearSimilarPublications, getSimilarPublications, id]);
 
   const renderContent = () => {
     const hasPublicationsToShow =
       (publicationsViewed && publicationsViewed.length > 0) ||
       (publicationsNotViewed && publicationsNotViewed.length > 0);
-    if (similarPublicationsRequestInProgress) {
-      return <LoadingView />;
+    if (!similarPublications) {
+      return <SimilarPublicationsLoadingView />;
     }
     if (!hasPublicationsToShow || similarPublicationsRequestFailed) {
       return <PublicationsList data={[]} />;
@@ -100,7 +102,9 @@ const SimilarPublicationsView = ({
 
 const mapDispatchToProps = {
   getSimilarPublications: id =>
-    currentPublicationActions.getSimilarPublications(id)
+    currentPublicationActions.getSimilarPublications(id),
+  clearSimilarPublications: () =>
+    currentPublicationActions.clearSimilarPublications()
 };
 
 const mapStateToProps = state => ({
