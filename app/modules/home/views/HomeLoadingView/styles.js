@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import variables from '@app/styles/variables';
+import fonts from '@app/styles/fonts';
 
 export default StyleSheet.create({
   content: {
@@ -15,6 +16,24 @@ export default StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
     margin: 15
+  },
+  ubicationTextContainer: {
+    flexDirection: 'row',
+    marginHorizontal: variables.spacings.L,
+    marginBottom: variables.spacings.S,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ubicationText: {
+    height: 10,
+    width: 70,
+    borderRadius: 4
+  },
+  divider: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.XS,
+    color: variables.colors.textLightGrey,
+    marginHorizontal: variables.spacings.XS
   },
   header: {
     flex: 1,

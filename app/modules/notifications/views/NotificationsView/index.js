@@ -93,6 +93,7 @@ const NotificationsView = ({
           username={item.userCreator && item.userCreator.username}
           userPhoto={item.userCreator && item.userCreator.profilePicture.data}
           onPress={selectOnPressHandler(
+            item.id,
             item.type,
             item.publicationId,
             item.photos

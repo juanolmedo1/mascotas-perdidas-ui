@@ -1,6 +1,6 @@
 import SkeletonView from '@core/components/SkeletonView';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from '@home/views/HomeLoadingView/styles';
 
 export const PublicationItem = () => {
@@ -18,16 +18,30 @@ export const PublicationItem = () => {
     </View>
   );
 };
+export const UbicationItem = () => {
+  return (
+    <View style={styles.ubicationTextContainer}>
+      <SkeletonView containerStyle={styles.ubicationText} />
+      <Text style={styles.divider}>|</Text>
+      <SkeletonView containerStyle={styles.ubicationText} />
+      <Text style={styles.divider}>|</Text>
+      <SkeletonView containerStyle={styles.ubicationText} />
+    </View>
+  );
+};
 
 const HomeLoadingView = () => {
   return (
-    <View style={styles.content}>
-      <PublicationItem />
-      <PublicationItem />
-      <PublicationItem />
-      <PublicationItem />
-      <PublicationItem />
-      <PublicationItem />
+    <View>
+      <UbicationItem />
+      <View style={styles.content}>
+        <PublicationItem />
+        <PublicationItem />
+        <PublicationItem />
+        <PublicationItem />
+        <PublicationItem />
+        <PublicationItem />
+      </View>
     </View>
   );
 };

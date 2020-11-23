@@ -24,7 +24,6 @@ import {
 } from '@app/modules/core/store/ubication/actions';
 import Divider from '@core/components/Divider';
 import HomeViewToggler from '@home/components/HomeViewToggler';
-import LoadingView from '@core/views/LoadingView';
 import NavigationService from '@core/utils/navigation';
 import patternBackground from '@app/assets/background/patternBackground.jpeg';
 import PublicationIcon from '@core/components/PublicationIcon';
@@ -36,6 +35,8 @@ import messaging from '@react-native-firebase/messaging';
 import { saveNotificationToken } from '@login/store/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeLoadingView from '@home/views/HomeLoadingView';
+import { LABELS } from '@home/views/HomeView/constants';
+import MapLoadingView from '@home/views/MapLoadingView';
 
 const HomeView = ({
   getPublications,
@@ -122,12 +123,33 @@ const HomeView = ({
 
   const { requestFailed, requestInProgress, data } = publications;
 
-  const renderList = () => {
-    return requestInProgress ||
-      !ubications.latitude ||
-      !ubications.longitude ? (
-      <HomeLoadingView />
-    ) : (
+  const publicationListNotEmpty = data && data.length;
+  let ubicationText;
+  if (publicationListNotEmpty) {
+    const country = data[0].ubication.country;
+    const adminArea1 = data[0].ubication.administrativeAreaLevel1;
+    const locality = data[0].ubication.locality;
+    ubicationText = `${locality} | ${adminArea1} | ${country}`;
+  }
+
+  const UbicationComponent = () => (
+    <View style={styles.ubicationTextContainer}>
+      <Text style={styles.ubicationText}>{ubicationText}</Text>
+    </View>
+  );
+
+  const renderHomeSkeletonView = () => <HomeLoadingView />;
+  const renderEmptyList = () => (
+    <View>
+      <UbicationComponent />
+      <View style={styles.emptyList}>
+        <Text style={styles.noPublications}>{LABELS.no_publications}</Text>
+      </View>
+    </View>
+  );
+  const renderHomeList = () => (
+    <View>
+      <UbicationComponent />
       <PublicationsList
         data={data}
         refreshControlProps={{
@@ -135,42 +157,56 @@ const HomeView = ({
           onRefresh: refresh
         }}
       />
-    );
+    </View>
+  );
+
+  const renderList = () => {
+    return !data || !ubications.latitude || !ubications.longitude
+      ? renderHomeSkeletonView()
+      : data.length
+      ? renderHomeList()
+      : renderEmptyList();
   };
 
   const renderPublications = () => {
-    return data.map(publication => (
-      <Marker
-        coordinate={{
-          latitude: publication.ubication.firstLatitude,
-          longitude: publication.ubication.firstLongitude
-        }}
-        key={publication.id}
-      >
-        <PublicationIcon type={publication.type} />
-        <Callout
-          style={styles.callout}
-          tooltip={true}
-          onPress={() =>
-            NavigationService.navigate('Publication', {
-              id: publication.id
-            })
-          }
+    return (
+      data &&
+      data.map(publication => (
+        <Marker
+          coordinate={{
+            latitude: publication.ubication.firstLatitude,
+            longitude: publication.ubication.firstLongitude
+          }}
+          key={publication.id}
         >
-          <Text style={styles.calloutText}>
-            <Image
-              style={styles.calloutImage}
-              source={{ uri: publication.pet.photos[0].data }}
-            />
-          </Text>
-        </Callout>
-      </Marker>
-    ));
+          <PublicationIcon type={publication.type} />
+          <Callout
+            style={styles.callout}
+            tooltip={true}
+            onPress={() =>
+              NavigationService.navigate('Publication', {
+                id: publication.id
+              })
+            }
+          >
+            <Text style={styles.calloutText}>
+              <Image
+                style={styles.calloutImage}
+                source={{ uri: publication.pet.photos[0].data }}
+              />
+            </Text>
+          </Callout>
+        </Marker>
+      ))
+    );
   };
 
   const renderMap = () => {
-    return ubications.latitude && ubications.longitude ? (
+    return publicationListNotEmpty &&
+      ubications.latitude &&
+      ubications.longitude ? (
       <View style={styles.mapContainer}>
+        <UbicationComponent />
         <MapView
           customMapStyle={mapStylesJson}
           provider={PROVIDER_GOOGLE}
@@ -193,18 +229,9 @@ const HomeView = ({
         </MapView>
       </View>
     ) : (
-      <LoadingView />
+      <MapLoadingView />
     );
   };
-
-  const publicationListIsEmpty = Boolean(!data.length);
-  let ubicationText;
-  if (!publicationListIsEmpty) {
-    const country = data[0].ubication.country;
-    const adminArea1 = data[0].ubication.administrativeAreaLevel1;
-    const locality = data[0].ubication.locality;
-    ubicationText = `${locality} | ${adminArea1} | ${country}`;
-  }
 
   return (
     <View style={styles.container}>
@@ -229,11 +256,6 @@ const HomeView = ({
         </View>
 
         {!mapView && <Divider />}
-        {!publicationListIsEmpty && (
-          <View style={styles.ubicationTextContainer}>
-            <Text style={styles.ubicationText}>{ubicationText}</Text>
-          </View>
-        )}
         <HomeViewToggler
           mapViewActive={mapView}
           onListViewSelected={() => setMapView(false)}

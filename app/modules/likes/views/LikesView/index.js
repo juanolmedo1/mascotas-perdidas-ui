@@ -40,7 +40,31 @@ const LikesView = ({
     ])
   );
 
-  const { favoritesPublications, requestFavoritesInProgress } = favorites;
+  const renderLikesSkeletonView = () => <LikesLoadingView />;
+  const renderEmptyList = () => (
+    <View style={styles.emptyList}>
+      <Text style={styles.noLikes}>{LABELS.no_publications}</Text>
+    </View>
+  );
+  const renderLikesList = (data, inProgress) => (
+    <PublicationsList
+      data={data}
+      refreshControlProps={{
+        refreshing: inProgress,
+        onRefresh: () => getFavorites(userId)
+      }}
+    />
+  );
+
+  const renderContent = () => {
+    const { favoritesPublications, requestFavoritesInProgress } = favorites;
+    return !favoritesPublications
+      ? renderLikesSkeletonView()
+      : favoritesPublications.length
+      ? renderLikesList(favoritesPublications, requestFavoritesInProgress)
+      : renderEmptyList();
+  };
+
   return (
     <ImageBackground
       imageStyle={imageStyles}
@@ -52,18 +76,7 @@ const LikesView = ({
           <Text style={styles.title}>{LABELS.title}</Text>
         </View>
         <Divider />
-        <View style={styles.content}>
-          {requestFavoritesInProgress && !favoritesPublications.length && (
-            <LikesLoadingView />
-          )}
-          <PublicationsList
-            data={favoritesPublications}
-            refreshControlProps={{
-              refreshing: requestFavoritesInProgress,
-              onRefresh: () => getFavorites(userId)
-            }}
-          />
-        </View>
+        <View style={styles.content}>{renderContent()}</View>
       </View>
     </ImageBackground>
   );

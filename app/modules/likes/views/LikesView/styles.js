@@ -21,6 +21,15 @@ export default StyleSheet.create({
     flex: 1,
     width: '100%'
   },
+  emptyList: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  noLikes: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.L
+  },
   contentText: {
     fontSize: fonts.sizes.M,
     ...fonts.weights.regular
