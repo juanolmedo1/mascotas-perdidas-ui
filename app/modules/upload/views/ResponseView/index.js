@@ -77,7 +77,7 @@ const ResponseView = ({
     <Feather name="check" size={70} color={variables.colors.backgroundGreen} />
   );
   const responseText = requestFailed
-    ? 'Se produjo un error al cargar la publicación.'
+    ? 'Se produjo un error al crear la publicación. Por favor, intentelo nuevamente.'
     : 'Publicación cargada exitosamente.';
 
   return (

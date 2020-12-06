@@ -20,7 +20,9 @@ export default StyleSheet.create({
   clearButton: {
     flexDirection: 'row',
     height: '100%',
-    width: 50,
+    backgroundColor: variables.colors.backgroundRed,
+    width: 150,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: variables.spacings.S
@@ -28,10 +30,21 @@ export default StyleSheet.create({
   changeUbicationButton: {
     flexDirection: 'row',
     height: '100%',
-    width: 50,
+    backgroundColor: variables.colors.backgroundBlue,
+    width: 150,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: variables.spacings.S
+  },
+  buttonIcon: {
+    position: 'absolute',
+    left: variables.spacings.XS
+  },
+  buttonText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.S,
+    color: variables.colors.textWhite
   },
   ubicationSelectorContainer: {
     position: 'absolute',
@@ -48,7 +61,7 @@ export default StyleSheet.create({
   },
   applyButton: {
     height: '100%',
-    width: 60,
+    width: 90,
     alignItems: 'center',
     justifyContent: 'center'
   },

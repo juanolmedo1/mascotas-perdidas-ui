@@ -20,7 +20,6 @@ const Tab = createBottomTabNavigator();
 const BottomNavigator = ({ newNotification }) => {
   useEffect(() => {
     const message = messaging().onNotificationOpenedApp(() => {
-      console.log('NOTIFICATION OPENED APP');
       NavigationService.navigate('NotificationNavigator');
     });
     return message;

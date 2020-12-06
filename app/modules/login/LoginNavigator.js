@@ -17,8 +17,7 @@ const LoginNavigator = ({ session, setNewNotification }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    messaging().onMessage(remoteMessage => {
-      console.log('Notification in FOREGROUND');
+    messaging().onMessage(() => {
       setNewNotification(true);
     });
 

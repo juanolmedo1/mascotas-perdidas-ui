@@ -59,7 +59,7 @@ const SimilarPublicationsView = ({
           <View style={styles.iconContainer}>
             <Feather
               name="check"
-              size={40}
+              size={20}
               color={variables.colors.backgroundGreen}
             />
           </View>

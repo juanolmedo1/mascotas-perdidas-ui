@@ -26,6 +26,7 @@ const ResponseView = ({ clearInfo }) => {
           type="secondary"
           onPress={() => {
             NavigationService.navigate('LoginNavigator');
+            NavigationService.reset(0, 'LoginNavigator');
             clearInfo();
           }}
           text="Iniciar Sesión"

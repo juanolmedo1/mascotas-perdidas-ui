@@ -15,14 +15,14 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   iconContainer: {
-    height: 60,
-    width: 60,
+    height: 30,
+    width: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
     borderColor: variables.colors.borderGreen,
-    borderRadius: 45,
-    marginBottom: variables.spacings.S
+    borderRadius: 15,
+    marginBottom: variables.spacings.XS
   },
   backContainer: {
     position: 'absolute',
@@ -44,6 +44,8 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   upToDateText: {
+    ...fonts.weights.regular,
+    fontSize: fonts.sizes.XS,
     color: variables.colors.textGreen
   }
 });

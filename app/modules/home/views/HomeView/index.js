@@ -140,15 +140,15 @@ const HomeView = ({
 
   const renderHomeSkeletonView = () => <HomeLoadingView />;
   const renderEmptyList = () => (
-    <View>
+    <>
       <UbicationComponent />
       <View style={styles.emptyList}>
         <Text style={styles.noPublications}>{LABELS.no_publications}</Text>
       </View>
-    </View>
+    </>
   );
   const renderHomeList = () => (
-    <View>
+    <>
       <UbicationComponent />
       <PublicationsList
         data={data}
@@ -157,7 +157,7 @@ const HomeView = ({
           onRefresh: refresh
         }}
       />
-    </View>
+    </>
   );
 
   const renderList = () => {

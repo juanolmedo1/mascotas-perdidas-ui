@@ -141,7 +141,8 @@ export default StyleSheet.create({
   },
   text: {
     ...fonts.weights.regular,
-    fontSize: fonts.sizes.S
+    fontSize: fonts.sizes.S,
+    lineHeight: 20
   },
   title: {
     fontSize: fonts.sizes.L,

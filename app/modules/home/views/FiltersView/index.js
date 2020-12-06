@@ -115,8 +115,10 @@ const FiltersView = ({
             <IconEvil
               name="trash"
               size={30}
-              color={variables.colors.backgroundRed}
+              style={styles.buttonIcon}
+              color={variables.colors.backgroundWhite}
             />
+            <Text style={styles.buttonText}>Limpiar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.changeUbicationButton}
@@ -126,8 +128,10 @@ const FiltersView = ({
             <IconEvil
               name="location"
               size={30}
-              color={variables.colors.backgroundBlue}
+              style={styles.buttonIcon}
+              color={variables.colors.backgroundWhite}
             />
+            <Text style={styles.buttonText}>Ubicación</Text>
           </TouchableOpacity>
         </View>
         <Divider />
